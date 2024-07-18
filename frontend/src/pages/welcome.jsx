@@ -4,8 +4,8 @@ import NavbarBL from "../components/NavbarBL";
 const Welcome = () => {
     return(
     <div>
-        <h1>Laptop Store</h1>
         <NavbarBL/>
+        <h1>Laptop Store</h1>
     </div>
     )
 }
