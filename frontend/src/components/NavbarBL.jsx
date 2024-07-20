@@ -1,51 +1,26 @@
-// import React from "react";
-
-// const NavbarBL = ()=>{
-//     return(
-//         <div>
-//             <h2>Navbar</h2>
-//         </div>
-//     )
-// }
-
-// export default NavbarBL;
-
-
 import React from 'react';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Container from 'react-bootstrap/Container';
-import NavbarBrand from 'react-bootstrap/esm/NavbarBrand';
-import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
-import NavLink from 'react-bootstrap/esm/NavLink';
-import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
-import DropdownItem from 'react-bootstrap/esm/DropdownItem';
-import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
+import { Navbar, Nav, NavDropdown, Container, NavbarBrand } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const NavbarBL=()=> {
+const NavbarBL = () => {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar bg="light" expand="lg">
       <Container>
-        <NavbarBrand href="#home">React-Bootstrap</NavbarBrand>
-        <NavbarToggle aria-controls="basic-navbar-nav" />
-        <NavbarCollapse id="basic-navbar-nav">
+        <NavbarBrand href="#home">MyBrand</NavbarBrand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <NavLink href="#home">Home</NavLink>
-            <NavLink href="#link">Link</NavLink>
-            <DropdownMenu title="Dropdown" id="basic-nav-dropdown">
-              <DropdownItem href="#action/3.1">Action</DropdownItem>
-              <DropdownItem href="#action/3.2">
-                Another action
-              </DropdownItem>
-              <DropdownItem href="#action/3.3">Something</DropdownItem>
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#link">Link</Nav.Link>
+            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
               <NavDropdown.Divider />
-              <DropdownItem href="#action/3.4">
-                Separated link
-              </DropdownItem>
-            </DropdownMenu>
+              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+            </NavDropdown>
           </Nav>
-        </NavbarCollapse>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );
