@@ -1,7 +1,8 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown, Container, NavbarBrand } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Container, NavbarBrand,Form, FormControl } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { IoPersonOutline } from "react-icons/io5";
+import { IoSearch } from "react-icons/io5";
 import './NavbarBL.css';
 
 const NavbarBL = () => {
@@ -15,6 +16,15 @@ const NavbarBL = () => {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="#link">Link</Nav.Link>
           </Nav>
+          <Form className="d-flex mx-auto">
+            <FormControl
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+            />
+            <IoSearch size={30}/>
+          </Form>
           <Nav className="ms-auto">
             <NavDropdown className='dropdown-title' title={<IoPersonOutline size={25}/>} id="basic-nav-dropdown">
               <NavDropdown.Item href="/login">Login</NavDropdown.Item>
