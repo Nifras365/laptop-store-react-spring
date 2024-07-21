@@ -17,7 +17,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 400px;
-    height: 700px;
+    height: 650px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -38,7 +38,7 @@ h1 {
 }
 .form-button{
     margin-bottom: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
 .form-control {
