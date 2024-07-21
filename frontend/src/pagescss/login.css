@@ -1,0 +1,10 @@
+.login-form{
+    align-items: center;
+    height: auto;
+    width: auto;
+    background-color: aliceblue;
+}
+
+.login-container{
+    height: 200px;
+}
