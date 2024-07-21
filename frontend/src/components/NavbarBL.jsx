@@ -23,7 +23,7 @@ const NavbarBL = () => {
               className="me-2"
               aria-label="Search"
             />
-            <IoSearch size={30}/>
+            <IoSearch size={40}/>
           </Form>
           <Nav className="ms-auto">
             <NavDropdown className='dropdown-title' title={<IoPersonOutline size={25}/>} id="basic-nav-dropdown">
