@@ -26,32 +26,32 @@ const Register = () => {
             >
                 <IoArrowBack size={25}/>
             </button>
-        <div className="login-wrapper">
-            <Container className="login-container">
+        <div className="register-wrapper">
+            <Container className="register-container">
                 <h1>Register</h1>
-                <form className="login-form">
+                <form className="register-form">
+                    <div className="form-group">
+                        <label>Name</label>
+                        <input type="text" id="name" className="form-control" placeholder="Enter your name" required />
+                    </div>
                     <div className="form-group">
                         <label>Email</label>
                         <input type="email" id="email" className="form-control" placeholder="Enter your email" required />
                     </div>
                     <div className="form-group">
-                        <label>Password</label>
-                        <input type="password" id="password" className="form-control" placeholder="Enter your password" required />
+                        <label>Country</label>
+                        <input type="text" id="country" className="form-control" placeholder="Enter your country" required />
                     </div>
                     <div className="form-group">
                         <label>Password</label>
                         <input type="password" id="password" className="form-control" placeholder="Enter your password" required />
                     </div>
                     <div className="form-group">
-                        <label>Password</label>
-                        <input type="password" id="password" className="form-control" placeholder="Enter your password" required />
-                    </div>
-                    <div className="form-group">
-                        <label>Password</label>
+                        <label>Confirm Password</label>
                         <input type="password" id="password" className="form-control" placeholder="Enter your password" required />
                     </div>
                     <div className="form-button">
-                        <button type="submit" className="btn btn-primary">Login</button>
+                        <button type="submit" className="btn btn-primary">Register</button>
                     </div>
                 </form>
             </Container>
