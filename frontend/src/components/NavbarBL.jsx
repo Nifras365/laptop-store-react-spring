@@ -9,7 +9,7 @@ const NavbarBL = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <NavbarBrand href="#home">MyBrand</NavbarBrand>
+        <NavbarBrand href="#home">MyLapStore</NavbarBrand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -23,13 +23,13 @@ const NavbarBL = () => {
               className="me-2"
               aria-label="Search"
             />
-            <IoSearch size={30}/>
+            <IoSearch size={40}/>
           </Form>
           <Nav className="ms-auto">
             <NavDropdown className='dropdown-title' title={<IoPersonOutline size={25}/>} id="basic-nav-dropdown">
               <NavDropdown.Item href="/login">Login</NavDropdown.Item>
               <NavDropdown.Item href="/register">Register</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Item href="/cart">Cart</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
             </NavDropdown>
