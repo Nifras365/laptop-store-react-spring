@@ -1,23 +1,23 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import '../pagescss/login.css'
+import '../pagescss/login.css';
 
-const Login = () =>{
-    return(
-    <div>
-        <h1>Login Page</h1>
+const Login = () => {
+    return (
+        <div className="login-wrapper">
             <Container className="login-container">
+                <h1>Login</h1>
                 <form className="login-form">
-                    <div>
+                    <div className="form-group">
                         <label>Email</label>
-                        <input/>
+                        <input type="email" id="email" className="form-control" placeholder="Enter your email" required />
                     </div>
-                    <div>
+                    <div className="form-group">
                         <label>Password</label>
-                        <input/>
+                        <input type="password" id="password" className="form-control" placeholder="Enter your password" />
                     </div>
-                    <div>
-                        <button>Login</button>
+                    <div className="form-button">
+                        <button type="submit" className="btn btn-primary">Login</button>
                     </div>
                 </form>
             </Container>
