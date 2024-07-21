@@ -17,6 +17,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 400px;
+    height: 400px;
 }
 
 h1 {
@@ -30,11 +31,12 @@ h1 {
 }
 
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     text-align: left;
 }
 .form-button{
     margin-bottom: 1rem;
+    margin-top: 1.5rem;
 }
 
 .form-control {
