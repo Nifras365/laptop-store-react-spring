@@ -1,9 +1,24 @@
 import React from "react";
+import { Container } from "react-bootstrap";
 
 const Login = () =>{
     return(
-        <div>
-            <h1>Login Page</h1>
+    <div>
+        <h1>Login Page</h1>
+            <Container>
+                <form>
+                    <div>
+                        <label>
+                            Email
+                        </label>
+                        <input/>
+                    </div>
+                    <div>
+                        <label>Password</label>
+                        <input/>
+                    </div>
+                </form>
+            </Container>
         </div>
     );
 }
