@@ -1,9 +1,31 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import '../pagescss/login.css';
+import { IoArrowBack } from "react-icons/io5";
 
 const Login = () => {
+
+    const GoBack= () =>{
+        window.history.back()
+    }
+
     return (
+        <div>
+            <button
+                type="button"
+                className="btn btn-light mb-4"
+                onClick={GoBack}
+                style={{
+                        position: 'absolute',
+                        top: '20px',
+                        left: '20px',
+                        zIndex: 1000,
+                        border: 'none',
+                        background: 'none'
+                      }}
+            >
+                <IoArrowBack size={25}/>
+            </button>
         <div className="login-wrapper">
             <Container className="login-container">
                 <h1>Login</h1>
@@ -21,6 +43,7 @@ const Login = () => {
                     </div>
                 </form>
             </Container>
+        </div>
         </div>
     );
 }
