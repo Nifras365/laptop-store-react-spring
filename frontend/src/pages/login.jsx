@@ -8,14 +8,15 @@ const Login = () =>{
             <Container>
                 <form>
                     <div>
-                        <label>
-                            Email
-                        </label>
+                        <label>Email</label>
                         <input/>
                     </div>
                     <div>
                         <label>Password</label>
                         <input/>
+                    </div>
+                    <div>
+                        <button>Login</button>
                     </div>
                 </form>
             </Container>
