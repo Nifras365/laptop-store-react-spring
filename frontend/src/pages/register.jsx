@@ -1,4 +1,5 @@
 import React from "react";
+import '../pagescss/register.css'
 
 const Register = () => {
     return(
