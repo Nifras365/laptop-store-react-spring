@@ -4,6 +4,7 @@ import { useState,useEffect } from "react";
 import LaptopData from '../data/data.json';
 import { Container,Col, Row } from "react-bootstrap";
 import LaptopCard from "../components/LaptopCard";
+import '../pagescss/welcome.css'
 
 const Welcome = () => {
 
@@ -16,11 +17,13 @@ const Welcome = () => {
     return(
     <div>
         <NavbarBL/>
-        <h1>Laptop Store</h1>
+        <div className="label-container">
+        <label className="label-01">Latest Featured Products</label>
+        </div>
         <Container>
             <Row>
                 {laptops.map((laptop, index) => (
-                    <Col key={index} md={5}>
+                    <Col key={index} md={4}>
                         <LaptopCard
                             image={laptop.image}
                             price={laptop.price}

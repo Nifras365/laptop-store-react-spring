@@ -1,9 +1,13 @@
 import React from "react";
 import './LaptopCard.css';
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Row, Col } from "react-bootstrap";
 import { IoCart } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const LaptopCard = ({ image, price, description }) => {
+
+    const navigate = useNavigate();
+
     return (
         <Card className="laptop-card">
             <Card.Img variant="top" src={image} className="laptop-card-img" />
@@ -14,10 +18,10 @@ const LaptopCard = ({ image, price, description }) => {
                 </Card.Text>
                 <Row>
                     <Col>
-                    <IoCart size={35}/>
+                    <IoCart className="iocart" onClick={()=>navigate('/cart')}/>
                     </Col>
                     <Col>
-                        <Button variant="primary" className="buy-now-btn">Buy Now</Button>
+                        <button className="buy-now-btn">Buy Now</button>
                     </Col>
                 </Row>
             </Card.Body>
