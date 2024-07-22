@@ -11,7 +11,7 @@ const Welcome = () => {
 
     useEffect(()=>{
         setLaptop(LaptopData.laptop)
-    })
+    },[])
 
     return(
     <div>
