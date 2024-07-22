@@ -20,7 +20,7 @@ const Welcome = () => {
         <Container>
             <Row>
                 {laptops.map((laptop, index) => (
-                    <Col key={index} md={5}>
+                    <Col key={index} md={4}>
                         <LaptopCard
                             image={laptop.image}
                             price={laptop.price}
