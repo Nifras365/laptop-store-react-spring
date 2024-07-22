@@ -1,0 +1,29 @@
+.laptop-card {
+    margin: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.laptop-card-img {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.laptop-card .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.laptop-card .card-text {
+    margin-bottom: 1rem;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+}
+
+.buy-now-btn {
+    width: 100%;
+}
