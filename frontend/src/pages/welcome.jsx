@@ -3,6 +3,7 @@ import NavbarBL from "../components/NavbarBL";
 import { useState,useEffect } from "react";
 import LaptopData from '../data/data.json';
 import { Container,Col, Row } from "react-bootstrap";
+import LaptopCard from "../components/LaptopCard";
 
 const Welcome = () => {
 
@@ -19,8 +20,11 @@ const Welcome = () => {
         <Container>
             <Row>
                 <Col>
-                
-
+                <LaptopCard
+                    image={laptop.image}
+                    description={laptop.description}
+                    price={laptop.price}
+                />
                 </Col>
             </Row>
         </Container>
