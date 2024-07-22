@@ -31,7 +31,7 @@ const NavbarBL = () => {
               <NavDropdown.Item href="/register">Register</NavDropdown.Item>
               <NavDropdown.Item href="/cart">Cart</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.4">Contact Us</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
