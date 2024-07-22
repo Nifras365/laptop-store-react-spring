@@ -7,7 +7,7 @@ import LaptopCard from "../components/LaptopCard";
 
 const Welcome = () => {
 
-    const[laptops, setLaptop] = useState({});
+    const[laptops, setLaptop] = useState([]);
 
     useEffect(()=>{
         setLaptop(LaptopData.laptops)
@@ -20,7 +20,7 @@ const Welcome = () => {
         <Container>
             <Row>
                 {laptops.map((laptop, index) => (
-                    <Col key={index} md={4}>
+                    <Col key={index} md={5}>
                         <LaptopCard
                             image={laptop.image}
                             price={laptop.price}
