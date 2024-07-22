@@ -1,10 +1,15 @@
 import React from "react";
 import NavbarBL from "../components/NavbarBL";
 import { useState,useEffect } from "react";
+import LaptopData from '../data/data.json'
 
 const Welcome = () => {
 
     const[laptop, setLaptop] = useState({});
+
+    useEffect(()=>{
+        setLaptop(LaptopData.laptop)
+    })
 
 
     return(
