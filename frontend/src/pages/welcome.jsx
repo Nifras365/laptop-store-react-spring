@@ -16,7 +16,6 @@ const Welcome = () => {
     return(
     <div>
         <NavbarBL/>
-        <h1>Laptop Store</h1>
         <Container>
             <Row>
                 {laptops.map((laptop, index) => (
