@@ -1,0 +1,15 @@
+{
+    "laptops": [
+      {
+        "image": "https://th.bing.com/th/id/OIP.zm3Qz7wKiqTaZy9qPrhbcAHaG0?rs=1&pid=ImgDetMain",
+        "price": "1200",
+        "description": "13.3\" ASUS ZenBook 13 Ultra-Slim"
+      },
+      {
+        "image": "https://medias.audiofanzine.com/images/normal/apple-macbook-pro-15-touchbar-2017-1846209.jpg",
+        "price": "1500",
+        "description": "Apple Macbook Pro 15 TouchBar 2017"
+      }
+    ]
+  }
+  

@@ -1,0 +1,32 @@
+.laptop-card {
+    margin: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    height: 350px;
+    width: 400px;
+}
+
+.laptop-card-img {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.laptop-card .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.laptop-card .card-text {
+    margin-bottom: 1rem;
+}
+
+.buy-now-btn {
+    width: 100%;
+}
