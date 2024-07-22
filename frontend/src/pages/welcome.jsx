@@ -17,7 +17,9 @@ const Welcome = () => {
     return(
     <div>
         <NavbarBL/>
-        <h1>Latest Featured Products</h1>
+        <div className="label-container">
+        <label className="label-01">Latest Featured Products</label>
+        </div>
         <Container>
             <Row>
                 {laptops.map((laptop, index) => (
