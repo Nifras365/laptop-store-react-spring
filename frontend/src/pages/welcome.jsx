@@ -1,7 +1,11 @@
 import React from "react";
 import NavbarBL from "../components/NavbarBL";
+import { useState,useEffect } from "react";
 
 const Welcome = () => {
+
+
+
     return(
     <div>
         <NavbarBL/>
