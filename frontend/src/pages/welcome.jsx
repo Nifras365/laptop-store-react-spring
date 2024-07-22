@@ -7,10 +7,10 @@ import LaptopCard from "../components/LaptopCard";
 
 const Welcome = () => {
 
-    const[laptop, setLaptop] = useState({});
+    const[laptops, setLaptop] = useState({});
 
     useEffect(()=>{
-        setLaptop(LaptopData.laptop)
+        setLaptop(LaptopData.laptops)
     },[])
 
     return(
@@ -19,13 +19,15 @@ const Welcome = () => {
         <h1>Laptop Store</h1>
         <Container>
             <Row>
-                <Col>
-                <LaptopCard
-                    image={laptop.image}
-                    description={laptop.description}
-                    price={laptop.price}
-                />
-                </Col>
+                {laptops.map((laptop, index) => (
+                    <Col key={index} md={4}>
+                        <LaptopCard
+                            image={laptop.image}
+                            price={laptop.price}
+                            description={laptop.description}
+                        />
+                    </Col>
+                ))}
             </Row>
         </Container>
     </div>
