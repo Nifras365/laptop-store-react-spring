@@ -4,6 +4,7 @@ import { useState,useEffect } from "react";
 
 const Welcome = () => {
 
+    const[laptop, setLaptop] = useState({});
 
 
     return(
