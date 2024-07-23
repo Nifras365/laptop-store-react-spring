@@ -15,8 +15,10 @@ const CartCard = ({ image, price, description }) => {
                 <Card.Body>
                     <Card.Title>Price: ${price}</Card.Title>
                     <Card.Text>{description}</Card.Text>
-                    <MdDelete/>
                 </Card.Body>
+                </Col>
+                <Col>
+                    <MdDelete className="delete-icon"/>
                 </Col>
             </Row>
         </Card>
