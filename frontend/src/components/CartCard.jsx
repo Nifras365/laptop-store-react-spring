@@ -5,9 +5,10 @@ import { Card } from "react-bootstrap";
 const CartCard = ({ image, price, description }) => {
     <div>
         <Card>
-            <Card.Img />
+            <Card.Img src={image}/>
             <Card.Body>
-                
+                <Card.Title>Price: ${price}</Card.Title>
+                <Card.Text>{description}</Card.Text>
             </Card.Body>
         </Card>
     </div>
