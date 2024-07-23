@@ -1,8 +1,13 @@
 import React from "react";
 import './CartCard.css';
+import { Card } from "react-bootstrap";
 
-const CartCard = () => {
-
+const CartCard = ({ image, price, description }) => {
+    <div>
+        <Card>
+            
+        </Card>
+    </div>
 }
 
 export default CartCard;
