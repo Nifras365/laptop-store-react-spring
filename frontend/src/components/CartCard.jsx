@@ -4,8 +4,8 @@ import { Card } from "react-bootstrap";
 
 const CartCard = ({ image, price, description }) => {
     <div>
-        <Card>
-            <Card.Img src={image}/>
+        <Card className="cart-card">
+            <Card.Img src={image} className="cart-card-img"/>
             <Card.Body>
                 <Card.Title>Price: ${price}</Card.Title>
                 <Card.Text>{description}</Card.Text>
