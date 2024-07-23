@@ -4,9 +4,13 @@ import { Card, Row, Col } from "react-bootstrap";
 import { IoCart } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-const LaptopCard = ({ image, price, description }) => {
+const LaptopCard = ({id, image, price, description }) => {
 
     const navigate = useNavigate();
+
+    const HandleAddToCart = () => {
+        navigate('/cart', {state: {id, image, price, description}});
+    }
 
     return (
         <Card className="laptop-card">
@@ -18,7 +22,7 @@ const LaptopCard = ({ image, price, description }) => {
                 </Card.Text>
                 <Row>
                     <Col>
-                    <IoCart className="iocart" onClick={()=>navigate('/cart')}/>
+                    <IoCart className="iocart" onClick={HandleAddToCart}/>
                     </Col>
                     <Col>
                         <button className="buy-now-btn">Buy Now</button>

@@ -22,8 +22,8 @@ const Welcome = () => {
         </div>
         <Container>
             <Row>
-                {laptops.map((laptop, index) => (
-                    <Col key={index} md={4}>
+                {laptops.map((laptop) => (
+                    <Col key={laptop.id} md={4}>
                         <LaptopCard
                             image={laptop.image}
                             price={laptop.price}
