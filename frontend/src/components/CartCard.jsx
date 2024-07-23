@@ -3,6 +3,7 @@ import './CartCard.css';
 import { Card } from "react-bootstrap";
 
 const CartCard = ({ image, price, description }) => {
+    return(
     <div>
         <Card className="cart-card">
             <Card.Img src={image} className="cart-card-img"/>
@@ -12,6 +13,7 @@ const CartCard = ({ image, price, description }) => {
             </Card.Body>
         </Card>
     </div>
+    );
 }
 
 export default CartCard;

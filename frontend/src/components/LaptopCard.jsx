@@ -8,6 +8,10 @@ const LaptopCard = ({id, image, price, description }) => {
 
     const navigate = useNavigate();
 
+    const HandleAddToCart = () => {
+        navigate('/cart', {state: {id, image, price, description}});
+    }
+
     return (
         <Card className="laptop-card">
             <Card.Img variant="top" src={image} className="laptop-card-img" />
@@ -18,7 +22,7 @@ const LaptopCard = ({id, image, price, description }) => {
                 </Card.Text>
                 <Row>
                     <Col>
-                    <IoCart className="iocart" onClick={()=>navigate('/cart')}/>
+                    <IoCart className="iocart" onClick={HandleAddToCart}/>
                     </Col>
                     <Col>
                         <button className="buy-now-btn">Buy Now</button>
