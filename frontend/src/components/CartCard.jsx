@@ -1,6 +1,7 @@
 import React from "react";
 import './CartCard.css';
 import { Card, Col, Row } from "react-bootstrap";
+import { MdDelete } from "react-icons/md";
 
 const CartCard = ({ image, price, description }) => {
     return(
@@ -14,6 +15,7 @@ const CartCard = ({ image, price, description }) => {
                 <Card.Body>
                     <Card.Title>Price: ${price}</Card.Title>
                     <Card.Text>{description}</Card.Text>
+                    <MdDelete/>
                 </Card.Body>
                 </Col>
             </Row>
