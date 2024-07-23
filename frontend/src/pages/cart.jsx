@@ -1,6 +1,10 @@
 import React from "react";
+import CartCard from "../components/CartCard";
+import { useLocation } from "react-router-dom";
 
 const Cart = () => {
+    
+
     return(
         <div>
             <h1>Under Construction</h1>
