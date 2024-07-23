@@ -5,7 +5,7 @@
 }
 
 .cart-card-img{
-    height: 200px;
+    height: 260px;
     width: 260px;
     object-fit: cover;
     border-top-left-radius: 8px;
@@ -14,4 +14,15 @@
     border-bottom-right-radius: 8px;
     margin-top: 20px;
     margin-left: 20px;
+}
+
+.cart-card .card-title{
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: left;
+}
+
+.cart-card .card-text{
+    margin-bottom: 1rem;
+    text-align: left;
 }

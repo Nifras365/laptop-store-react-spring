@@ -8,8 +8,7 @@ const Cart = () => {
 
     return(
         <div>
-            <h1>Under Construction</h1>
-            <h2>Some laptop should be added here this is a cart...</h2>
+            <h1>Your Cart</h1>
             <CartCard id={id} image={image} price={price} description={description}/>
         </div>
     );
