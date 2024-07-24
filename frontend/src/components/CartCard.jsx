@@ -5,7 +5,11 @@ import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 
 const CartCard = ({ image, price, description }) => {
-     const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(1);
+
+    const AddQuantity = () => {
+        setQuantity(quantity + 1);
+    }
 
 
     return(
