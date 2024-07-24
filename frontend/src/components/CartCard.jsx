@@ -20,7 +20,6 @@ const CartCard = ({ image, price, description }) => {
             setQuantity(quantity - 1);
         }
         else{
-            //alert("Quantity at minimum !!!");
             setShowAlert(true);
         }
     }
@@ -53,10 +52,10 @@ const CartCard = ({ image, price, description }) => {
                 </Col>
             </Row>
             {showAlert && (
-                                <Alert className="alert-box" variant="warning" onClose={() => setShowAlert(false)} dismissible>
-                                    Quantity at minimum !!!
-                                </Alert>
-                        )}
+                    <Alert className="alert-box" variant="warning" onClose={() => setShowAlert(false)} dismissible>
+                        Quantity at minimum !!!
+                    </Alert>
+            )}
         </Card>
     </div>
     );
