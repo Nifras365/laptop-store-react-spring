@@ -35,7 +35,10 @@ const CartCard = ({ image, price, description }) => {
                     <Card.Text>{description}</Card.Text>
                     <div>
                         <CiCircleMinus size={25} onClick={DecreaseQuantity}>-</CiCircleMinus>
-                            <FormControl/>
+                            <FormControl
+                            value={quantity}
+                            readOnly
+                            />
                         <CiCirclePlus size={25} onClick={AddQuantity}>+</CiCirclePlus>
                     </div>
                 </Card.Body>
