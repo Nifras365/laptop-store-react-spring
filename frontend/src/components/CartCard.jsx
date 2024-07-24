@@ -1,6 +1,6 @@
 import React from "react";
 import './CartCard.css';
-import { Alert, Card, Col, Row, FormControl } from "react-bootstrap";
+import { Card, Col, Row, FormControl } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
@@ -18,7 +18,7 @@ const CartCard = ({ image, price, description }) => {
             setQuantity(quantity - 1);
         }
         else{
-            Alert("Quantity at minimum !!!");
+            alert("Quantity at minimum !!!");
         }
     }
 
