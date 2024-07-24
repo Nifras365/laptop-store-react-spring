@@ -2,8 +2,12 @@ import React from "react";
 import './CartCard.css';
 import { Card, Col, Row } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
+import { useState } from "react";
 
 const CartCard = ({ image, price, description }) => {
+     const [quantity, setQuantity] = useState(1);
+
+
     return(
     <div>
         <Card className="cart-card">
