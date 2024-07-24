@@ -34,12 +34,14 @@ const CartCard = ({ image, price, description }) => {
                     <Card.Title>Price: ${price}</Card.Title>
                     <Card.Text>{description}</Card.Text>
                     <div>
-                        <CiCircleMinus size={25} onClick={DecreaseQuantity}>-</CiCircleMinus>
+                        <CiCircleMinus className="minus-icon" onClick={DecreaseQuantity}>-</CiCircleMinus>
                             <FormControl
+                            type="text"
+                            className="form-control"
                             value={quantity}
                             readOnly
                             />
-                        <CiCirclePlus size={25} onClick={AddQuantity}>+</CiCirclePlus>
+                        <CiCirclePlus className="plus-icon" onClick={AddQuantity}>+</CiCirclePlus>
                     </div>
                 </Card.Body>
                 </Col>
