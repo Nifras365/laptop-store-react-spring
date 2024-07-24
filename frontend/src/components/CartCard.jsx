@@ -49,14 +49,14 @@ const CartCard = ({ image, price, description }) => {
                             readOnly
                             />
                         <FaCirclePlus className="plus-icon" onClick={AddQuantity}>+</FaCirclePlus>
-                        {showAlert && (
-                                <Alert variant="warning" onClose={() => setShowAlert(false)} dismissible>
-                                    Quantity at minimum !!!
-                                </Alert>
-                            )}
                     </div>
                 </Col>
             </Row>
+            {showAlert && (
+                                <Alert className="alert-box" variant="warning" onClose={() => setShowAlert(false)} dismissible>
+                                    Quantity at minimum !!!
+                                </Alert>
+                        )}
         </Card>
     </div>
     );

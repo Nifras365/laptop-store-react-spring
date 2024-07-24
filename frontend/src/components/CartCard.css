@@ -71,3 +71,9 @@
     width: 40px;
     height: 40px;
 }
+
+.alert-box{
+    width: 400px;
+    margin-left: 700px;
+    margin-top: 20px;
+}
