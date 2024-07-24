@@ -1,6 +1,6 @@
 import React from "react";
 import './CartCard.css';
-import { Card, Col, Row } from "react-bootstrap";
+import { Alert, Card, Col, Row } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 
@@ -14,6 +14,9 @@ const CartCard = ({ image, price, description }) => {
     const DecreaseQuantity = () => {
         if(quantity > 1){
             setQuantity(quantity - 1);
+        }
+        else{
+            Alert("Quantity at minimum !!!");
         }
     }
 
