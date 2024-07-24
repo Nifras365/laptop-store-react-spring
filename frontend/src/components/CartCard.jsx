@@ -3,7 +3,7 @@ import './CartCard.css';
 import { Alert, Card, Col, Row, Button, FormControl } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";
-import { CiCirclePlus } from "react-icons/ci";
+import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 
 
 const CartCard = ({ image, price, description }) => {
@@ -34,7 +34,7 @@ const CartCard = ({ image, price, description }) => {
                     <Card.Title>Price: ${price}</Card.Title>
                     <Card.Text>{description}</Card.Text>
                     <div>
-                        <Button>-</Button>
+                        <CiCircleMinus size={25}>-</CiCircleMinus>
                             <FormControl/>
                         <CiCirclePlus size={25}>+</CiCirclePlus>
                     </div>
