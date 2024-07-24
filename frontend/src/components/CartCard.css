@@ -38,3 +38,21 @@
 .delete-icon :hover{
     color: red;   
 }
+
+.minus-icon{
+    height: 30px;
+    width: 30px;
+}
+
+.minus-icon :hover{
+    color: red;
+}
+
+.plus-icon :hover{
+    color: green;
+}
+
+.plus-icon{
+    height: 30px;
+    width: 30px;
+}
