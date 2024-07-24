@@ -11,6 +11,11 @@ const CartCard = ({ image, price, description }) => {
         setQuantity(quantity + 1);
     }
 
+    const DecreaseQuantity = () => {
+        if(quantity > 1){
+            setQuantity(quantity - 1);
+        }
+    }
 
     return(
     <div>
