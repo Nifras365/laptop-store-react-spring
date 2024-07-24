@@ -33,7 +33,11 @@ const CartCard = ({ image, price, description }) => {
                 <Card.Body>
                     <Card.Title>Price: ${price}</Card.Title>
                     <Card.Text>{description}</Card.Text>
-                    <div>
+                </Card.Body>
+                </Col>
+                <Col>
+                    <MdDelete className="delete-icon"/>
+                    <div className="quantity-controls">
                         <CiCircleMinus className="minus-icon" onClick={DecreaseQuantity}>-</CiCircleMinus>
                             <FormControl
                             type="text"
@@ -43,10 +47,6 @@ const CartCard = ({ image, price, description }) => {
                             />
                         <CiCirclePlus className="plus-icon" onClick={AddQuantity}>+</CiCirclePlus>
                     </div>
-                </Card.Body>
-                </Col>
-                <Col>
-                    <MdDelete className="delete-icon"/>
                 </Col>
             </Row>
         </Card>

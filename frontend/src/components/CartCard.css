@@ -39,6 +39,11 @@
     color: red;   
 }
 
+.quantity-controls{
+    width: 40px;
+    text-align: center;
+}
+
 .minus-icon{
     height: 30px;
     width: 30px;
