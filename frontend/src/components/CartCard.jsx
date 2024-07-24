@@ -1,6 +1,6 @@
 import React from "react";
 import './CartCard.css';
-import { Card, Col, Row, FormControl } from "react-bootstrap";
+import { Card, Col, Row, FormControl, Alert } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
@@ -8,9 +8,11 @@ import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 
 const CartCard = ({ image, price, description }) => {
     const [quantity, setQuantity] = useState(1);
+    const [showAlert, setShowAlert] = useState(false);
 
     const AddQuantity = () => {
         setQuantity(quantity + 1);
+        setShowAlert(false);
     }
 
     const DecreaseQuantity = () => {
@@ -18,7 +20,8 @@ const CartCard = ({ image, price, description }) => {
             setQuantity(quantity - 1);
         }
         else{
-            alert("Quantity at minimum !!!");
+            //alert("Quantity at minimum !!!");
+            setShowAlert(true);
         }
     }
 
@@ -46,6 +49,11 @@ const CartCard = ({ image, price, description }) => {
                             readOnly
                             />
                         <FaCirclePlus className="plus-icon" onClick={AddQuantity}>+</FaCirclePlus>
+                        {showAlert && (
+                                <Alert variant="warning" onClose={() => setShowAlert(false)} dismissible>
+                                    Quantity at minimum !!!
+                                </Alert>
+                            )}
                     </div>
                 </Col>
             </Row>
