@@ -40,16 +40,17 @@
 }
 
 .quantity-controls{
-    margin-top: 180px;
-    margin-left: 5px;
+    margin-top: 190px;
     width: 140px;
     text-align: center;
     display: flex;
+    align-items: center;
 }
 
 .minus-icon{
     height: 40px;
     width: 40px;
+    margin-right: 10px;
 }
 
 .minus-icon :hover{
@@ -63,6 +64,7 @@
 .plus-icon{
     height: 40px;
     width: 40px;
+    margin-left: 10px;
 }
 
 .form-control{
