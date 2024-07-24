@@ -1,8 +1,29 @@
 import React from "react";
 import './CartCard.css';
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Row, FormControl, Alert } from "react-bootstrap";
+import { MdDelete } from "react-icons/md";
+import { useState } from "react";
+import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
+
 
 const CartCard = ({ image, price, description }) => {
+    const [quantity, setQuantity] = useState(1);
+    const [showAlert, setShowAlert] = useState(false);
+
+    const AddQuantity = () => {
+        setQuantity(quantity + 1);
+        setShowAlert(false);
+    }
+
+    const DecreaseQuantity = () => {
+        if(quantity > 1){
+            setQuantity(quantity - 1);
+        }
+        else{
+            setShowAlert(true);
+        }
+    }
+
     return(
     <div>
         <Card className="cart-card">
@@ -16,7 +37,25 @@ const CartCard = ({ image, price, description }) => {
                     <Card.Text>{description}</Card.Text>
                 </Card.Body>
                 </Col>
+                <Col>
+                    <MdDelete className="delete-icon"/>
+                    <div className="quantity-controls">
+                        <FaCircleMinus className="minus-icon" onClick={DecreaseQuantity}>-</FaCircleMinus>
+                            <FormControl
+                            type="text"
+                            className="form-control-cart"
+                            value={quantity}
+                            readOnly
+                            />
+                        <FaCirclePlus className="plus-icon" onClick={AddQuantity}>+</FaCirclePlus>
+                    </div>
+                </Col>
             </Row>
+            {showAlert && (
+                    <Alert className="alert-box" variant="warning" onClose={() => setShowAlert(false)} dismissible>
+                        Quantity at minimum !!!
+                    </Alert>
+            )}
         </Card>
     </div>
     );

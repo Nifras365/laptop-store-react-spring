@@ -26,3 +26,54 @@
     margin-bottom: 1rem;
     text-align: left;
 }
+
+.delete-icon{
+    height: 30px;
+    width: 30px;
+    color: gray;
+    margin-top: 20px;
+    margin-left: 70px;
+}
+
+.delete-icon :hover{
+    color: red;   
+}
+
+.quantity-controls{
+    margin-top: 190px;
+    width: 140px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.minus-icon{
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+}
+
+.minus-icon :hover{
+    color: red;
+}
+
+.plus-icon :hover{
+    color: green;
+}
+
+.plus-icon{
+    height: 40px;
+    width: 40px;
+    margin-left: 10px;
+}
+
+.form-control-cart{
+    width: 40px;
+    height: 40px;
+}
+
+.alert-box{
+    width: 400px;
+    margin-left: 700px;
+    margin-top: 20px;
+}
