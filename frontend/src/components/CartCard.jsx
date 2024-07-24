@@ -1,6 +1,6 @@
 import React from "react";
 import './CartCard.css';
-import { Alert, Card, Col, Row, Button, FormControl } from "react-bootstrap";
+import { Alert, Card, Col, Row, FormControl } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
@@ -34,9 +34,9 @@ const CartCard = ({ image, price, description }) => {
                     <Card.Title>Price: ${price}</Card.Title>
                     <Card.Text>{description}</Card.Text>
                     <div>
-                        <CiCircleMinus size={25}>-</CiCircleMinus>
+                        <CiCircleMinus size={25} onClick={DecreaseQuantity}>-</CiCircleMinus>
                             <FormControl/>
-                        <CiCirclePlus size={25}>+</CiCirclePlus>
+                        <CiCirclePlus size={25} onClick={AddQuantity}>+</CiCirclePlus>
                     </div>
                 </Card.Body>
                 </Col>
