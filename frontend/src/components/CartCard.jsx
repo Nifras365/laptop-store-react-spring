@@ -43,7 +43,7 @@ const CartCard = ({ image, price, description }) => {
                         <FaCircleMinus className="minus-icon" onClick={DecreaseQuantity}>-</FaCircleMinus>
                             <FormControl
                             type="text"
-                            className="form-control"
+                            className="form-control-cart"
                             value={quantity}
                             readOnly
                             />
