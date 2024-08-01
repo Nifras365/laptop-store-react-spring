@@ -1,11 +1,12 @@
 .sidebar-container {
     height: 100vh;
     display: flex;
+    text-align: left;
 }
 
 .sidebar-main {
     background-color: #2c3e50;
-    color: white;
+    color: black;
     width: 250px;
 }
 
@@ -21,10 +22,10 @@
 .menu-item {
     font-size: 16px;
     padding: 10px 20px;
-    color: #ecf0f1;
+    color: black;
 }
 
 .menu-item:hover {
     background-color: #34495e;
-    color: white;
+    color: rgb(158, 149, 149);
 }
