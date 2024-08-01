@@ -1,12 +1,12 @@
 import React from "react";
 import './css/Dashboard.css';
-import SideBar from "./components/SideBar";
+import SideBar from "./components/SideBar.jsx";
 
 const Dashboard = () => {
     return(
         <div>
-            Admin Features .....
             <SideBar/>
+            Admin Features .....
         <div>
             <button>Add Laptop</button>
             <button>See Users</button>
