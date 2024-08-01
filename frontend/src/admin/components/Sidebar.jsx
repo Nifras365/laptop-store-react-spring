@@ -1,19 +1,19 @@
 import React from "react";
-import {Sidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import '../css/SideBar.css';
 
 const SideBar = () => {
-    return(
-        <div>
+    return (
+        <div className="sidebar-container">
             <Sidebar className="sidebar-main">
                 <Menu className="sidebar-menu">
                     <SubMenu className="sidebar-submenu" label="Laptops">
-                        <MenuItem>Add Laptops</MenuItem>
-                        <MenuItem>Manage Laptops</MenuItem>
+                        <MenuItem className="menu-item">Add Laptops</MenuItem>
+                        <MenuItem className="menu-item">Manage Laptops</MenuItem>
                     </SubMenu>
                     <SubMenu className="sidebar-submenu" label="Users">
-                        <MenuItem>View All Users</MenuItem>
-                        <MenuItem>Manage Users</MenuItem>
+                        <MenuItem className="menu-item">View All Users</MenuItem>
+                        <MenuItem className="menu-item">Manage Users</MenuItem>
                     </SubMenu>
                 </Menu>
             </Sidebar>
