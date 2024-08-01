@@ -5,8 +5,8 @@ import SideBar from "./components/SideBar.jsx";
 const Dashboard = () => {
     return(
         <div>
-            <SideBar/>
             Admin Features .....
+            <SideBar/>
         <div>
             <button>Add Laptop</button>
             <button>See Users</button>
