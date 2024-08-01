@@ -4,8 +4,9 @@ const Dashboard = () => {
     return(
         <div>
             Admin Features .....
-            - see all users
-            - create laptops??
+        <div>
+            <button>Add Laptop</button>
+        </div>
         </div>
     )
 }
