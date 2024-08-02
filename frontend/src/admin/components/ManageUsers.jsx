@@ -1,4 +1,5 @@
 import React from "react";
+import '../css/ManageUsers.css';
 
 const ManageUsers = () => {
     return(

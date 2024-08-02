@@ -1,4 +1,5 @@
 import React from "react";
+import '../css/AddLaptops.css';
 
 const AddLaptops = () =>{
     return(
