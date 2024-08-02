@@ -9,7 +9,7 @@ import ManageUsers from "./components/ManageUsers.jsx";
 
 const Dashboard = () => {
     
-    const[selectedComponent, setSelectedComponent] = useState('');
+    const[selectedComponent, setSelectedComponent] = useState(null);
 
     const selectComponent = () => {
         switch(selectedComponent){
