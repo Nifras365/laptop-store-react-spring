@@ -1,0 +1,31 @@
+.sidebar-container {
+    height: 100vh;
+    display: flex;
+    text-align: left;
+}
+
+.sidebar-main {
+    background-color: #2980d7;
+    color: black;
+    width: 250px;
+}
+
+.sidebar-menu {
+    padding-top: 20px;
+}
+
+.sidebar-submenu {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.menu-item {
+    font-size: 16px;
+    padding: 10px 20px;
+    color: black;
+}
+
+.menu-item:hover {
+    background-color: #34495e;
+    color: rgb(158, 149, 149);
+}
