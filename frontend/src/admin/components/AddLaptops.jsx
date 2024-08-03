@@ -10,6 +10,16 @@ const AddLaptops = () =>{
         <div>
             This page is for add laptops
             <form>
+                <div>
+                    <label>Price: </label>
+                    <input
+                    type="number"
+                    id="price"
+                    value={price}
+                    onChange={(e)=>setPrice(e.target.value)}
+                    required
+                    />
+                </div>
 
             </form>
         </div>
