@@ -9,7 +9,7 @@ const AddLaptops = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        //api
+        //api - to backend
         console.log({
             price,
             description,
