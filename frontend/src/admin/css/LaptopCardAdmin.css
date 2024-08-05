@@ -1,0 +1,54 @@
+.laptop-card {
+    margin: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    height: 380px;
+    width: 300px;
+}
+
+.laptop-card-img {
+    height: 200px;
+    width: 260px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.laptop-card .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: left;
+}
+
+.laptop-card .card-text {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.buy-now-btn {
+    height: 40px;
+    width: 100%;
+    background-color: black;
+    color: white;
+    border-radius: 10px;
+}
+
+.buy-now-btn:hover {
+    color: black;
+    background-color: rgb(216, 210, 210);
+}
+
+.iocart{
+    height: 40px;
+    width: 40px;
+    color: gray;
+}
+
+.iocart :hover{
+    color: black;
+}
+

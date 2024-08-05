@@ -1,14 +1,15 @@
 import React from "react";
 import '../css/LaptopCardAdmin.css';
 import { Card, Row, Col } from "react-bootstrap";
+import { FaEdit } from "react-icons/fa";
 
 const LaptopCardAdmin = () =>{
     
     const HandleEditClick = () => {
-
+        console.log("You Clicked the edit button !!!!");
     }
     const HandleDeleteClick = () => {
-
+        console.log("You clicked the delete button !!!!");
     }
 
     return(
@@ -21,10 +22,10 @@ const LaptopCardAdmin = () =>{
                 </Card.Text>
                 <Row>
                     <Col>
-                    <IoCart className="iocart" onClick={}/>
+                    <FaEdit className="iocart" onClick={HandleEditClick}/>
                     </Col>
                     <Col>
-                        <button className="buy-now-btn">Buy Now</button>
+                        <button className="buy-now-btn" onClick={HandleDeleteClick}>Delete</button>
                     </Col>
                 </Row>
             </Card.Body>
