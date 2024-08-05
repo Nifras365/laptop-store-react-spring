@@ -5,7 +5,7 @@ import { IoArrowBack } from "react-icons/io5";
 
 const Register = () => {
 
-    const GoBack =()=>{
+    const GoBack = () => {
         window.history.back()
     }
 

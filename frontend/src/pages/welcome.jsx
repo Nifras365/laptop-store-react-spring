@@ -10,7 +10,7 @@ const Welcome = () => {
 
     const[laptops, setLaptop] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         setLaptop(LaptopData.laptops)
     },[])
 

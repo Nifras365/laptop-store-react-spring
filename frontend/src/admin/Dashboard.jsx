@@ -1,11 +1,11 @@
 import React from "react";
 import './css/Dashboard.css';
-import SideBar from "./components/SideBar.jsx";
 import { useState } from "react";
 import AddLaptops from "./components/AddLaptops.jsx";
 import ManageLaptops from "./components/ManageLaptops.jsx";
 import ViewUsers from "./components/ViewUsers.jsx";
 import ManageUsers from "./components/ManageUsers.jsx";
+import SideBar from "./components/SideBar.jsx";
 
 const Dashboard = () => {
     
