@@ -3,7 +3,7 @@ import '../css/LaptopCardAdmin.css';
 import { Card, Row, Col } from "react-bootstrap";
 import { FaEdit } from "react-icons/fa";
 
-const LaptopCardAdmin = () =>{
+const LaptopCardAdmin = ({id, image, price, description }) =>{
     
     const HandleEditClick = () => {
         console.log("You Clicked the edit button !!!!");
