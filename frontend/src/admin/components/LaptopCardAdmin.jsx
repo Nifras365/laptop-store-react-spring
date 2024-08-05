@@ -1,4 +1,5 @@
 import React from "react";
+import '../css/LaptopCardAdmin.css';
 
 const LaptopCardAdmin = () =>{
     return(
