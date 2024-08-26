@@ -50,6 +50,10 @@ const Register = () => {
                         <label>Confirm Password</label>
                         <input type="password" id="password" className="form-control" placeholder="Enter your password" required />
                     </div>
+                    <div className="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="phone" className="form-control" placeholder="Enter your phone number" required />
+                    </div>
                     <div className="form-button">
                         <button type="submit" className="btn btn-primary">Register</button>
                     </div>
