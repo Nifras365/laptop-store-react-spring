@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 
 
-const CartCard = ({ image, price, description }) => {
+const CartCard = ({ id, image, price, description }) => {
     const [quantity, setQuantity] = useState(1);
     const [showAlert, setShowAlert] = useState(false);
 
