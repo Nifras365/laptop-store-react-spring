@@ -9,6 +9,17 @@ const Orders = () => {
     return(
         <div>
             <h1>Your Orders</h1>
+            {orderDetails ? (
+                <div className="order-card">
+                    <h2>Order Details</h2>
+                    <p><strong>ID:</strong> {orderDetails.id}</p>
+                    <p><strong>Price:</strong> ${orderDetails.price}</p>
+                    <p><strong>Description:</strong> {orderDetails.description}</p>
+                </div>
+            ):(
+                <p>No orders placed.</p>
+            )
+            }
         </div>
     );
 }
