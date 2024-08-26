@@ -1,5 +1,5 @@
 import React from "react";
-import './LaptopCard.css';
+import './css/LaptopCard.css';
 import { Card, Row, Col } from "react-bootstrap";
 import { IoCart } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";

@@ -1,5 +1,5 @@
 import React from "react";
-import './CartCard.css';
+import './css/CartCard.css';
 import { Card, Col, Row, FormControl, Alert } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";

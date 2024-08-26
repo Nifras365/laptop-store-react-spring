@@ -3,7 +3,7 @@ import { Navbar, Nav, NavDropdown, Container, NavbarBrand,Form, FormControl } fr
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { IoPersonOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
-import './NavbarBL.css'
+import './css/NavbarBL.css';
 
 const NavbarBL = () => {
   return (
