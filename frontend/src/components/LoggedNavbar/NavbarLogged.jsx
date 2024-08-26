@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { IoPersonOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import './NavbarLogged.css';
+
+
 const NavbarLogged = () => {
   return (
     <Navbar bg="light" expand="lg">
@@ -26,8 +28,8 @@ const NavbarLogged = () => {
           </Form>
           <Nav className="ms-auto">
             <NavDropdown className='dropdown-title' title={<IoPersonOutline size={25}/>} id="basic-nav-dropdown">
-              <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-              <NavDropdown.Item href="/register">Register</NavDropdown.Item>
+              <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>
               <NavDropdown.Item href="/cart">Cart</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">Contact Us</NavDropdown.Item>
