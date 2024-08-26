@@ -1,14 +1,21 @@
 import React from "react";
 import CartCard from "../components/CartCard";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 
 const Cart = () => {
     const location =  useLocation();
     const{id, image, price, description} = location.state || {};
+    const navigate = useNavigate();
 
     const goBack = () => {
         window.history.back();
+    }
+
+    const placeOrder = () => {
+        const orderDetails = { id, image, price, description };
+
+        navigate("/orders", { state: { orderDetails } });
     }
 
     return(
@@ -46,6 +53,7 @@ const Cart = () => {
                                         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                                         transition: 'background-color 0.3s ease'
                                     }}
+                                    onClick={placeOrder}
                         onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#218838'}
                         onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#28a745'}
                         >
