@@ -1,0 +1,66 @@
+.cart-card {
+    margin: 1rem auto;
+    padding: 1rem;
+    width: 90%;
+    max-width: 1000px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-card-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.card-title, .card-text {
+    text-align: left;
+    margin-bottom: 0.5rem; 
+}
+
+.delete-icon {
+    height: 30px;
+    width: 30px;
+    color: gray;
+    cursor: pointer; 
+    align-self: flex-end; 
+    margin-bottom: 1rem; 
+}
+
+.minus-icon:hover, .delete-icon:hover {
+    color: red; 
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    width: 100%;
+}
+
+.minus-icon, .plus-icon {
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+}
+
+.plus-icon:hover {
+    color: #28a745;
+}
+
+.form-control-cart {
+    width: 60px; 
+    height: 40px;
+    text-align: center; 
+}
+
+.alert-box {
+    margin-top: 1rem;
+    text-align: center;
+    max-width: 80%;
+    margin: 0 auto;
+}

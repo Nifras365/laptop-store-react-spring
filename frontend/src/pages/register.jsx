@@ -6,7 +6,7 @@ import { IoArrowBack } from "react-icons/io5";
 const Register = () => {
 
     const GoBack = () => {
-        window.history.back()
+        window.history.back();
     }
 
     return(
@@ -39,8 +39,16 @@ const Register = () => {
                         <input type="email" id="email" className="form-control" placeholder="Enter your email" required />
                     </div>
                     <div className="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="phone" className="form-control" placeholder="Enter your phone number" required />
+                    </div>
+                    <div className="form-group">
                         <label>Country</label>
                         <input type="text" id="country" className="form-control" placeholder="Enter your country" required />
+                    </div>
+                    <div className="form-group">
+                        <label>Address</label>
+                        <input type="text" id="address" className="form-control" placeholder="Enter your current address" required />
                     </div>
                     <div className="form-group">
                         <label>Password</label>

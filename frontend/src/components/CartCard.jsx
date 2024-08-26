@@ -1,12 +1,12 @@
 import React from "react";
-import './CartCard.css';
+import './css/CartCard.css';
 import { Card, Col, Row, FormControl, Alert } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 
 
-const CartCard = ({ image, price, description }) => {
+const CartCard = ({ id, image, price, description }) => {
     const [quantity, setQuantity] = useState(1);
     const [showAlert, setShowAlert] = useState(false);
 
@@ -24,6 +24,10 @@ const CartCard = ({ image, price, description }) => {
         }
     }
 
+    const deleteCartItem = () => {
+        console.log(`Deleting item with id: ${id}`);
+    }
+
     return(
     <div>
         <Card className="cart-card">
@@ -38,16 +42,16 @@ const CartCard = ({ image, price, description }) => {
                 </Card.Body>
                 </Col>
                 <Col>
-                    <MdDelete className="delete-icon"/>
+                    <MdDelete className="delete-icon" onClick={deleteCartItem}/>
                     <div className="quantity-controls">
-                        <FaCircleMinus className="minus-icon" onClick={DecreaseQuantity}>-</FaCircleMinus>
+                        <FaCircleMinus className="minus-icon" onClick={DecreaseQuantity}/>
                             <FormControl
                             type="text"
                             className="form-control-cart"
                             value={quantity}
                             readOnly
                             />
-                        <FaCirclePlus className="plus-icon" onClick={AddQuantity}>+</FaCirclePlus>
+                        <FaCirclePlus className="plus-icon" onClick={AddQuantity}/>
                     </div>
                 </Col>
             </Row>
