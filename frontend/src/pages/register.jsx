@@ -39,8 +39,16 @@ const Register = () => {
                         <input type="email" id="email" className="form-control" placeholder="Enter your email" required />
                     </div>
                     <div className="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="phone" className="form-control" placeholder="Enter your phone number" required />
+                    </div>
+                    <div className="form-group">
                         <label>Country</label>
                         <input type="text" id="country" className="form-control" placeholder="Enter your country" required />
+                    </div>
+                    <div className="form-group">
+                        <label>Address</label>
+                        <input type="text" id="address" className="form-control" placeholder="Enter your current address" required />
                     </div>
                     <div className="form-group">
                         <label>Password</label>
@@ -49,10 +57,6 @@ const Register = () => {
                     <div className="form-group">
                         <label>Confirm Password</label>
                         <input type="password" id="password" className="form-control" placeholder="Enter your password" required />
-                    </div>
-                    <div className="form-group">
-                        <label>Phone</label>
-                        <input type="text" id="phone" className="form-control" placeholder="Enter your phone number" required />
                     </div>
                     <div className="form-button">
                         <button type="submit" className="btn btn-primary">Register</button>
