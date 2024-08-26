@@ -1,79 +1,66 @@
-.cart-card{
-    margin: 1rem;
-    height: 300px;
-    width: 1000px;
+.cart-card {
+    margin: 1rem auto;
+    padding: 1rem;
+    width: 90%;
+    max-width: 1000px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
-.cart-card-img{
-    height: 260px;
-    width: 260px;
+.cart-card-img {
+    width: 100%;
+    height: auto;
     object-fit: cover;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    margin-top: 20px;
-    margin-left: 20px;
-}
-
-.cart-card .card-title{
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: left;
-}
-
-.cart-card .card-text{
+    border-radius: 10px;
     margin-bottom: 1rem;
-    text-align: left;
 }
 
-.delete-icon{
+.card-title, .card-text {
+    text-align: left;
+    margin-bottom: 0.5rem; 
+}
+
+.delete-icon {
     height: 30px;
     width: 30px;
     color: gray;
-    margin-top: 20px;
-    margin-left: 70px;
+    cursor: pointer; 
+    align-self: flex-end; 
+    margin-bottom: 1rem; 
 }
 
-.delete-icon :hover{
-    color: red;   
+.minus-icon:hover, .delete-icon:hover {
+    color: red; 
 }
 
-.quantity-controls{
-    margin-top: 190px;
-    width: 140px;
-    text-align: center;
+.quantity-controls {
     display: flex;
     align-items: center;
+    justify-content: space-between; 
+    width: 100%;
 }
 
-.minus-icon{
+.minus-icon, .plus-icon {
     height: 40px;
     width: 40px;
-    margin-right: 10px;
+    cursor: pointer;
 }
 
-.minus-icon :hover{
-    color: red;
+.plus-icon:hover {
+    color: #28a745;
 }
 
-.plus-icon :hover{
-    color: green;
-}
-
-.plus-icon{
+.form-control-cart {
+    width: 60px; 
     height: 40px;
-    width: 40px;
-    margin-left: 10px;
+    text-align: center; 
 }
 
-.form-control-cart{
-    width: 40px;
-    height: 40px;
-}
-
-.alert-box{
-    width: 400px;
-    margin-left: 700px;
-    margin-top: 20px;
+.alert-box {
+    margin-top: 1rem;
+    text-align: center;
+    max-width: 80%;
+    margin: 0 auto;
 }
