@@ -1,5 +1,5 @@
 import React from "react";
-import './css/Orders.css';
+import '../pagescss/Orders.css';
 
 const Orders = () => {
     return(

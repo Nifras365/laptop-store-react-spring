@@ -5,7 +5,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import Cart from './pages/cart';
 import Dashboard from './admin/Dashboard';
-import Orders from './components/Orders';
+import Orders from './pages/Orders';
 
 function App() {
   return (
