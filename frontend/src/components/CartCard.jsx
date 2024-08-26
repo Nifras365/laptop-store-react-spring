@@ -24,6 +24,10 @@ const CartCard = ({ id, image, price, description }) => {
         }
     }
 
+    const deleteCartItem = () => {
+        console.log(`Deleting item with id: ${id}`);
+    }
+
     return(
     <div>
         <Card className="cart-card">
@@ -38,16 +42,16 @@ const CartCard = ({ id, image, price, description }) => {
                 </Card.Body>
                 </Col>
                 <Col>
-                    <MdDelete className="delete-icon"/>
+                    <MdDelete className="delete-icon" onClick={deleteCartItem}/>
                     <div className="quantity-controls">
-                        <FaCircleMinus className="minus-icon" onClick={DecreaseQuantity}>-</FaCircleMinus>
+                        <FaCircleMinus className="minus-icon" onClick={DecreaseQuantity}/>
                             <FormControl
                             type="text"
                             className="form-control-cart"
                             value={quantity}
                             readOnly
                             />
-                        <FaCirclePlus className="plus-icon" onClick={AddQuantity}>+</FaCirclePlus>
+                        <FaCirclePlus className="plus-icon" onClick={AddQuantity}/>
                     </div>
                 </Col>
             </Row>

@@ -9,7 +9,7 @@ const Cart = () => {
     return(
         <div>
             <h1>Your Cart</h1>
-            {image ? (
+            {id ? (
                  <CartCard id={id} image={image} price={price} description={description}/>
             ) : (
                  <h1>No Items</h1>
