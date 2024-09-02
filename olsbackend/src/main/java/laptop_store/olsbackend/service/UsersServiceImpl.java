@@ -17,6 +17,14 @@ public class UsersServiceImpl implements UsersService{
     public UsersDTO createUser(UsersDTO usersDTO){
         UsersEntity usersEntity = new UsersEntity();
 
+        usersEntity.setEmail(usersDTO.getEmail());
+        usersEntity.setName(usersDTO.getName());
+        usersEntity.setPassword(usersDTO.getPassword());
+        usersEntity.setConfirmPassword(usersDTO.getConfirmPassword());
+        usersEntity.setPhone(usersDTO.getPhone());
+        usersEntity.setAddress(usersDTO.getAddress());
+        usersEntity.setCountry(usersDTO.getCountry());
 
+        return usersMapper.mapToDto(usersRepository.save(usersEntity));
     }
 }
