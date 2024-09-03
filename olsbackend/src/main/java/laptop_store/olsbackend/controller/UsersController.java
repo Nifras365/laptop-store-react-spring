@@ -1,0 +1,24 @@
+package laptop_store.olsbackend.controller;
+
+import laptop_store.olsbackend.dto.ResponseDTO;
+import laptop_store.olsbackend.dto.UsersDTO;
+import laptop_store.olsbackend.service.UsersService;
+import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/users")
+public class UsersController {
+    @Autowired
+    private UsersService usersService;
+    @PostMapping("/create")
+    public ResponseEntity<ResponseDTO<Long>> createUsers(@RequestBody UsersDTO usersDTO){
+        return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(), "User Created Successfully !!", usersService.createUser(usersDTO)));
+    }
+}
