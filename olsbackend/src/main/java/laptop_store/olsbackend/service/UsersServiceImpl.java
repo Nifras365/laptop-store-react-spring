@@ -17,7 +17,7 @@ public class UsersServiceImpl implements UsersService{
     @Autowired
     private UsersMapper usersMapper;
     @Override
-    public UsersDTO createUser(UsersDTO usersDTO){
+    public Long createUser(UsersDTO usersDTO){
 
         Optional<UsersEntity> existingUsers = usersRepository.findByEmail(usersDTO.getEmail());
 
@@ -25,16 +25,14 @@ public class UsersServiceImpl implements UsersService{
             throw new ItemAlreadyExistsException("User with given email already exists : " + usersDTO.getEmail());
         }
 
-        UsersEntity usersEntity = new UsersEntity();
+        return usersRepository.save(UsersEntity.builder()
+                .email(usersDTO.getEmail())
+                .name(usersDTO.getName())
+                .password(usersDTO.getPassword())
+                .confirmPassword(usersDTO.getConfirmPassword())
+                .phone(usersDTO.getPhone())
+                .address(usersDTO.getAddress())
+                .country(usersDTO.getCountry()).build()).getUserId();
 
-        usersEntity.setEmail(usersDTO.getEmail());
-        usersEntity.setName(usersDTO.getName());
-        usersEntity.setPassword(usersDTO.getPassword());
-        usersEntity.setConfirmPassword(usersDTO.getConfirmPassword());
-        usersEntity.setPhone(usersDTO.getPhone());
-        usersEntity.setAddress(usersDTO.getAddress());
-        usersEntity.setCountry(usersDTO.getCountry());
-
-        return usersMapper.mapToDto(usersRepository.save(usersEntity));
     }
 }
