@@ -33,19 +33,23 @@ public class UsersController {
             Optional<UsersDTO> existingUserCheck = usersService.findByEmail(email);
             if (existingUserCheck.isPresent()){
                 if (existingUserCheck.get().getPassword().equals(password)){
-                    return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK.value(), "Login Successful !!");
+                    ResponseDTO<Long> response = new ResponseDTO<>(HttpStatus.OK.value(), "Login Successful !!");
+                    return ResponseEntity.status(HttpStatus.OK).body(response);
                 }
                 else {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(HttpStatus.UNAUTHORIZED.value(), "Wrong Password !");
+                    ResponseDTO<Long> response = new ResponseDTO<>(HttpStatus.UNAUTHORIZED.value(), "Wrong Password !");
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
                 }
             }
             else {
-               return ResponseEntity.status(HttpStatus.NOT_FOUND).body(HttpStatus.NOT_FOUND, "User Not found !");
+                ResponseDTO<Long> response = new ResponseDTO<>(HttpStatus.NOT_FOUND.value(), "User Not found !");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         }
         catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(HttpStatus.INTERNAL_SERVER_ERROR, "Server Error !");
+            ResponseDTO<Long> response = new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Server Error !");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 }
