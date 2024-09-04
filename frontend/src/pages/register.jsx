@@ -17,7 +17,8 @@ const Register = () => {
 
     const navigate = useNavigate();
 
-    const handleRegisterUser = async () => {
+    const handleRegisterUser = async(event) => {
+        event.preventDefault(); 
         try{
             if(password !== confirmPassword){
                 console.error("Password doesn't match !!!");
@@ -118,13 +119,13 @@ const Register = () => {
                     </div>
                     <div className="form-group">
                         <label>Confirm Password</label>
-                        <input type="password" id="password" className="form-control" 
+                        <input type="password" id="confirmPassword" className="form-control" 
                                 value={confirmPassword}
                                 onChange={(e)=>setConfirmPassword(e.target.value)}
                                 placeholder="Enter your password" required />
                     </div>
                     <div className="form-button">
-                        <button type="submit" className="btn btn-primary" onClick={handleRegisterUser}>Register</button>
+                        <button type="submit" className="btn btn-primary" onSubmit={handleRegisterUser}>Register</button>
                     </div>
                 </form>
             </Container>
