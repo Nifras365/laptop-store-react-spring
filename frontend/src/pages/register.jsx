@@ -2,6 +2,8 @@ import React from "react";
 import '../pagescss/register.css'
 import { Container } from "react-bootstrap";
 import { IoArrowBack } from "react-icons/io5";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
 
