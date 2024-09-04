@@ -15,6 +15,40 @@ const Register = () => {
     const[password, setPassword] = useState('');
     const[confirmPassword, setConfirmPassword] = useState('');
 
+    const navigate = useNavigate();
+
+    const handleRegisterUser = async () => {
+        try{
+            if(password !== confirmPassword){
+                console.error("Password doesn't match !!!");
+                return;
+            }
+            if(!name || !email || !phone || !country || !address || !password || !confirmPassword){
+                console.error("Fill all fields!!");
+                return;
+            }
+            const response = await fetch('http://localhost:8080/users/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name, email, phone, country, address, password, confirmPassword
+                }),
+            });
+            if(response.ok){
+                console.log("User Registration Successful !!!");
+                navigate('/login');
+            }
+            else{
+                console.log("Failed To Register : ", response.status, response.statusText);
+            }
+        }
+        catch(error){
+            console.error("Error Occured : ", error.message);
+        }
+    }
+
     const GoBack = () => {
         window.history.back();
     }
