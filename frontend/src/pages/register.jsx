@@ -74,7 +74,7 @@ const Register = () => {
         <div className="register-wrapper">
             <Container className="register-container">
                 <h1>Register</h1>
-                <form className="register-form">
+                <form className="register-form" onSubmit={handleRegisterUser}>
                     <div className="form-group">
                         <label>Name</label>
                         <input type="text" id="name" className="form-control" 
@@ -125,7 +125,7 @@ const Register = () => {
                                 placeholder="Enter your password" required />
                     </div>
                     <div className="form-button">
-                        <button type="submit" className="btn btn-primary" onSubmit={handleRegisterUser}>Register</button>
+                        <button type="submit" className="btn btn-primary">Register</button>
                     </div>
                 </form>
             </Container>
