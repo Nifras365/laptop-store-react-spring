@@ -35,4 +35,7 @@ public class UsersServiceImpl implements UsersService{
                 .country(usersDTO.getCountry()).build()).getUserId();
 
     }
+    public Optional<UsersDTO> findByEmail(String email){
+        return usersRepository.findByEmail(email).map(usersMapper::mapToDto);
+    }
 }
