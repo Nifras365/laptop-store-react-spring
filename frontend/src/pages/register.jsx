@@ -7,6 +7,14 @@ import { useNavigate } from "react-router-dom";
 
 const Register = () => {
 
+    const[name, setName] = useState('');
+    const[email, setEmail] = useState('');
+    const[phone, setPhone] = useState('');
+    const[country, setCountry] = useState('');
+    const[address, setAddress] = useState('');
+    const[password, setPassword] = useState('');
+    const[confirmPassword, setConfirmPassword] = useState('');
+
     const GoBack = () => {
         window.history.back();
     }
