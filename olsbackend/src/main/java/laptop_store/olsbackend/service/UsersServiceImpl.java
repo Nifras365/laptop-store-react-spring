@@ -24,7 +24,9 @@ public class UsersServiceImpl implements UsersService{
         if (existingUsers.isPresent()){
             throw new ItemAlreadyExistsException("User with given email already exists : " + usersDTO.getEmail());
         }
-
+        if (!usersDTO.getPassword().equals(usersDTO.getConfirmPassword())){
+            throw new ItemAlreadyExistsException("Password didn't match !!!: " + usersDTO.getPassword());
+        }
         return usersRepository.save(UsersEntity.builder()
                 .email(usersDTO.getEmail())
                 .name(usersDTO.getName())
