@@ -4,7 +4,6 @@ import laptop_store.olsbackend.dto.LoginDTO;
 import laptop_store.olsbackend.dto.ResponseDTO;
 import laptop_store.olsbackend.dto.UsersDTO;
 import laptop_store.olsbackend.service.UsersService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
