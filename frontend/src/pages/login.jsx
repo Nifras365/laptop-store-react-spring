@@ -12,8 +12,27 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const handleLoginUser = ()=> {
-        
+    const handleLoginUser = async() => {
+        if(!email || !password){
+            console.error("Fill all fields!!");
+            return;
+        }
+        const response = await fetch('http://localhost:8080/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email, password
+            }),
+        });
+        if(response.ok){
+            console.log("Login Successful !!!");
+            navigate('/')
+        }
+        else{
+            console.error("Failed to login : ", response.status, response.statusText);
+        }
     }
 
     const GoBack= () =>{
