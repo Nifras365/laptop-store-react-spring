@@ -12,26 +12,32 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const handleLoginUser = async() => {
-        if(!email || !password){
-            console.error("Fill all fields!!");
-            return;
+    const handleLoginUser = async(event) => {
+        event.preventDefault(); 
+        try{
+            if(!email || !password){
+                console.error("Fill all fields!!");
+                return;
+            }
+            const response = await fetch('http://localhost:8080/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email, password
+                }),
+            });
+            if(response.ok){
+                console.log("Login Successful !!!");
+                navigate('/')
+            }
+            else{
+                console.error("Failed to login : ", response.status, response.statusText);
+            }
         }
-        const response = await fetch('http://localhost:8080/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email, password
-            }),
-        });
-        if(response.ok){
-            console.log("Login Successful !!!");
-            navigate('/')
-        }
-        else{
-            console.error("Failed to login : ", response.status, response.statusText);
+        catch(error){
+            console.error("Error Ocuured : ", error.message);
         }
     }
 
