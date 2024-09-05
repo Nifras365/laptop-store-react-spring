@@ -24,7 +24,9 @@ public class UsersServiceImpl implements UsersService{
         if (existingUsers.isPresent()){
             throw new ItemAlreadyExistsException("User with given email already exists : " + usersDTO.getEmail());
         }
-
+        if (!usersDTO.getPassword().equals(usersDTO.getConfirmPassword())){
+            throw new ItemAlreadyExistsException("Password didn't match !!!: " + usersDTO.getPassword());
+        }
         return usersRepository.save(UsersEntity.builder()
                 .email(usersDTO.getEmail())
                 .name(usersDTO.getName())
@@ -34,5 +36,8 @@ public class UsersServiceImpl implements UsersService{
                 .address(usersDTO.getAddress())
                 .country(usersDTO.getCountry()).build()).getUserId();
 
+    }
+    public Optional<UsersDTO> findByEmail(String email){
+        return usersRepository.findByEmail(email).map(usersMapper::mapToDto);
     }
 }
