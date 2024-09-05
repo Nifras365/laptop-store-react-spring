@@ -65,14 +65,20 @@ const Login = () => {
         <div className="login-wrapper">
             <Container className="login-container">
                 <h1>Login</h1>
-                <form className="login-form">
+                <form className="login-form" onSubmit={handleLoginUser}>
                     <div className="form-group">
                         <label>Email</label>
-                        <input type="email" id="email" className="form-control" placeholder="Enter your email" required />
+                        <input type="email" id="email" className="form-control" 
+                                value={email}
+                                onChange={(e)=>setEmail(e.target.value)}
+                                placeholder="Enter your email" required />
                     </div>
                     <div className="form-group">
                         <label>Password</label>
-                        <input type="password" id="password" className="form-control" placeholder="Enter your password" required />
+                        <input type="password" id="password" className="form-control" 
+                                value={password}
+                                onChange={(e)=>setPassword(e.target.value)}
+                                placeholder="Enter your password" required />
                     </div>
                     <div className="form-button">
                         <button type="submit" className="btn btn-primary">Login</button>
