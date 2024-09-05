@@ -2,8 +2,19 @@ import React from "react";
 import { Container } from "react-bootstrap";
 import '../pagescss/login.css';
 import { IoArrowBack } from "react-icons/io5";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+
+    const[email, setEmail] = useState('');
+    const[password, setPassword] = useState('');
+
+    const navigate = useNavigate();
+
+    const handleLoginUser = ()=> {
+        
+    }
 
     const GoBack= () =>{
         window.history.back()
