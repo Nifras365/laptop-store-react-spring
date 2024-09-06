@@ -3,8 +3,10 @@ import '../css/AddLaptops.css';
 
 const AddLaptops = () => {
     const [price, setPrice] = useState('');
-    const [description, setDescription] = useState('');
+    const [brand, setBrand] = useState('');
     const [image, setImage] = useState(null);
+    const [model, setModel] = useState('');
+    const [specifications, setSpecifications] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -12,7 +14,7 @@ const AddLaptops = () => {
         //api - to backend
         console.log({
             price,
-            description,
+            brand,
             image
         });
     };
@@ -32,11 +34,29 @@ const AddLaptops = () => {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="description">Description:</label>
+                    <label htmlFor="brand">Brand:</label>
+                    <input 
+                        id="brand" 
+                        value={brand} 
+                        onChange={(e) => setBrand(e.target.value)} 
+                        required 
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="model">Model:</label>
+                    <input 
+                        id="model" 
+                        value={model} 
+                        onChange={(e) => setModel(e.target.value)} 
+                        required 
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="specifications">Specifications:</label>
                     <textarea 
-                        id="description" 
-                        value={description} 
-                        onChange={(e) => setDescription(e.target.value)} 
+                        id="specifications" 
+                        value={specifications} 
+                        onChange={(e) => setSpecifications(e.target.value)} 
                         required 
                     />
                 </div>
