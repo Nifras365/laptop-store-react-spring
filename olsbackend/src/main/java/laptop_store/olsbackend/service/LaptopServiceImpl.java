@@ -1,5 +1,7 @@
 package laptop_store.olsbackend.service;
 
+import laptop_store.olsbackend.dto.LaptopDTO;
+import laptop_store.olsbackend.entity.LaptopEntity;
 import laptop_store.olsbackend.mapper.LaptopMapper;
 import laptop_store.olsbackend.repository.LaptopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,5 +13,16 @@ public class LaptopServiceImpl implements LaptopService{
     private LaptopRepository laptopRepository;
     @Autowired
     private LaptopMapper laptopMapper;
+    @Override
+    public Long createLaptop(LaptopDTO laptopDTO){
+        return laptopRepository.save(LaptopEntity.builder()
+                .image(laptopDTO.getImage())
+                .description(laptopDTO.getDescription())
+                .price(laptopDTO.getPrice())
+                .brand(laptopDTO.getBrand())
+                .model(laptopDTO.getModel())
+                .specifications(laptopDTO.getSpecifications())
+                .stockQuantity(laptopDTO.getStockQuantity()).build()).getId();
+    }
 
 }
