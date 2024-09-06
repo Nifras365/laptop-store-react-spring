@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class LaptopDTO {
-    private String email;
-    private String name;
-    private String password;
-    private String confirmPassword;
-    private Long phone;
-    private String address;
-    private String country;
+    private String image;
+    private String description;
+    private Integer price;
+    private String brand;
+    private String model;
+    private String specifications;
+    private Integer stockQuantity;
 }
