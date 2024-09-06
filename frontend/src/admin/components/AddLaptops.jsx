@@ -7,6 +7,7 @@ const AddLaptops = () => {
     const [image, setImage] = useState(null);
     const [model, setModel] = useState('');
     const [specifications, setSpecifications] = useState('');
+    const [stockQuantity, setStockQuantity] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -57,6 +58,16 @@ const AddLaptops = () => {
                         id="specifications" 
                         value={specifications} 
                         onChange={(e) => setSpecifications(e.target.value)} 
+                        required 
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="stockQuantity">Stock Quantity:</label>
+                    <input 
+                        type="number" 
+                        id="stockQuantity" 
+                        value={stockQuantity} 
+                        onChange={(e) => setStockQuantity(e.target.value)} 
                         required 
                     />
                 </div>
