@@ -7,6 +7,8 @@ import laptop_store.olsbackend.repository.LaptopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LaptopServiceImpl implements LaptopService{
     @Autowired
@@ -23,6 +25,10 @@ public class LaptopServiceImpl implements LaptopService{
                 .model(laptopDTO.getModel())
                 .specifications(laptopDTO.getSpecifications())
                 .stockQuantity(laptopDTO.getStockQuantity()).build()).getId();
+    }
+    @Override
+    public List<LaptopEntity> getAllLaptops(){
+        return laptopRepository.findAll();
     }
 
 }
