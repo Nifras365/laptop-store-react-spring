@@ -35,8 +35,6 @@ const AddLaptops = () => {
             const response = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, data);
             formData.image = response.data.secure_url;
 
-            console.log(formData);
-
             await axios.post('http://localhost:8080/laptops/create', formData);
 
         } catch (error) {
