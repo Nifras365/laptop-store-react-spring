@@ -26,7 +26,7 @@ const AddLaptops = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+
         const data = new FormData(); 
         data.append('file', imageFile);
         data.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
@@ -36,6 +36,8 @@ const AddLaptops = () => {
             formData.image = response.data.secure_url;
 
             console.log(formData);
+
+            await axios.post('http://localhost:8080/laptops/create', formData);
 
         } catch (error) {
             console.error('Image upload failed:', error);
