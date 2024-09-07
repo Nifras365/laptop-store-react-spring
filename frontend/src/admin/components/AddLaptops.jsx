@@ -6,7 +6,7 @@ const AddLaptops = () => {
 
     const [imageFile, setImageFile] = useState(null);
 
-    const [formData, setFromDate] = useState({
+    const [formData, setFormData] = useState({
         price: '',
         brand: '',
         image: '',
@@ -15,24 +15,31 @@ const AddLaptops = () => {
         stockQuantity: '',
     });
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
     const handleFileChange = (e) => {
         setImageFile(e.target.files[0]);
-    }
+    };
 
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const data = new formData();
+        
+        const data = new FormData(); 
         data.append('file', imageFile);
-        data.append('upload_preset', process.env.CLOUDINARY_UPLOAD_PRESET);
-        try {
-            const response = await axios.post('https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload',
-                data
-            );
-        } catch (error) {
-            
-        }
+        data.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
+        try {
+            const response = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, data);
+            formData.image = response.data.secure_url;
+
+            console.log(formData);
+
+        } catch (error) {
+            console.error('Image upload failed:', error);
+        }
     };
 
     return (
@@ -44,8 +51,9 @@ const AddLaptops = () => {
                     <input 
                         type="number" 
                         id="price" 
-                        value={price} 
-                        onChange={(e) => setPrice(e.target.value)} 
+                        name="price"  
+                        value={formData.price} 
+                        onChange={handleInputChange} 
                         required 
                     />
                 </div>
@@ -53,8 +61,9 @@ const AddLaptops = () => {
                     <label htmlFor="brand">Brand:</label>
                     <input 
                         id="brand" 
-                        value={brand} 
-                        onChange={(e) => setBrand(e.target.value)} 
+                        name="brand"  
+                        value={formData.brand} 
+                        onChange={handleInputChange} 
                         required 
                     />
                 </div>
@@ -62,8 +71,9 @@ const AddLaptops = () => {
                     <label htmlFor="model">Model:</label>
                     <input 
                         id="model" 
-                        value={model} 
-                        onChange={(e) => setModel(e.target.value)} 
+                        name="model"  
+                        value={formData.model} 
+                        onChange={handleInputChange} 
                         required 
                     />
                 </div>
@@ -71,8 +81,9 @@ const AddLaptops = () => {
                     <label htmlFor="specifications">Specifications:</label>
                     <textarea 
                         id="specifications" 
-                        value={specifications} 
-                        onChange={(e) => setSpecifications(e.target.value)} 
+                        name="specifications"  
+                        value={formData.specifications} 
+                        onChange={handleInputChange} 
                         required 
                     />
                 </div>
@@ -81,8 +92,9 @@ const AddLaptops = () => {
                     <input 
                         type="number" 
                         id="stockQuantity" 
-                        value={stockQuantity} 
-                        onChange={(e) => setStockQuantity(e.target.value)} 
+                        name="stockQuantity"  
+                        value={formData.stockQuantity} 
+                        onChange={handleInputChange} 
                         required 
                     />
                 </div>
@@ -91,7 +103,7 @@ const AddLaptops = () => {
                     <input 
                         type="file" 
                         id="image" 
-                        onChange={(e) => setImage(e.target.files[0])} 
+                        onChange={handleFileChange} 
                         required 
                     />
                 </div>
