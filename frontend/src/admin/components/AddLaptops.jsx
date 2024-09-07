@@ -3,22 +3,36 @@ import '../css/AddLaptops.css';
 import axios from 'axios';
 
 const AddLaptops = () => {
-    const [price, setPrice] = useState('');
-    const [brand, setBrand] = useState('');
-    const [image, setImage] = useState(null);
-    const [model, setModel] = useState('');
-    const [specifications, setSpecifications] = useState('');
-    const [stockQuantity, setStockQuantity] = useState('');
 
-    const handleSubmit = (event) => {
+    const [imageFile, setImageFile] = useState(null);
+
+    const [formData, setFromDate] = useState({
+        price: '',
+        brand: '',
+        image: '',
+        model: '',
+        specifications: '',
+        stockQuantity: '',
+    });
+
+    const handleFileChange = (e) => {
+        setImageFile(e.target.files[0]);
+    }
+
+    const handleSubmit = async(event) => {
         event.preventDefault();
 
-        //api - to backend
-        console.log({
-            price,
-            brand,
-            image
-        });
+        const data = new formData();
+        data.append('file', imageFile);
+        data.append('upload_preset', process.env.CLOUDINARY_UPLOAD_PRESET);
+        try {
+            const response = await axios.post('https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload',
+                data
+            );
+        } catch (error) {
+            
+        }
+
     };
 
     return (
