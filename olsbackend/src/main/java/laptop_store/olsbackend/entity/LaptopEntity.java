@@ -20,7 +20,6 @@ public class LaptopEntity {
     private Long id;
 
     private String image;
-    private String description;
     private Integer price;
     private String brand;
     private String model;

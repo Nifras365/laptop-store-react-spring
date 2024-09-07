@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LaptopDTO {
     private String image;
-    private String description;
     private Integer price;
     private String brand;
     private String model;

@@ -19,7 +19,6 @@ public class LaptopServiceImpl implements LaptopService{
     public Long createLaptop(LaptopDTO laptopDTO){
         return laptopRepository.save(LaptopEntity.builder()
                 .image(laptopDTO.getImage())
-                .description(laptopDTO.getDescription())
                 .price(laptopDTO.getPrice())
                 .brand(laptopDTO.getBrand())
                 .model(laptopDTO.getModel())
