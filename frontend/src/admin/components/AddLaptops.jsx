@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import '../css/AddLaptops.css';
+import axios from 'axios';
 
 const AddLaptops = () => {
     const [price, setPrice] = useState('');
