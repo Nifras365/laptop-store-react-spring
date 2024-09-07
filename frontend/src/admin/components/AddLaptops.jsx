@@ -36,6 +36,8 @@ const AddLaptops = () => {
             formData.image = response.data.secure_url;
 
             await axios.post('http://localhost:8080/laptops/create', formData);
+            
+            alert("Adeed Successfully !!!");
 
         } catch (error) {
             console.error('Image upload failed:', error);
