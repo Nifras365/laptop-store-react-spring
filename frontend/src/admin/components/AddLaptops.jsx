@@ -1,20 +1,45 @@
 import React, { useState } from "react";
 import '../css/AddLaptops.css';
+import axios from 'axios';
 
 const AddLaptops = () => {
-    const [price, setPrice] = useState('');
-    const [description, setDescription] = useState('');
-    const [image, setImage] = useState(null);
 
-    const handleSubmit = (event) => {
+    const [imageFile, setImageFile] = useState(null);
+
+    const [formData, setFormData] = useState({
+        price: '',
+        brand: '',
+        image: '',
+        model: '',
+        specifications: '',
+        stockQuantity: '',
+    });
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleFileChange = (e) => {
+        setImageFile(e.target.files[0]);
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        //api - to backend
-        console.log({
-            price,
-            description,
-            image
-        });
+        const data = new FormData(); 
+        data.append('file', imageFile);
+        data.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+
+        try {
+            const response = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, data);
+            formData.image = response.data.secure_url;
+
+            await axios.post('http://localhost:8080/laptops/create', formData);
+
+        } catch (error) {
+            console.error('Image upload failed:', error);
+        }
     };
 
     return (
@@ -26,17 +51,50 @@ const AddLaptops = () => {
                     <input 
                         type="number" 
                         id="price" 
-                        value={price} 
-                        onChange={(e) => setPrice(e.target.value)} 
+                        name="price"  
+                        value={formData.price} 
+                        onChange={handleInputChange} 
                         required 
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="description">Description:</label>
+                    <label htmlFor="brand">Brand:</label>
+                    <input 
+                        id="brand" 
+                        name="brand"  
+                        value={formData.brand} 
+                        onChange={handleInputChange} 
+                        required 
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="model">Model:</label>
+                    <input 
+                        id="model" 
+                        name="model"  
+                        value={formData.model} 
+                        onChange={handleInputChange} 
+                        required 
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="specifications">Specifications:</label>
                     <textarea 
-                        id="description" 
-                        value={description} 
-                        onChange={(e) => setDescription(e.target.value)} 
+                        id="specifications" 
+                        name="specifications"  
+                        value={formData.specifications} 
+                        onChange={handleInputChange} 
+                        required 
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="stockQuantity">Stock Quantity:</label>
+                    <input 
+                        type="number" 
+                        id="stockQuantity" 
+                        name="stockQuantity"  
+                        value={formData.stockQuantity} 
+                        onChange={handleInputChange} 
                         required 
                     />
                 </div>
@@ -45,7 +103,7 @@ const AddLaptops = () => {
                     <input 
                         type="file" 
                         id="image" 
-                        onChange={(e) => setImage(e.target.files[0])} 
+                        onChange={handleFileChange} 
                         required 
                     />
                 </div>
