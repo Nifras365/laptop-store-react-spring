@@ -16,7 +16,7 @@ const LaptopCard = ({id, image, price, model }) => {
         <Card className="laptop-card">
             <Card.Img variant="top" src={image} className="laptop-card-img" />
             <Card.Body>
-                <Card.Title>Price: ${price}</Card.Title>
+                <Card.Title>Price: {price} LKR</Card.Title>
                 <Card.Text>
                     {model}
                 </Card.Text>
