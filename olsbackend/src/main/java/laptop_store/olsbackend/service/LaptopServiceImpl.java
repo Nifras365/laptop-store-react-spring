@@ -52,5 +52,8 @@ public class LaptopServiceImpl implements LaptopService{
             throw new ItemNotFoundException("Laptop Doesn't exist with !!!");
         }
     }
-
+    @Override
+    public Optional<LaptopDTO> getLaptopById(Long id){
+        return laptopRepository.findById(id).map(laptopMapper::mapToDto);
+    }
 }
