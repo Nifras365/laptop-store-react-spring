@@ -4,14 +4,27 @@ import LaptopCardAdmin from "./LaptopCardAdmin";
 import LaptopData from '../../data/data.json';
 import { useState, useEffect } from "react";
 import { Container,Col, Row } from "react-bootstrap";
+import axios from "axios";
 
 const ManageLaptops = () => {
 
-    const[laptops, setlaptops] = useState([]);
+    const[laptops, setLaptop] = useState([]);
 
-    useEffect(() => {
-        setlaptops(LaptopData.laptops)
-    },[])
+    
+    useEffect(()=>{
+        async function fetchLaptops() {
+            try {
+                const response = await axios.get(
+                    'http://localhost:8080/laptops/get-all'
+                );
+                setLaptop(response.data.data);
+                console.log("Fetched laptops:", response.data);
+            } catch (error) {
+                console.error("Error fetching data : ", error);
+            }
+        }
+        fetchLaptops();
+    },[]);
 
     return(
         <div>
