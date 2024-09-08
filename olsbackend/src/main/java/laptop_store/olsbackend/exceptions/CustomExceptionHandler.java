@@ -18,4 +18,9 @@ public class CustomExceptionHandler {
         ResponseDTO responseDTO1 = new ResponseDTO<>(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDTO1);
     }
+    @ExceptionHandler(ItemNotFoundException.class)
+    public ResponseEntity<ResponseDTO> handleItemNotFoundException(ItemNotFoundException ie){
+        ResponseDTO responseDTO2 = new ResponseDTO<>(HttpStatus.NOT_FOUND.value(), ie.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDTO2);
+    }
 }
