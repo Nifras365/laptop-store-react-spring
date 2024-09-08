@@ -29,4 +29,8 @@ public class LaptopController {
 
         return ResponseEntity.ok(listResponseDTO);
     }
+    @PutMapping("/update-laptop/{id}")
+    public ResponseEntity<ResponseDTO<LaptopDTO>> updateLaptops(@PathVariable Long id, @RequestBody LaptopDTO laptopDTO){
+        return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(), "Laptop updated Successfully !!!", laptopService.updateLaptop(id, laptopDTO)));
+    }
 }
