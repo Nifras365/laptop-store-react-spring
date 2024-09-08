@@ -36,8 +36,8 @@ public class LaptopController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LaptopDTO> getLaptopsById(@PathVariable Long id){
-        Optional<LaptopDTO> laptop = laptopService.getLaptopById(id);
+    public ResponseEntity<LaptopEntity> getLaptopsById(@PathVariable Long id){
+        Optional<LaptopEntity> laptop = laptopService.getLaptopById(id);
         return laptop.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
 }

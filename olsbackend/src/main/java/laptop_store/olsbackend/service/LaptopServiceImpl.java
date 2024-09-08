@@ -53,7 +53,7 @@ public class LaptopServiceImpl implements LaptopService{
         }
     }
     @Override
-    public Optional<LaptopDTO> getLaptopById(Long id){
-        return laptopRepository.findById(id).map(laptopMapper::mapToDto);
+    public Optional<LaptopEntity> getLaptopById(Long id){
+        return laptopRepository.findById(id);
     }
 }

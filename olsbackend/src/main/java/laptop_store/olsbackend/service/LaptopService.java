@@ -10,6 +10,6 @@ public interface LaptopService {
     Long createLaptop(LaptopDTO laptopDTO);
     List<LaptopEntity> getAllLaptops();
     LaptopDTO updateLaptop(Long id, LaptopDTO laptopDTO);
-    Optional<LaptopDTO> getLaptopById(Long id);
+    Optional<LaptopEntity> getLaptopById(Long id);
 
 }
