@@ -1,7 +1,6 @@
 import React from "react";
 import '../css/ManageLaptops.css';
 import LaptopCardAdmin from "./LaptopCardAdmin";
-import LaptopData from '../../data/data.json';
 import { useState, useEffect } from "react";
 import { Container,Col, Row } from "react-bootstrap";
 import axios from "axios";
@@ -37,7 +36,7 @@ const ManageLaptops = () => {
                         <LaptopCardAdmin
                             image={laptop.image}
                             price={laptop.price}
-                            description={laptop.description}
+                            model={laptop.model}
                         />
                     </Col>
                 ))}
