@@ -8,4 +8,6 @@ import java.util.List;
 public interface LaptopService {
     Long createLaptop(LaptopDTO laptopDTO);
     List<LaptopEntity> getAllLaptops();
+    LaptopDTO updateLaptop(Long id, LaptopDTO laptopDTO);
+
 }
