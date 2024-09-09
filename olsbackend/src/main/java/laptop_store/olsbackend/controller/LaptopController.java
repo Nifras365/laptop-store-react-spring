@@ -40,4 +40,9 @@ public class LaptopController {
         Optional<LaptopEntity> laptop = laptopService.getLaptopById(id);
         return laptop.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteLaptops(@PathVariable Long id){
+        laptopService.deleteLaptop(id);
+        return ResponseEntity.noContent().build();
+    }
 }
