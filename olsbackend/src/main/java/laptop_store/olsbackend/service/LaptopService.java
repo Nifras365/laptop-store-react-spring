@@ -11,5 +11,6 @@ public interface LaptopService {
     List<LaptopEntity> getAllLaptops();
     LaptopDTO updateLaptop(Long id, LaptopDTO laptopDTO);
     Optional<LaptopEntity> getLaptopById(Long id);
+    void deleteLaptop(Long id);
 
 }

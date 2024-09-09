@@ -56,4 +56,8 @@ public class LaptopServiceImpl implements LaptopService{
     public Optional<LaptopEntity> getLaptopById(Long id){
         return laptopRepository.findById(id);
     }
+    @Override
+    public void deleteLaptop(Long id){
+        laptopRepository.deleteById(id);
+    }
 }
