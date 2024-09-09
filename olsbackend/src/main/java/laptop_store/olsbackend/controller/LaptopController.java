@@ -34,7 +34,6 @@ public class LaptopController {
     public ResponseEntity<ResponseDTO<LaptopDTO>> updateLaptops(@PathVariable Long id, @RequestBody LaptopDTO laptopDTO){
         return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(), "Laptop updated Successfully !!!", laptopService.updateLaptop(id, laptopDTO)));
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<LaptopEntity> getLaptopsById(@PathVariable Long id){
         Optional<LaptopEntity> laptop = laptopService.getLaptopById(id);
