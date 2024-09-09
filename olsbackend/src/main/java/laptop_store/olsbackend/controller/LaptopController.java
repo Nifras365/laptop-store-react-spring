@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/laptops")
@@ -28,5 +29,20 @@ public class LaptopController {
         ResponseDTO<List<LaptopEntity>> listResponseDTO = new ResponseDTO<>(HttpStatus.OK.value(), "Successfully fetched all data <3", laptopEntities);
 
         return ResponseEntity.ok(listResponseDTO);
+    }
+    @PutMapping("/update-laptop/{id}")
+    public ResponseEntity<ResponseDTO<LaptopDTO>> updateLaptops(@PathVariable Long id, @RequestBody LaptopDTO laptopDTO){
+        return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(), "Laptop updated Successfully !!!", laptopService.updateLaptop(id, laptopDTO)));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<LaptopEntity> getLaptopsById(@PathVariable Long id){
+        Optional<LaptopEntity> laptop = laptopService.getLaptopById(id);
+        return laptop.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
+    }
+    @DeleteMapping("/delete-laptop/{id}")
+    public ResponseEntity<Void> deleteLaptops(@PathVariable Long id){
+        laptopService.deleteLaptop(id);
+        return ResponseEntity.noContent().build();
     }
 }

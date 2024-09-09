@@ -1,18 +1,30 @@
 import React from "react";
 import NavbarBL from "../components/NavbarBL";
 import { useState,useEffect } from "react";
-import LaptopData from '../data/data.json';
 import { Container,Col, Row } from "react-bootstrap";
 import LaptopCard from "../components/LaptopCard";
-import '../pagescss/welcome.css'
+import '../pagescss/welcome.css';
+import axios from "axios";
 
 const Welcome = () => {
 
     const[laptops, setLaptop] = useState([]);
 
-    useEffect(() => {
-        setLaptop(LaptopData.laptops)
-    },[])
+    
+    useEffect(()=>{
+        async function fetchLaptops() {
+            try {
+                const response = await axios.get(
+                    'http://localhost:8080/laptops/get-all'
+                );
+                setLaptop(response.data.data);
+                console.log("Fetched laptops:", response.data);
+            } catch (error) {
+                console.error("Error fetching data : ", error);
+            }
+        }
+        fetchLaptops();
+    },[]);
 
     return(
     <div>
@@ -28,7 +40,7 @@ const Welcome = () => {
                             id = {laptop.id}
                             image={laptop.image}
                             price={laptop.price}
-                            description={laptop.description}
+                            model={laptop.model}
                         />
                     </Col>
                 ))}
