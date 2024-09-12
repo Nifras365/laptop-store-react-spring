@@ -40,6 +40,7 @@ const Cart = () => {
                 {id ? (
                     <div>
                         <CartCard laptop={{ id, image, price, model }} />
+                        <div>
                         <button style={{
                                         position: 'fixed',
                                         bottom: '20px',
@@ -60,6 +61,26 @@ const Cart = () => {
                         >
                             Place Order
                         </button>
+                        <button style={{
+                                        position: 'fixed',
+                                        bottom: '20px',
+                                        left: '950px',
+                                        backgroundColor: 'darkorange',
+                                        color: 'white',
+                                        border: 'none',
+                                        padding: '10px 20px',
+                                        borderRadius: '5px',
+                                        fontSize: '16px',
+                                        cursor: 'pointer',
+                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                        transition: 'background-color 0.3s ease'
+                                    }}
+                                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'orange'}
+                                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'darkorange'}
+                                    >
+                            Add To Cart
+                        </button>
+                        </div>
                     </div>
                 ) : (
                     <h1>No Items</h1>
