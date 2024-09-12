@@ -10,6 +10,7 @@ import laptop_store.olsbackend.repository.LaptopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,5 +36,9 @@ public class CartServiceImpl implements CartService{
         else {
             throw new ItemNotFoundException("Laptop Doesn't exist with given laptop id ");
         }
+    }
+    @Override
+    public List<CartEntity> getAllCartDetails(){
+        return cartRepository.findAll();
     }
 }
