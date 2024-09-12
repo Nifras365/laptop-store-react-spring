@@ -28,6 +28,8 @@ const CartCard = ({ laptop }) => {
         console.log(`Deleting item with id: ${laptop.id}`);
     }
 
+    const totalPrice = (laptop.price * quantity).toFixed();
+
     return(
     <div>
         <Card className="cart-card">
@@ -37,8 +39,9 @@ const CartCard = ({ laptop }) => {
                 </Col>
                 <Col md={6}>
                 <Card.Body>
-                    <Card.Title>Price: ${laptop.price}</Card.Title>
+                    <Card.Title>Price: {laptop.price} LKR</Card.Title>
                     <Card.Text>{laptop.model}</Card.Text>
+                    <Card.Text>Total Price: {totalPrice} LKR</Card.Text>
                 </Card.Body>
                 </Col>
                 <Col>
