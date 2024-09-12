@@ -41,4 +41,8 @@ public class CartServiceImpl implements CartService{
     public List<CartEntity> getAllCartDetails(){
         return cartRepository.findAll();
     }
+    @Override
+    public Optional<CartEntity> getCartDetailsById(Long cartID){
+        return cartRepository.findById(cartID);
+    }
 }
