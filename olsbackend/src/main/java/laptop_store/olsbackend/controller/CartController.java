@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/cart")
@@ -30,5 +31,11 @@ public class CartController {
                 "All Cart details fetched successfully !!!", cartEntities);
 
         return ResponseEntity.ok(listResponseDTO);
+    }
+    @GetMapping("/{cartID}")
+    public ResponseEntity<CartEntity> getCartDetailsByTheId(@PathVariable Long cartID){
+        Optional<CartEntity> cart = cartService.getCartDetailsById(cartID);
+
+        return cart.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
 }
