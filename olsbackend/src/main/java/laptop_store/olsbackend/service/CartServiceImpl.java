@@ -47,7 +47,7 @@ public class CartServiceImpl implements CartService{
     }
     @Override
     public void deleteCartDetails(Long cartID){
-        laptopRepository.deleteById(cartID);
+        cartRepository.deleteById(cartID);
     }
 
 }
