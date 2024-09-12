@@ -37,10 +37,7 @@ const Welcome = () => {
                 {laptops.map((laptop) => (
                     <Col key={laptop.id} md={4}>
                         <LaptopCard
-                            id = {laptop.id}
-                            image={laptop.image}
-                            price={laptop.price}
-                            model={laptop.model}
+                            laptop={laptop}
                         />
                     </Col>
                 ))}
