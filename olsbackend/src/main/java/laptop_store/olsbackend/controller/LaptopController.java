@@ -20,19 +20,22 @@ public class LaptopController {
     private LaptopService laptopService;
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO<Long>> createLaptops(@RequestBody LaptopDTO laptopDTO){
-        return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(), "Laptop added successfully !!!", laptopService.createLaptop(laptopDTO)));
+        return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(),
+                "Laptop added successfully !!!", laptopService.createLaptop(laptopDTO)));
     }
     @GetMapping("/get-all")
     public ResponseEntity<ResponseDTO<List<LaptopEntity>>> getAll(){
         List<LaptopEntity> laptopEntities = laptopService.getAllLaptops();
 
-        ResponseDTO<List<LaptopEntity>> listResponseDTO = new ResponseDTO<>(HttpStatus.OK.value(), "Successfully fetched all data <3", laptopEntities);
+        ResponseDTO<List<LaptopEntity>> listResponseDTO = new ResponseDTO<>(HttpStatus.OK.value(),
+                "Successfully fetched all data <3", laptopEntities);
 
         return ResponseEntity.ok(listResponseDTO);
     }
     @PutMapping("/update-laptop/{id}")
     public ResponseEntity<ResponseDTO<LaptopDTO>> updateLaptops(@PathVariable Long id, @RequestBody LaptopDTO laptopDTO){
-        return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(), "Laptop updated Successfully !!!", laptopService.updateLaptop(id, laptopDTO)));
+        return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(),
+                "Laptop updated Successfully !!!", laptopService.updateLaptop(id, laptopDTO)));
     }
     @GetMapping("/{id}")
     public ResponseEntity<LaptopEntity> getLaptopsById(@PathVariable Long id){
