@@ -10,4 +10,5 @@ public interface CartService {
     Long addToCart(CartDTO cartDTO);
     List<CartEntity> getAllCartDetails();
     Optional<CartEntity> getCartDetailsById(Long cartID);
+    void deleteCartDetails(Long cartID);
 }

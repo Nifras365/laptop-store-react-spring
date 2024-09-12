@@ -45,5 +45,9 @@ public class CartServiceImpl implements CartService{
     public Optional<CartEntity> getCartDetailsById(Long cartID){
         return cartRepository.findById(cartID);
     }
+    @Override
+    public void deleteCartDetails(Long cartID){
+        laptopRepository.deleteById(cartID);
+    }
 
 }
