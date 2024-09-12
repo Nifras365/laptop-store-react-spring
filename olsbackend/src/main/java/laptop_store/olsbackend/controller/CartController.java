@@ -38,4 +38,9 @@ public class CartController {
 
         return cart.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
+    @DeleteMapping("/delete/{cartID}")
+    public ResponseEntity<Void> deleteCartDetail(@PathVariable Long cartID){
+        cartService.deleteCartDetails(cartID);
+        return ResponseEntity.noContent().build();
+    }
 }
