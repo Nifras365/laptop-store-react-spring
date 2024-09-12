@@ -20,7 +20,7 @@ public class CartEntity {
     private Long cartID;
 
     private Long laptopID;
-    private Integer Quantity;
+    private Integer quantity;
     private Long totalPrice;
 
 }

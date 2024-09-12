@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CartDTO {
     private Long laptopID;
-    private Integer Quantity;
+    private Integer quantity;
     private Long totalPrice;
 }
