@@ -5,7 +5,7 @@ import { IoArrowBack } from "react-icons/io5";
 
 const Cart = () => {
     const location =  useLocation();
-    const{id, image, price, description} = location.state || {};
+    const{id, image, price, model} = location.state || {};
     const navigate = useNavigate();
 
     const goBack = () => {
@@ -13,7 +13,7 @@ const Cart = () => {
     }
 
     const placeOrder = () => {
-        const orderDetails = { id, image, price, description };
+        const orderDetails = { id, image, price, model };
 
         navigate("/orders", { state: { orderDetails } });
     }
@@ -38,7 +38,7 @@ const Cart = () => {
             <h1>Your Cart</h1>
                 {id ? (
                     <div>
-                        <CartCard id={id} image={image} price={price} description={description}/>
+                        <CartCard laptop={{ id, image, price, model }} />
                         <button style={{
                                         position: 'fixed',
                                         bottom: '20px',

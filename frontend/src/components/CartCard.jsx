@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 
 
-const CartCard = ({ id, image, price, description }) => {
+const CartCard = ({ laptop }) => {
     const [quantity, setQuantity] = useState(1);
     const [showAlert, setShowAlert] = useState(false);
 
@@ -25,7 +25,7 @@ const CartCard = ({ id, image, price, description }) => {
     }
 
     const deleteCartItem = () => {
-        console.log(`Deleting item with id: ${id}`);
+        console.log(`Deleting item with id: ${laptop.id}`);
     }
 
     return(
@@ -33,12 +33,12 @@ const CartCard = ({ id, image, price, description }) => {
         <Card className="cart-card">
             <Row>
                 <Col md={4}>
-                    <Card.Img src={image} className="cart-card-img"/>
+                    <Card.Img src={laptop.image} className="cart-card-img"/>
                 </Col>
                 <Col md={6}>
                 <Card.Body>
-                    <Card.Title>Price: ${price}</Card.Title>
-                    <Card.Text>{description}</Card.Text>
+                    <Card.Title>Price: ${laptop.price}</Card.Title>
+                    <Card.Text>{laptop.model}</Card.Text>
                 </Card.Body>
                 </Col>
                 <Col>

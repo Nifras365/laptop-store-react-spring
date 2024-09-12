@@ -9,7 +9,7 @@ const LaptopCard = ({laptop}) => {
     const navigate = useNavigate();
 
     const HandleAddToCart = () => {
-        navigate('/cart');
+        navigate('/cart', { state: { id: laptop.id, image: laptop.image, price: laptop.price, model: laptop.model } });
     }
 
     return (
