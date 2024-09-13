@@ -19,6 +19,10 @@ const Cart = () => {
         console.log(orderDetails);
     }
 
+    const handleAddToCart = () =>{
+        console.log("Added to the Cart ")
+    }
+
     return(
         <div>
             <div>
@@ -75,6 +79,7 @@ const Cart = () => {
                                         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                                         transition: 'background-color 0.3s ease'
                                     }}
+                                    onClick={handleAddToCart}
                                     onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'orange'}
                                     onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'darkorange'}
                                     >
