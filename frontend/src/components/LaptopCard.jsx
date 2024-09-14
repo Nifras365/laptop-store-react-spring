@@ -2,6 +2,7 @@ import React from "react";
 import './css/LaptopCard.css';
 import { Card, Row, Col } from "react-bootstrap";
 import { IoCart } from "react-icons/io5";
+import { MdOutlineGridView } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const LaptopCard = ({laptop}) => {
@@ -22,7 +23,7 @@ const LaptopCard = ({laptop}) => {
                 </Card.Text>
                 <Row>
                     <Col>
-                    <IoCart className="iocart" onClick={HandleAddToCart}/>
+                    <MdOutlineGridView className="iocart" onClick={HandleAddToCart}/>
                     </Col>
                     <Col>
                         <button className="buy-now-btn">Buy Now</button>

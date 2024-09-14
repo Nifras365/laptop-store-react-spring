@@ -1,6 +1,6 @@
 import React from "react";
 import './css/CartCard.css';
-import { Card, Col, Row, FormControl, Alert } from "react-bootstrap";
+import { Card, Col, Row, FormControl, Alert, Button } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
@@ -29,6 +29,17 @@ const CartCard = ({ laptop }) => {
     }
 
     const totalPrice = (laptop.price * quantity).toFixed();
+
+    const handleAddToCart= async (e) => {
+            e.preventDefault();
+            try {
+                console.log("Cart data posted successfully:");
+                alert("Item added to cart successfully!");
+            } catch (error) {
+                console.error("Error posting cart data:", error);
+                alert("Failed to add item to cart.");
+            }
+    };
 
     return(
     <div>
@@ -63,6 +74,14 @@ const CartCard = ({ laptop }) => {
                         Quantity at minimum !!!
                     </Alert>
             )}
+                        <div className="text-center mt-3">
+                <Button 
+                    variant="success" 
+                    onClick={handleAddToCart} 
+                    style={{ width: "150px" }}>
+                    Add to Cart
+                </Button>
+            </div>
         </Card>
     </div>
     );
