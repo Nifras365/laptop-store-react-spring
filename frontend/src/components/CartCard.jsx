@@ -4,6 +4,7 @@ import { Card, Col, Row, FormControl, Alert, Button } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
+import axios from "axios";
 
 
 const CartCard = ({ laptop }) => {
@@ -32,8 +33,15 @@ const CartCard = ({ laptop }) => {
 
     const handleAddToCart= async (e) => {
             e.preventDefault();
+
+            const cartData = {
+                laptopID: laptop.id,
+                quantity: quantity,
+                totalPrice: totalPrice
+            }
+
             try {
-                console.log("Cart data posted successfully:");
+                console.log("Cart data posted successfully:", cartData);
                 alert("Item added to cart successfully!");
             } catch (error) {
                 console.error("Error posting cart data:", error);
