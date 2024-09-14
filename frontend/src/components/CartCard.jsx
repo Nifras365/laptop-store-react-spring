@@ -41,7 +41,8 @@ const CartCard = ({ laptop }) => {
             }
 
             try {
-                console.log("Cart data posted successfully:", cartData);
+                const response = axios.post("http://localhost:8080/cart/create", cartData)
+                console.log("Cart data posted successfully:", response);
                 alert("Item added to cart successfully!");
             } catch (error) {
                 console.error("Error posting cart data:", error);
