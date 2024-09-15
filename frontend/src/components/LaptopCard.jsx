@@ -41,6 +41,9 @@ const LaptopCard = ({ laptop }) => {
                     <p><strong>Stock Quantity:</strong> {laptop.stockQuantity}</p>
                 </Modal.Body>
                 <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal} style={{width: '170px'}}>
+                        Add To Cart
+                    </Button>
                     <Button variant="secondary" onClick={handleCloseModal}>
                         Close
                     </Button>
