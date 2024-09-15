@@ -2,12 +2,19 @@ import React, { useState } from "react";
 import './css/LaptopCard.css';
 import { Card, Row, Col, Modal, Button } from "react-bootstrap";
 import { MdOutlineGridView } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const LaptopCard = ({ laptop }) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
+
+    const navigate = useNavigate();
+
+    const HandleAddToCart = () => {
+        navigate('/cart', { state: { id: laptop.id, image: laptop.image, price: laptop.price, model: laptop.model } });
+    }
 
     return (
         <>
@@ -41,7 +48,7 @@ const LaptopCard = ({ laptop }) => {
                     <p><strong>Stock Quantity:</strong> {laptop.stockQuantity}</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal} style={{width: '170px'}}>
+                    <Button variant="secondary" onClick={HandleAddToCart} style={{width: '170px'}}>
                         Add To Cart
                     </Button>
                     <Button variant="secondary" onClick={handleCloseModal}>
