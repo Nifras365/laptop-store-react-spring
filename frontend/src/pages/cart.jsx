@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CartCard from "../components/CartCard";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
@@ -7,6 +7,7 @@ const Cart = () => {
     const location =  useLocation();
     const { id, image, price, model } = location.state || {};
     const navigate = useNavigate();
+    const[cartItems, setCartItems] = useState([]);
 
     const goBack = () => {
         window.history.back();
