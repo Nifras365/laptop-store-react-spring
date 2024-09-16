@@ -9,8 +9,7 @@ import axios from "axios";
 const Welcome = () => {
 
     const[laptops, setLaptop] = useState([]);
-
-    
+   
     useEffect(()=>{
         async function fetchLaptops() {
             try {
@@ -37,10 +36,7 @@ const Welcome = () => {
                 {laptops.map((laptop) => (
                     <Col key={laptop.id} md={4}>
                         <LaptopCard
-                            id = {laptop.id}
-                            image={laptop.image}
-                            price={laptop.price}
-                            model={laptop.model}
+                            laptop={laptop}
                         />
                     </Col>
                 ))}
