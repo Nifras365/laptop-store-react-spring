@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import CartCard from "../components/CartCard";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
+import axios from "axios";
+import FetchedCartCard from "../components/FetchedCartCard";
 
 const Cart = () => {
     const location =  useLocation();
-    const { id, image, price, model } = location.state || {};
     const navigate = useNavigate();
     const[cartItems, setCartItems] = useState([]);
 
@@ -14,10 +14,23 @@ const Cart = () => {
     };
 
     const placeOrder = () => {
-        const orderDetails = { id, image, price, model };
-        navigate("/orders", { state: { orderDetails } });
-        console.log(orderDetails);
+        console.log("orderDetails");
     };
+
+    useEffect(()=>{
+        async function fetchCarts() {
+            try {
+                const response = await axios.get(
+                    'http://localhost:8080/cart/get-all'
+                );
+                setCartItems(response.data.data);
+                console.log("Fetched carts:", response.data.data);
+            } catch (error) {
+                console.error("Error fetching data : ", error);
+            }
+        }
+        fetchCarts();
+    },[]);
 
     return (
         <div>
@@ -39,7 +52,7 @@ const Cart = () => {
             <h1>Your Cart</h1>
             {id ? (
                 <div>
-                    <CartCard laptop={{ id, image, price, model }} />
+                    <FetchedCartCard />
                     <div>
                         <button
                             style={{

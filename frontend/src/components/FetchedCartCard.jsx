@@ -2,13 +2,11 @@ import React from "react";
 import './css/CartCard.css';
 import { Card, Col, Row, FormControl, Alert, Button } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
-import { useState } from "react";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 import axios from "axios";
 
 
 const FetchedCartCard = ({ laptop }) => {
-    const [showAlert, setShowAlert] = useState(false);
 
     const AddQuantity = () => {
         console.log("+")
@@ -50,11 +48,6 @@ const FetchedCartCard = ({ laptop }) => {
                     </div>
                 </Col>
             </Row>
-            {showAlert && (
-                    <Alert className="alert-box" variant="warning" onClose={() => setShowAlert(false)} dismissible>
-                        Quantity at minimum !!!
-                    </Alert>
-            )}
         </Card>
     </div>
     );

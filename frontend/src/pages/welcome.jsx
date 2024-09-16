@@ -9,8 +9,7 @@ import axios from "axios";
 const Welcome = () => {
 
     const[laptops, setLaptop] = useState([]);
-
-    
+   
     useEffect(()=>{
         async function fetchLaptops() {
             try {
