@@ -5,32 +5,55 @@ import axios from "axios";
 import FetchedCartCard from "../components/FetchedCartCard";
 
 const Cart = () => {
-    const location =  useLocation();
+    const location = useLocation();
     const navigate = useNavigate();
-    const[cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
+    const [laptopDetails, setLaptopDetails] = useState({});
 
     const goBack = () => {
         window.history.back();
     };
 
     const placeOrder = () => {
-        console.log("orderDetails");
+        console.log("Order placed!");
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         async function fetchCarts() {
             try {
-                const response = await axios.get(
-                    'http://localhost:8080/cart/get-all'
-                );
+                const response = await axios.get('http://localhost:8080/cart/get-all');
                 setCartItems(response.data.data);
                 console.log("Fetched carts:", response.data.data);
             } catch (error) {
-                console.error("Error fetching data : ", error);
+                console.error("Error fetching cart data: ", error);
             }
         }
+
         fetchCarts();
-    },[]);
+    }, []);
+
+    useEffect(() => {
+        async function fetchLaptopDetails(cartItems) {
+            console.log(cartItems);
+            const laptops = {};
+            for (const item of cartItems) {
+                try {
+                    console.log("items  : ", item);
+                    console.log(item.laptopID)
+                    const response = await axios.get(`http://localhost:8080/laptops/${item.laptopID}`);
+                    laptops[item.laptopID] = response.data;
+                } catch (error) {
+                    console.error("Error fetching laptop data: ", error);
+                }
+            }
+            setLaptopDetails(laptops);
+        }
+    
+        if (cartItems.length > 0) {
+            fetchLaptopDetails(cartItems);
+        }
+    }, [cartItems]);
+    
 
     return (
         <div>
@@ -45,14 +68,21 @@ const Cart = () => {
                         zIndex: 1000,
                         border: 'none',
                         background: 'none',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
                     }}
                 />
             </div>
             <h1>Your Cart</h1>
-            {id ? (
+            {cartItems.length > 0 ? (
                 <div>
-                    <FetchedCartCard />
+                    {cartItems.map((cartItem) => (
+                        <FetchedCartCard
+                            key={cartItem.cartID}
+                            laptop={laptopDetails[cartItem.laptopID]}
+                            totalPrice={cartItem.totalPrice}
+                            quantity={cartItem.quantity}
+                        />
+                    ))}
                     <div>
                         <button
                             style={{
@@ -67,7 +97,7 @@ const Cart = () => {
                                 fontSize: '16px',
                                 cursor: 'pointer',
                                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                                transition: 'background-color 0.3s ease'
+                                transition: 'background-color 0.3s ease',
                             }}
                             onClick={placeOrder}
                             onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#218838'}
