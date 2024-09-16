@@ -1,29 +1,16 @@
 import React from "react";
-import './css/CartCard.css';
-import { Card, Col, Row, FormControl, Button } from "react-bootstrap";
+import { Card, Col, Row, FormControl } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 
-const FetchedCartCard = ({ laptop, totalPrice, quantity }) => {
-
-    const AddQuantity = () => {
-        console.log("+");
-    };
-
-    const DecreaseQuantity = () => {
-        console.log("-");
-    };
-
-    const deleteCartItem = () => {
-        console.log(`Deleting item with id: ${laptop.id}`);
-    };
+const FetchedCartCard = ({ laptop, totalPrice, quantity, deleteCartItem }) => {
 
     return (
         <div>
             <Card className="cart-card">
                 <Row>
                     <Col md={4}>
-                        <Card.Img src={laptop?.image} className="cart-card-img" alt="Laptop Image"/>
+                        <Card.Img src={laptop?.image} className="cart-card-img" />
                     </Col>
                     <Col md={6}>
                         <Card.Body>
@@ -33,16 +20,16 @@ const FetchedCartCard = ({ laptop, totalPrice, quantity }) => {
                         </Card.Body>
                     </Col>
                     <Col>
-                        <MdDelete className="delete-icon" onClick={deleteCartItem}/>
+                        <MdDelete className="delete-icon" onClick={deleteCartItem} />
                         <div className="quantity-controls">
-                            <FaCircleMinus className="minus-icon" onClick={DecreaseQuantity}/>
+                            <FaCircleMinus className="minus-icon" />
                             <FormControl
                                 type="text"
                                 className="form-control-cart"
                                 value={quantity}
                                 readOnly
                             />
-                            <FaCirclePlus className="plus-icon" onClick={AddQuantity}/>
+                            <FaCirclePlus className="plus-icon" />
                         </div>
                     </Col>
                 </Row>
