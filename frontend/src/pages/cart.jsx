@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import axios from "axios";
 import FetchedCartCard from "../components/FetchedCartCard";
 
 const Cart = () => {
-    const location = useLocation();
     const navigate = useNavigate();
     const [cartItems, setCartItems] = useState([]);
     const [laptopDetails, setLaptopDetails] = useState({});
@@ -16,6 +15,17 @@ const Cart = () => {
 
     const placeOrder = () => {
         console.log("Order placed!");
+        navigate('/orders');
+    };
+
+    const deleteCartItem = async (cartID) => {
+        try {
+            const response = await axios.delete(`http://localhost:8080/cart/delete/${cartID}`);
+            console.log(`Item with cartID ${cartID} deleted successfully:`, response.data);
+            setCartItems(cartItems.filter(item => item.cartID !== cartID)); 
+        } catch (error) {
+            console.error("Error deleting cart item:", error);
+        }
     };
 
     useEffect(() => {
@@ -34,12 +44,9 @@ const Cart = () => {
 
     useEffect(() => {
         async function fetchLaptopDetails(cartItems) {
-            console.log(cartItems);
             const laptops = {};
             for (const item of cartItems) {
                 try {
-                    console.log("items  : ", item);
-                    console.log(item.laptopID)
                     const response = await axios.get(`http://localhost:8080/laptops/${item.laptopID}`);
                     laptops[item.laptopID] = response.data;
                 } catch (error) {
@@ -53,7 +60,6 @@ const Cart = () => {
             fetchLaptopDetails(cartItems);
         }
     }, [cartItems]);
-    
 
     return (
         <div>
@@ -81,6 +87,7 @@ const Cart = () => {
                             laptop={laptopDetails[cartItem.laptopID]}
                             totalPrice={cartItem.totalPrice}
                             quantity={cartItem.quantity}
+                            deleteCartItem={() => deleteCartItem(cartItem.cartID)} 
                         />
                     ))}
                     <div>
