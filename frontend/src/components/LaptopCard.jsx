@@ -13,8 +13,8 @@ const LaptopCard = ({ laptop }) => {
     const navigate = useNavigate();
 
     const viewInCart = () => {
-        navigate('/cart', { state: { id: laptop.id, image: laptop.image, price: laptop.price, model: laptop.model } });
-    }
+        navigate('/addToCart', { state: { id: laptop.id, image: laptop.image, price: laptop.price, model: laptop.model } });
+    };
 
     return (
         <>
