@@ -1,7 +1,6 @@
 import React from "react";
 import './css/CartCard.css';
 import { Card, Col, Row, FormControl, Alert, Button } from "react-bootstrap";
-import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 import axios from "axios";
@@ -24,31 +23,28 @@ const CartCard = ({ laptop }) => {
             setShowAlert(true);
         }
     }
-
-    const deleteCartItem = () => {
-        console.log(`Deleting item with id: ${laptop.id}`);
-    }
-
+    
     const totalPrice = (laptop.price * quantity).toFixed();
 
-    const handleAddToCart= async (e) => {
-            e.preventDefault();
-
-            const cartData = {
-                laptopID: laptop.id,
-                quantity: quantity,
-                totalPrice: totalPrice
-            }
-
-            try {
-                const response = axios.post("http://localhost:8080/cart/create", cartData)
-                console.log("Cart data posted successfully:", response);
-                alert("Item added to cart successfully!");
-            } catch (error) {
-                console.error("Error posting cart data:", error);
-                alert("Failed to add item to cart.");
-            }
+    const handleAddToCart = async (e) => {
+        e.preventDefault();
+    
+        const cartData = {
+            laptopID: laptop.id,
+            quantity: quantity,
+            totalPrice: totalPrice
+        }
+    
+        try {
+            const response = await axios.post("http://localhost:8080/cart/create", cartData);
+            console.log("Cart data posted successfully:", response);
+            alert("Item added to cart successfully!");
+        } catch (error) {
+            console.error("Error posting cart data:", error);
+            alert("Failed to add item to cart.");
+        }
     };
+    
 
     return(
     <div>
@@ -65,7 +61,6 @@ const CartCard = ({ laptop }) => {
                 </Card.Body>
                 </Col>
                 <Col>
-                    <MdDelete className="delete-icon" onClick={deleteCartItem}/>
                     <div className="quantity-controls">
                         <FaCircleMinus className="minus-icon" onClick={DecreaseQuantity}/>
                             <FormControl
