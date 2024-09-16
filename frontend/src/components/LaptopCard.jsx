@@ -12,7 +12,7 @@ const LaptopCard = ({ laptop }) => {
 
     const navigate = useNavigate();
 
-    const HandleAddToCart = () => {
+    const viewInCart = () => {
         navigate('/cart', { state: { id: laptop.id, image: laptop.image, price: laptop.price, model: laptop.model } });
     }
 
@@ -48,8 +48,8 @@ const LaptopCard = ({ laptop }) => {
                     <p><strong>Stock Quantity:</strong> {laptop.stockQuantity}</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={HandleAddToCart} style={{width: '170px'}}>
-                        Add To Cart
+                    <Button variant="secondary" onClick={viewInCart} style={{width: '170px'}}>
+                        View in Cart
                     </Button>
                     <Button variant="secondary" onClick={handleCloseModal}>
                         Close
