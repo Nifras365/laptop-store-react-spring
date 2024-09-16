@@ -1,5 +1,6 @@
 import CartCard from "../components/CartCard";
 import React from "react";
+import { IoArrowBack } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const AddToCart = () => {
@@ -14,8 +15,27 @@ const AddToCart = () => {
         console.log("orderDetails");
     };
 
+    const goBack = () => {
+        window.history.back();
+    };
+
     return (
             <div>
+                <div>
+                    <IoArrowBack
+                        size={25}
+                        onClick={goBack}
+                        style={{
+                            position: 'absolute',
+                            top: '20px',
+                            left: '20px',
+                            zIndex: 1000,
+                            border: 'none',
+                            background: 'none',
+                            cursor: 'pointer',
+                        }}
+                    />
+                </div>
             <h1>Your Cart</h1>
             {id ? (
                 <div>
