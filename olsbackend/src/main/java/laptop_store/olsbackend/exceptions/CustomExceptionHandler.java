@@ -15,12 +15,16 @@ public class CustomExceptionHandler {
     }
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ResponseDTO> handleUnauthorizedException(UnauthorizedException e){
-        ResponseDTO responseDTO1 = new ResponseDTO<>(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
+        ResponseDTO responseDTO1 = new ResponseDTO(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDTO1);
     }
     @ExceptionHandler(ItemNotFoundException.class)
     public ResponseEntity<ResponseDTO> handleItemNotFoundException(ItemNotFoundException ie){
-        ResponseDTO responseDTO2 = new ResponseDTO<>(HttpStatus.NOT_FOUND.value(), ie.getMessage());
+        ResponseDTO responseDTO2 = new ResponseDTO(HttpStatus.NOT_FOUND.value(), ie.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDTO2);
+    }
+    @ExceptionHandler(OutOfRangeException.class)
+    public ResponseEntity<ResponseDTO> handleOutOfRangeException(OutOfRangeException oe){
+        ResponseDTO responseDTO3 = new ResponseDTO(HttpStatus.BAD_REQUEST.value(), oe.getMessage());
     }
 }
