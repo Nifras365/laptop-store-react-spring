@@ -16,6 +16,10 @@ const LaptopCard = ({ laptop }) => {
         navigate('/addToCart', { state: { id: laptop.id, image: laptop.image, price: laptop.price, model: laptop.model } });
     };
 
+    const buyNow = () =>{
+        navigate('/addToCart', { state: { id: laptop.id, image: laptop.image, price: laptop.price, model: laptop.model } });
+    }
+
     return (
         <>
             <Card className="laptop-card">
@@ -30,7 +34,7 @@ const LaptopCard = ({ laptop }) => {
                             <MdOutlineGridView className="iocart" onClick={handleShowModal} />
                         </Col>
                         <Col>
-                            <button className="buy-now-btn">Buy Now</button>
+                            <button className="buy-now-btn" onClick={buyNow}>Buy Now</button>
                         </Col>
                     </Row>
                 </Card.Body>
