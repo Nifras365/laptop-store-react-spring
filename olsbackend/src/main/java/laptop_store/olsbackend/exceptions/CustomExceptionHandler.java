@@ -26,5 +26,6 @@ public class CustomExceptionHandler {
     @ExceptionHandler(OutOfRangeException.class)
     public ResponseEntity<ResponseDTO> handleOutOfRangeException(OutOfRangeException oe){
         ResponseDTO responseDTO3 = new ResponseDTO(HttpStatus.BAD_REQUEST.value(), oe.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO3);
     }
 }

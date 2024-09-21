@@ -26,7 +26,7 @@ public class CartServiceImpl implements CartService{
     public Long addToCart(CartDTO cartDTO){
 
         Optional<LaptopEntity> laptopAvailability = laptopRepository.findById(cartDTO.getLaptopID());
-        
+
         if (laptopAvailability.isPresent()){
 
             LaptopEntity laptop = laptopAvailability.get();
