@@ -13,7 +13,7 @@ const Cart = () => {
         window.history.back();
     };
 
-    const placeOrder = () => {
+    const ProceedToCheckout = () => {
         console.log("Order placed!");
         navigate('/orders');
     };
@@ -106,11 +106,11 @@ const Cart = () => {
                                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                                 transition: 'background-color 0.3s ease',
                             }}
-                            onClick={placeOrder}
+                            onClick={ProceedToCheckout}
                             onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#218838'}
                             onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#28a745'}
                         >
-                            Place Order
+                            Proceed to checkout
                         </button>
                     </div>
                 </div>

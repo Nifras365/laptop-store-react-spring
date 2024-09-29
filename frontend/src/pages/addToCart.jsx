@@ -8,7 +8,7 @@ const AddToCart = () => {
     const { id, image, price, model } = location.state || {};
     const navigate = useNavigate();
 
-    const placeOrder = () => {
+    const proceedToCheckOut = () => {
         const orderDetails = { id, image, price, model };
         navigate("/orders", { state: { orderDetails } });
         console.log(orderDetails);
@@ -56,11 +56,11 @@ const AddToCart = () => {
                                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                                 transition: 'background-color 0.3s ease'
                             }}
-                            onClick={placeOrder}
+                            onClick={proceedToCheckOut}
                             onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#218838'}
                             onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#28a745'}
                         >
-                            Place Order
+                            Proceed to checkout
                         </button>
                     </div>
                 </div>
