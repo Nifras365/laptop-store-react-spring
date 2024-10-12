@@ -9,19 +9,19 @@ const Orders = () => {
     return (
         <div>
             <h1>Your Orders</h1>
-            {orderDetails && orderDetails.length > 0 ? (
-                orderDetails.map((order, index) => (
-                    <div key={index} className="order-card">
-                        <h2>Order Details</h2>
-                        <p><strong>ID:</strong> {order.id}</p>
-                        <p><strong>Price:</strong> ${order.price}</p>
-                        <p><strong>Description:</strong> {order.description}</p>
-                        <img src={order.image} alt={order.description} className="order-image" />
-                    </div>
-                ))
-            ) : (
-                <p>No orders placed.</p>
-            )}
+                {orderDetails && orderDetails.length > 0 ? (
+                    orderDetails.map((order, index) => (
+                        <div key={index} className="order-card">
+                            <h2>Order Details</h2>
+                            <p><strong>ID:</strong> {order.id}</p>
+                            <p><strong>Price:</strong> ${order.price}</p>
+                            <p><strong>Description:</strong> {order.description}</p>
+                            <img src={order.image} alt={order.description} className="order-image" />
+                        </div>
+                    ))
+                ) : (
+                    <p>No orders placed.</p>
+                )}
         </div>
     );
 }
