@@ -20,7 +20,7 @@ public class OrdersEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long OrderId;
-    
+
     private Long UserID;
     private Map<String, Integer> orderItems;
     private Long FinalPrice;
