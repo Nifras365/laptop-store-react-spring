@@ -1,4 +1,7 @@
 package laptop_store.olsbackend.service;
 
-public class OrdersServiceImpl {
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrdersServiceImpl implements OrdersService{
 }
