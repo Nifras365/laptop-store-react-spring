@@ -7,6 +7,9 @@ import laptop_store.olsbackend.repository.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class OrdersServiceImpl implements OrdersService{
     @Autowired
@@ -15,9 +18,14 @@ public class OrdersServiceImpl implements OrdersService{
     private OrdersMapper ordersMapper;
     @Override
     public Long createOrder(OrderDTO orderDTO){
-        return ordersRepository.save(OrdersEntity.builder()
-                .UserID(orderDTO.getUserID())
-                .orderItems(orderDTO.getOrderItems())
-                .FinalPrice(orderDTO.getFinalPrice()).build()).getOrderId();
+        OrdersEntity ordersEntity = ordersMapper.mapToEntity(orderDTO);
+
+        return ordersRepository.save(ordersEntity).getOrderId();
+    }
+    @Override
+    public List<OrderDTO> getAllOrders(){
+        return ordersRepository.findAll().stream()
+                .map(ordersMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 }
