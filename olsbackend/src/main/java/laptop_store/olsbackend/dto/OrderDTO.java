@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -13,6 +14,6 @@ import java.util.Map;
 @Builder
 public class OrderDTO {
     private Long UserID;
-    private Map<String, Integer> orderItems;
+    private List<OrderItemDTO> orderItemDTOS;
     private Long FinalPrice;
 }
