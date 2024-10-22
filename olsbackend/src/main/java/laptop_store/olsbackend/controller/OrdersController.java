@@ -18,8 +18,11 @@ public class OrdersController {
     private OrdersService ordersService;
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO<Long>> createOrder(@RequestBody OrderDTO orderDTO){
+
+        Long order = ordersService.createOrder(orderDTO);
+
         return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(),
-                "Order Placed Successfully!!!"));
+                "Order Placed Successfully!!!", order));
     }
 
     @GetMapping("/get-all")

@@ -18,9 +18,10 @@ public class OrdersServiceImpl implements OrdersService{
     private OrdersMapper ordersMapper;
     @Override
     public Long createOrder(OrderDTO orderDTO){
-        OrdersEntity ordersEntity = ordersMapper.mapToEntity(orderDTO);
-
-        return ordersRepository.save(ordersEntity).getOrderId();
+        return ordersRepository.save(OrdersEntity.builder()
+                .UserID(orderDTO.getUserID())
+                .orderItemEntities(ordersMapper.mapOrderItemToEntity(orderDTO.getOrderItemDTOS()))
+                .FinalPrice(orderDTO.getFinalPrice()).build()).getOrderId();
     }
     @Override
     public List<OrderDTO> getAllOrders(){
