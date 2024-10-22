@@ -6,7 +6,6 @@ import laptop_store.olsbackend.entity.OrderItemEntity;
 import laptop_store.olsbackend.entity.OrdersEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.TargetType;
 
 import java.util.List;
 
@@ -14,8 +13,12 @@ import java.util.List;
 public interface OrdersMapper {
 
     @Mapping(target = "orderItemDTOS", source = "orderItemEntities")
+    @Mapping(source = "userID", target = "userID")
+    @Mapping(source = "finalPrice", target = "finalPrice")
     OrderDTO mapToDto(OrdersEntity ordersEntity);
     @Mapping(target = "orderItemEntities", source = "orderItemDTOS")
+    @Mapping(source = "userID", target = "userID")
+    @Mapping(source = "finalPrice", target = "finalPrice")
     OrdersEntity mapToEntity(OrderDTO orderDTO);
 
     OrderItemDTO mapToDto(OrderItemEntity orderItemEntity);
