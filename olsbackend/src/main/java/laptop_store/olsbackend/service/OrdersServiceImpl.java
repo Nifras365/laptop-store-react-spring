@@ -1,6 +1,7 @@
 package laptop_store.olsbackend.service;
 
 import laptop_store.olsbackend.dto.OrderDTO;
+import laptop_store.olsbackend.entity.OrderItemEntity;
 import laptop_store.olsbackend.entity.OrdersEntity;
 import laptop_store.olsbackend.mapper.OrdersMapper;
 import laptop_store.olsbackend.repository.OrdersRepository;
@@ -17,12 +18,27 @@ public class OrdersServiceImpl implements OrdersService{
     @Autowired
     private OrdersMapper ordersMapper;
     @Override
-    public Long createOrder(OrderDTO orderDTO){
-        return ordersRepository.save(OrdersEntity.builder()
-                .UserID(orderDTO.getUserID())
-                .orderItemEntities(ordersMapper.mapOrderItemToEntity(orderDTO.getOrderItemDTOS()))
-                .FinalPrice(orderDTO.getFinalPrice()).build()).getOrderId();
+    public Long createOrder(OrderDTO orderDTO) {
+        if (orderDTO.getOrderItemDTOS() == null || orderDTO.getOrderItemDTOS().isEmpty()) {
+            throw new IllegalArgumentException("Order items cannot be null or empty");
+        }
+
+        OrdersEntity ordersEntity = OrdersEntity.builder()
+                .userID(orderDTO.getUserID())
+                .finalPrice(orderDTO.getFinalPrice())
+                .build();
+
+        List<OrderItemEntity> orderItemEntities = ordersMapper.mapOrderItemToEntity(orderDTO.getOrderItemDTOS());
+
+        if (orderItemEntities != null) {
+            orderItemEntities.forEach(orderItem -> orderItem.setOrder(ordersEntity));
+        }
+
+        ordersEntity.setOrderItemEntities(orderItemEntities);
+
+        return ordersRepository.save(ordersEntity).getOrderId();
     }
+
     @Override
     public List<OrderDTO> getAllOrders(){
         return ordersRepository.findAll().stream()
