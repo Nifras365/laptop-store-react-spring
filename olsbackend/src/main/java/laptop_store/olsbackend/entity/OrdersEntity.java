@@ -19,8 +19,8 @@ public class OrdersEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long OrderId;
 
-    private Long UserID;
-    private Long FinalPrice;
+    private Long userID;
+    private Long finalPrice;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItemEntity> orderItemEntities;

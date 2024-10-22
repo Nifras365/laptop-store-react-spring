@@ -16,7 +16,7 @@ public class OrderItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderItemId;
     private String title;
-    private String quantity;
+    private Long quantity;
     @ManyToOne
     private OrdersEntity order;
 }
