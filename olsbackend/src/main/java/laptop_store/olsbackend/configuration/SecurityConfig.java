@@ -13,8 +13,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/").hasRole("USER")
-                        .requestMatchers("/").authenticated()
+                        .requestMatchers("/cart/create").hasRole("USER")
+                        .requestMatchers("/laptops/create").authenticated()
                         .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
