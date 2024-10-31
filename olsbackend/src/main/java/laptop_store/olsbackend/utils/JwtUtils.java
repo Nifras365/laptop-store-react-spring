@@ -13,7 +13,8 @@ public class JwtUtils {
     @Value("${spring.security.oauth2.resourceserver.jwt.secret-key}")
     private String jwtSecret;
 
-    public String generateToken(String email, Map<String, Object> claims){
+    public String generateToken(String email, Map<String, Object> claims, String role){
+        claims.put("role", role);
         return Jwts.builder()
                 .claims(claims)
                 .subject(email)
