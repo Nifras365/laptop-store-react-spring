@@ -1,5 +1,6 @@
 package laptop_store.olsbackend.service;
 
+import jakarta.annotation.PostConstruct;
 import laptop_store.olsbackend.dto.UsersDTO;
 import laptop_store.olsbackend.entity.UsersEntity;
 import laptop_store.olsbackend.exceptions.ItemAlreadyExistsException;
@@ -18,7 +19,7 @@ public class UsersServiceImpl implements UsersService{
     @Autowired
     private UsersMapper usersMapper;
 
-    @Override
+    @PostConstruct
     public void createAdminIfNotExist(){
         Optional<UsersEntity> adminCheck = usersRepository.findByRole("ADMIN");
 
