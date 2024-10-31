@@ -29,8 +29,20 @@ const Login = () => {
                 }),
             });
             if(response.ok){
-                console.log("Login Successful !!!");
-                navigate('/')
+                const data = await response.json();
+
+                const {tokan, role} = data.data;
+
+                if (role === "ADMIN") {
+                    localStorage.setItem('userRole', 'ADMIN');
+                    localStorage.setItem('tokan', tokan);
+                } else{
+                    localStorage.setItem('userRole', 'USER');
+                    localStorage.setItem('tokan', tokan);
+                }
+
+                console.log("Login successful !!!");
+                navigate('/');
             }
             else{
                 console.error("Failed to login : ", response.status, response.statusText);
