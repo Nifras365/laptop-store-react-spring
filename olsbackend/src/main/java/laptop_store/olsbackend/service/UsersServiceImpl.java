@@ -17,6 +17,22 @@ public class UsersServiceImpl implements UsersService{
     private UsersRepository usersRepository;
     @Autowired
     private UsersMapper usersMapper;
+
+    @Override
+    public void createAdminIfNotExist(){
+        Optional<UsersEntity> adminCheck = usersRepository.findByRole("ADMIN");
+
+        if (adminCheck.isEmpty()){
+            UsersEntity admin = UsersEntity.builder()
+                    .email("admin@gmail.com")
+                    .password("")
+                    .name("Admin")
+                    .role("ADMIN")
+                    .build();
+            usersRepository.save(admin);
+        }
+    }
+
     @Override
     public Long createUser(UsersDTO usersDTO){
 
