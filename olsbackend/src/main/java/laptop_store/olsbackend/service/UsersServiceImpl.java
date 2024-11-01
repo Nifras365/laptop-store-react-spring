@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import laptop_store.olsbackend.dto.UsersDTO;
 import laptop_store.olsbackend.entity.UsersEntity;
 import laptop_store.olsbackend.exceptions.ItemAlreadyExistsException;
+import laptop_store.olsbackend.exceptions.ItemNotFoundException;
 import laptop_store.olsbackend.exceptions.UnauthorizedException;
 import laptop_store.olsbackend.mapper.UsersMapper;
 import laptop_store.olsbackend.repository.UsersRepository;
@@ -59,5 +60,14 @@ public class UsersServiceImpl implements UsersService{
     }
     public Optional<UsersDTO> findByEmail(String email){
         return usersRepository.findByEmail(email).map(usersMapper::mapToDto);
+    }
+    public Optional<String> findRole(String email){
+        Optional<UsersEntity> existingUser = usersRepository.findByEmail(email);
+        if (existingUser.isPresent()){
+            return Optional.of(existingUser.get().getRole());
+        }
+        else {
+            throw new ItemNotFoundException("User doesn't exist with this email !!!");
+        }
     }
 }

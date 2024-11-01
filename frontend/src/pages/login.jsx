@@ -31,14 +31,16 @@ const Login = () => {
             if(response.ok){
                 const data = await response.json();
 
-                const {tokan, role} = data.data;
+                console.log("API Response: ", data.data); 
+
+                const {token, role} = data.data;
 
                 if (role === "ADMIN") {
                     localStorage.setItem('userRole', 'ADMIN');
-                    localStorage.setItem('tokan', tokan);
+                    localStorage.setItem('token', token);
                 } else{
                     localStorage.setItem('userRole', 'USER');
-                    localStorage.setItem('tokan', tokan);
+                    localStorage.setItem('token', token);
                 }
 
                 console.log("Login successful !!!");

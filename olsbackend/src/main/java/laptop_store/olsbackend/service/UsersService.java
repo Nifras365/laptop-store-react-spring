@@ -8,5 +8,5 @@ public interface UsersService {
     Long createUser(UsersDTO usersDTO);
     Optional<UsersDTO> findByEmail(String email);
     void createAdminIfNotExist();
-
+    Optional<String> findRole(String email);
 }
