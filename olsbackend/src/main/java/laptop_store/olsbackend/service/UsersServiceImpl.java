@@ -52,7 +52,9 @@ public class UsersServiceImpl implements UsersService{
                 .confirmPassword(usersDTO.getConfirmPassword())
                 .phone(usersDTO.getPhone())
                 .address(usersDTO.getAddress())
-                .country(usersDTO.getCountry()).build()).getUserId();
+                .country(usersDTO.getCountry())
+                .role("USER")
+                .build()).getUserId();
 
     }
     public Optional<UsersDTO> findByEmail(String email){
