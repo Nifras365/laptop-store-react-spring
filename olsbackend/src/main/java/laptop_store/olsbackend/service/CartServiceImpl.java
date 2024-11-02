@@ -4,6 +4,7 @@ import laptop_store.olsbackend.dto.CartDTO;
 import laptop_store.olsbackend.entity.CartEntity;
 import laptop_store.olsbackend.entity.LaptopEntity;
 import laptop_store.olsbackend.exceptions.ItemNotFoundException;
+import laptop_store.olsbackend.exceptions.OutOfRangeException;
 import laptop_store.olsbackend.mapper.CartMapper;
 import laptop_store.olsbackend.repository.CartRepository;
 import laptop_store.olsbackend.repository.LaptopRepository;
@@ -27,6 +28,13 @@ public class CartServiceImpl implements CartService{
         Optional<LaptopEntity> laptopAvailability = laptopRepository.findById(cartDTO.getLaptopID());
 
         if (laptopAvailability.isPresent()){
+
+            LaptopEntity laptop = laptopAvailability.get();
+
+            if (laptop.getStockQuantity() < cartDTO.getQuantity()){
+                throw new OutOfRangeException("Requested quantity exceeds available stock !!!");
+            }
+
             return cartRepository.save(CartEntity.builder()
                     .laptopID(cartDTO.getLaptopID())
                     .quantity(cartDTO.getQuantity())

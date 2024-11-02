@@ -17,7 +17,7 @@ const Welcome = () => {
                     'http://localhost:8080/laptops/get-all'
                 );
                 setLaptop(response.data.data);
-                console.log("Fetched laptops:", response.data);
+                console.log("Fetched laptops:", response.data.data);
             } catch (error) {
                 console.error("Error fetching data : ", error);
             }

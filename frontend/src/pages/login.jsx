@@ -29,8 +29,22 @@ const Login = () => {
                 }),
             });
             if(response.ok){
-                console.log("Login Successful !!!");
-                navigate('/')
+                const data = await response.json();
+
+                console.log("API Response: ", data.data); 
+
+                const {token, role} = data.data;
+
+                if (role === "ADMIN") {
+                    localStorage.setItem('userRole', 'ADMIN');
+                    localStorage.setItem('token', token);
+                } else{
+                    localStorage.setItem('userRole', 'USER');
+                    localStorage.setItem('token', token);
+                }
+
+                console.log("Login successful !!!");
+                navigate('/');
             }
             else{
                 console.error("Failed to login : ", response.status, response.statusText);

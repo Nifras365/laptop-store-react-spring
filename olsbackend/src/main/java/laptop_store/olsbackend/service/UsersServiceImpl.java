@@ -1,8 +1,10 @@
 package laptop_store.olsbackend.service;
 
+import jakarta.annotation.PostConstruct;
 import laptop_store.olsbackend.dto.UsersDTO;
 import laptop_store.olsbackend.entity.UsersEntity;
 import laptop_store.olsbackend.exceptions.ItemAlreadyExistsException;
+import laptop_store.olsbackend.exceptions.ItemNotFoundException;
 import laptop_store.olsbackend.exceptions.UnauthorizedException;
 import laptop_store.olsbackend.mapper.UsersMapper;
 import laptop_store.olsbackend.repository.UsersRepository;
@@ -17,6 +19,22 @@ public class UsersServiceImpl implements UsersService{
     private UsersRepository usersRepository;
     @Autowired
     private UsersMapper usersMapper;
+
+    @PostConstruct
+    public void createAdminIfNotExist(){
+        Optional<UsersEntity> adminCheck = usersRepository.findByRole("ADMIN");
+
+        if (adminCheck.isEmpty()){
+            UsersEntity admin = UsersEntity.builder()
+                    .email("admin@gmail.com")
+                    .password("")
+                    .name("Admin")
+                    .role("ADMIN")
+                    .build();
+            usersRepository.save(admin);
+        }
+    }
+
     @Override
     public Long createUser(UsersDTO usersDTO){
 
@@ -35,10 +53,21 @@ public class UsersServiceImpl implements UsersService{
                 .confirmPassword(usersDTO.getConfirmPassword())
                 .phone(usersDTO.getPhone())
                 .address(usersDTO.getAddress())
-                .country(usersDTO.getCountry()).build()).getUserId();
+                .country(usersDTO.getCountry())
+                .role("USER")
+                .build()).getUserId();
 
     }
     public Optional<UsersDTO> findByEmail(String email){
         return usersRepository.findByEmail(email).map(usersMapper::mapToDto);
+    }
+    public Optional<String> findRole(String email){
+        Optional<UsersEntity> existingUser = usersRepository.findByEmail(email);
+        if (existingUser.isPresent()){
+            return Optional.of(existingUser.get().getRole());
+        }
+        else {
+            throw new ItemNotFoundException("User doesn't exist with this email !!!");
+        }
     }
 }
