@@ -8,6 +8,7 @@ import Dashboard from './admin/Dashboard';
 import Orders from './pages/Orders';
 import AddToCart from './pages/addToCart';
 import ProtectedAdminRoute from './routes/ProtectedAdminRoute';
+import ProtectedUserRoute from './routes/ProtectedUserRoute';
 
 function App() {
   return (
@@ -17,10 +18,10 @@ function App() {
           <Route index element={<Welcome/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
-          <Route path='/cart' element={<Cart/>}/>
+          <Route path='/cart' element={<ProtectedUserRoute><Cart/></ProtectedUserRoute>}/>
           <Route path='/admin/dashboard' element={<ProtectedAdminRoute> <Dashboard/> </ProtectedAdminRoute>}/>
-          <Route path='/orders' element={<Orders/>}/>
-          <Route path='/addToCart'element={<AddToCart/>}/>
+          <Route path='/orders' element={<ProtectedUserRoute><Orders/></ProtectedUserRoute>}/>
+          <Route path='/addToCart'element={<ProtectedUserRoute><AddToCart/></ProtectedUserRoute>}/>
         </Routes>
       </BrowserRouter>
     </div>

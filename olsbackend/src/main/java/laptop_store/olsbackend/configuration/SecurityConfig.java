@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
                         .requestMatchers("/laptops/create", "/laptops/update-laptop/", "/laptops/delete-laptop/**").hasRole("ADMIN")
                         .requestMatchers("/orders/get-all").hasRole("ADMIN")
-                        .requestMatchers("/cart/create", "/cart/delete/**").hasRole("USER")
+                        .requestMatchers("/cart/create", "/cart/delete").hasRole("USER")
                         .requestMatchers("/laptops/get-all").permitAll()
                         .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
