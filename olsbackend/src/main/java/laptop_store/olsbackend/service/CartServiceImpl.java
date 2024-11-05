@@ -60,7 +60,13 @@ public class CartServiceImpl implements CartService{
     }
     @Override
     public List<CartEntity> getCartItemsByUserID(Long userID){
-        return cartRepository.findByUserID(userID);
+        List<CartEntity> cartEntities = cartRepository.findByUserID(userID);
+
+        if (cartEntities.isEmpty()){
+            throw new ItemNotFoundException("No carts found for the given user ID.");
+        }
+
+        return cartEntities;
     }
 
 }
