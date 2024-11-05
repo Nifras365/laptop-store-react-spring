@@ -36,9 +36,11 @@ public class CartServiceImpl implements CartService{
             }
 
             return cartRepository.save(CartEntity.builder()
+                    .userID(cartDTO.getUserID())
                     .laptopID(cartDTO.getLaptopID())
                     .quantity(cartDTO.getQuantity())
-                    .totalPrice(cartDTO.getTotalPrice()).build()).getCartID();
+                    .totalPrice(cartDTO.getTotalPrice())
+                    .build()).getCartID();
         }
         else {
             throw new ItemNotFoundException("Laptop Doesn't exist with given laptop id ");
