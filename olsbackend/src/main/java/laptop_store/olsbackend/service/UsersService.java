@@ -9,5 +9,5 @@ public interface UsersService {
     Optional<UsersDTO> findByEmail(String email);
     void createAdminIfNotExist();
     Optional<String> findRole(String email);
-    Optional<Long> findUserID(String email);
+    Long findUserID(String email);
 }
