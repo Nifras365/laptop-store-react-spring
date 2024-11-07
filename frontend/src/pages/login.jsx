@@ -35,12 +35,23 @@ const Login = () => {
 
                 const {token, role} = data.data;
 
-                if (role === "ADMIN") {
-                    localStorage.setItem('userRole', 'ADMIN');
-                    localStorage.setItem('token', token);
+                localStorage.setItem('userRole', role === "ADMIN" ? 'ADMIN' : 'USER');
+                
+                localStorage.setItem('token', token);
+
+                const userIdResponse = await fetch(`http://localhost:8080/users/${email}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                });
+
+                if(userIdResponse.ok){
+                    const userIdData = await userIdResponse.json();
+                    const userID = userIdData.data;
+                    localStorage.setItem('userID', userID);
                 } else{
-                    localStorage.setItem('userRole', 'USER');
-                    localStorage.setItem('token', token);
+                    console.error("Failed to fetch userID: ", userIdResponse.status, userIdResponse.statusText);
                 }
 
                 console.log("Login successful !!!");
