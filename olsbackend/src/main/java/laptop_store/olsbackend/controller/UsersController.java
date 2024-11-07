@@ -3,6 +3,7 @@ package laptop_store.olsbackend.controller;
 import laptop_store.olsbackend.dto.LoginDTO;
 import laptop_store.olsbackend.dto.ResponseDTO;
 import laptop_store.olsbackend.dto.UsersDTO;
+import laptop_store.olsbackend.entity.UsersEntity;
 import laptop_store.olsbackend.service.UsersService;
 import laptop_store.olsbackend.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,15 @@ public class UsersController {
             ResponseDTO<Map<String, String>> response = new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Server Error !");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<ResponseDTO<Long>> getUserIdByEmail(@PathVariable String email){
+        Long userID = usersService.findUserID(email);
+
+        ResponseDTO<Long> response = new ResponseDTO<>(HttpStatus.OK.value(),
+                "UserID Fetched !!!", userID);
+
+        return ResponseEntity.ok(response);
     }
 }
