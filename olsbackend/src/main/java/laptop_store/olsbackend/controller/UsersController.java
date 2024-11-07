@@ -63,7 +63,6 @@ public class UsersController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
     @GetMapping("/{email}")
     public ResponseEntity<ResponseDTO<Long>> getUserIdByEmail(@PathVariable String email){
         Long userID = usersService.findUserID(email);

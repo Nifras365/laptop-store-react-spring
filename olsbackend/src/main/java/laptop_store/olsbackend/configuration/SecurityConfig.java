@@ -31,6 +31,7 @@ public class SecurityConfig {
                         .requestMatchers("/orders/get-all").hasRole("ADMIN")
                         .requestMatchers("/cart/create", "/cart/delete").hasRole("USER")
                         .requestMatchers("/laptops/get-all").permitAll()
+                        .requestMatchers("/users/{email}").permitAll()
                         .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
