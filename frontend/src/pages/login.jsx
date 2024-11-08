@@ -35,7 +35,7 @@ const Login = () => {
 
                 const {token, role} = data.data;
 
-                localStorage.setItem('userRole', role === "ADMIN" ? 'ADMIN' : 'USER');
+                localStorage.setItem('userRole', role === "ADMIN" ? 'ROLE_ADMIN' : 'ROLE_USER');
                 
                 localStorage.setItem('token', token);
 
