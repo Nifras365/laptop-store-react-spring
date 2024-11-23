@@ -28,15 +28,42 @@ const CartCard = ({ laptop }) => {
 
     const handleAddToCart = async (e) => {
         e.preventDefault();
-    
-        const cartData = {
-            laptopID: laptop.id,
-            quantity: quantity,
-            totalPrice: totalPrice
+
+        const userID = localStorage.getItem('userID');
+        const userRole = localStorage.getItem("userRole");
+        const token = localStorage.getItem('token');
+
+        console.log('token:', token);
+
+        if(!userID){
+            alert("User not logged in !!!");
+            return;
         }
     
+        const cartData = {
+            userID: Number(userID),
+            laptopID: Number(laptop.id),
+            quantity: parseInt(quantity, 10),
+            totalPrice: Number(totalPrice),
+        }
+
+        console.log("cartData types:", {
+            userID: typeof cartData.userID,
+            laptopID: typeof cartData.laptopID,
+            quantity: typeof cartData.quantity,
+            totalPrice: typeof cartData.totalPrice
+        });
+        
+        console.log('Posting cart data with userID:', userID);
+
+        console.log("Here is the data: ", cartData);
+    
         try {
-            const response = await axios.post("http://localhost:8080/cart/create", cartData);
+            const response = await axios.post("http://localhost:8080/cart/create", cartData, {
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            });
             console.log("Cart data posted successfully:", response);
             alert("Item added to cart successfully!");
         } catch (error) {
