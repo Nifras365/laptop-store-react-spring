@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import '../pagescss/login.css';
 import { IoArrowBack } from "react-icons/io5";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
 
@@ -107,6 +107,9 @@ const Login = () => {
                     </div>
                     <div className="form-button">
                         <button type="submit" className="btn btn-primary">Login</button>
+                    </div>
+                    <div>
+                        <Link to="/register">{"Don't have an account? Sign Up"}</Link>
                     </div>
                 </form>
             </Container>
