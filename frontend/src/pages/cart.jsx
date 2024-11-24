@@ -29,9 +29,12 @@ const Cart = () => {
     };
 
     useEffect(() => {
+        
+        const userID = localStorage.getItem('userID');
+
         async function fetchCarts() {
             try {
-                const response = await axios.get('http://localhost:8080/cart/get-all');
+                const response = await axios.get(`http://localhost:8080/cart/user/${userID}`);
                 setCartItems(response.data.data);
                 console.log("Fetched carts:", response.data.data);
             } catch (error) {
