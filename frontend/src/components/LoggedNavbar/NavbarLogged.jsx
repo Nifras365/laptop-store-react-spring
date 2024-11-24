@@ -10,7 +10,7 @@ const NavbarLogged = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <NavbarBrand href="#home">MyLapStore</NavbarBrand>
+        <NavbarBrand href="#home">MyLapStore - L</NavbarBrand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
