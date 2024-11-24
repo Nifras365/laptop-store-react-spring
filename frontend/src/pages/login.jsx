@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import '../pagescss/login.css';
 import { IoArrowBack } from "react-icons/io5";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
 
@@ -35,12 +35,23 @@ const Login = () => {
 
                 const {token, role} = data.data;
 
-                if (role === "ADMIN") {
-                    localStorage.setItem('userRole', 'ADMIN');
-                    localStorage.setItem('token', token);
+                localStorage.setItem('userRole', role === "ADMIN" ? 'ROLE_ADMIN' : 'ROLE_USER');
+                
+                localStorage.setItem('token', token);
+
+                const userIdResponse = await fetch(`http://localhost:8080/users/${email}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                });
+
+                if(userIdResponse.ok){
+                    const userIdData = await userIdResponse.json();
+                    const userID = userIdData.data;
+                    localStorage.setItem('userID', userID);
                 } else{
-                    localStorage.setItem('userRole', 'USER');
-                    localStorage.setItem('token', token);
+                    console.error("Failed to fetch userID: ", userIdResponse.status, userIdResponse.statusText);
                 }
 
                 console.log("Login successful !!!");
@@ -96,6 +107,9 @@ const Login = () => {
                     </div>
                     <div className="form-button">
                         <button type="submit" className="btn btn-primary">Login</button>
+                    </div>
+                    <div>
+                        <Link to="/register">{"Don't have an account? Sign Up"}</Link>
                     </div>
                 </form>
             </Container>

@@ -29,8 +29,9 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
                         .requestMatchers("/laptops/create", "/laptops/update-laptop/", "/laptops/delete-laptop/**").hasRole("ADMIN")
                         .requestMatchers("/orders/get-all").hasRole("ADMIN")
-                        .requestMatchers("/cart/create", "/cart/delete").hasRole("USER")
+                        .requestMatchers("/cart/create", "/cart/delete").permitAll()
                         .requestMatchers("/laptops/get-all").permitAll()
+                        .requestMatchers("/users/{email}").permitAll()
                         .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
@@ -45,7 +46,7 @@ public class SecurityConfig {
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter(){
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
+        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("userRole");
         jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();

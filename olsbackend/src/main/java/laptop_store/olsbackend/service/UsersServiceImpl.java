@@ -58,9 +58,12 @@ public class UsersServiceImpl implements UsersService{
                 .build()).getUserId();
 
     }
+
+    @Override
     public Optional<UsersDTO> findByEmail(String email){
         return usersRepository.findByEmail(email).map(usersMapper::mapToDto);
     }
+    @Override
     public Optional<String> findRole(String email){
         Optional<UsersEntity> existingUser = usersRepository.findByEmail(email);
         if (existingUser.isPresent()){
@@ -70,4 +73,11 @@ public class UsersServiceImpl implements UsersService{
             throw new ItemNotFoundException("User doesn't exist with this email !!!");
         }
     }
+    @Override
+    public Long findUserID(String email){
+        UsersEntity entity = usersRepository.findByEmail(email)
+                .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this email !!!"));
+        return entity.getUserId();
+    }
+
 }

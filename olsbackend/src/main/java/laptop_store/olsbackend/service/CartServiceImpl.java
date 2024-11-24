@@ -36,9 +36,11 @@ public class CartServiceImpl implements CartService{
             }
 
             return cartRepository.save(CartEntity.builder()
+                    .userID(cartDTO.getUserID())
                     .laptopID(cartDTO.getLaptopID())
                     .quantity(cartDTO.getQuantity())
-                    .totalPrice(cartDTO.getTotalPrice()).build()).getCartID();
+                    .totalPrice(cartDTO.getTotalPrice())
+                    .build()).getCartID();
         }
         else {
             throw new ItemNotFoundException("Laptop Doesn't exist with given laptop id ");
@@ -55,6 +57,16 @@ public class CartServiceImpl implements CartService{
     @Override
     public void deleteCartDetails(Long cartID){
         cartRepository.deleteById(cartID);
+    }
+    @Override
+    public List<CartEntity> getCartItemsByUserID(Long userID){
+        List<CartEntity> cartEntities = cartRepository.findByUserID(userID);
+
+        if (cartEntities.isEmpty()){
+            throw new ItemNotFoundException("No carts found for the given user ID.");
+        }
+
+        return cartEntities;
     }
 
 }

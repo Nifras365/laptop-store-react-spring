@@ -11,4 +11,5 @@ public interface CartService {
     List<CartEntity> getAllCartDetails();
     Optional<CartEntity> getCartDetailsById(Long cartID);
     void deleteCartDetails(Long cartID);
+    List<CartEntity> getCartItemsByUserID(Long userID);
 }

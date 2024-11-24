@@ -3,6 +3,7 @@ package laptop_store.olsbackend.controller;
 import laptop_store.olsbackend.dto.LoginDTO;
 import laptop_store.olsbackend.dto.ResponseDTO;
 import laptop_store.olsbackend.dto.UsersDTO;
+import laptop_store.olsbackend.entity.UsersEntity;
 import laptop_store.olsbackend.service.UsersService;
 import laptop_store.olsbackend.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +39,12 @@ public class UsersController {
                 if (existingUserCheck.get().getPassword().equals(password)) {
 
                     Map<String, Object> claims = new HashMap<>();
-                    String role = String.valueOf(usersService.findRole(email)); // default to USER if not found
+                    String role = String.valueOf(usersService.findRole(email));
                     String token = jwtUtils.generateToken(email, claims, role);
 
                     Map<String, String> data = new HashMap<>();
                     data.put("token", token);
-                    data.put("role", role);
+                    data.put("userRole", role);
 
                     ResponseDTO<Map<String, String>> response = new ResponseDTO<>(HttpStatus.OK.value(), "Login Successful !!", data);
                     return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -61,5 +62,14 @@ public class UsersController {
             ResponseDTO<Map<String, String>> response = new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Server Error !");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+    }
+    @GetMapping("/{email}")
+    public ResponseEntity<ResponseDTO<Long>> getUserIdByEmail(@PathVariable String email){
+        Long userID = usersService.findUserID(email);
+
+        ResponseDTO<Long> response = new ResponseDTO<>(HttpStatus.OK.value(),
+                "UserID Fetched !!!", userID);
+
+        return ResponseEntity.ok(response);
     }
 }
