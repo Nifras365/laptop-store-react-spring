@@ -5,10 +5,13 @@ import { IoPersonOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import './NavbarLogged.css';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
 const NavbarLogged = () => {
+
+  const navigate = useNavigate();
 
   const [userName, setUserName] = useState();
 
@@ -25,6 +28,11 @@ const NavbarLogged = () => {
     }
     getName();
   }, []);
+
+  const LogOutUser = () => {
+    ['token', 'userID', 'userRole'].forEach(Item => localStorage.removeItem(Item));
+    navigate('/');
+  };
 
   return (
     <Navbar bg="light" expand="lg">
@@ -54,7 +62,8 @@ const NavbarLogged = () => {
               <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>
               <NavDropdown.Item href="/cart">Cart</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Contact Us</NavDropdown.Item>
+              <NavDropdown.Item >Contact Us</NavDropdown.Item>
+              <NavDropdown.Item onClick={LogOutUser}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
