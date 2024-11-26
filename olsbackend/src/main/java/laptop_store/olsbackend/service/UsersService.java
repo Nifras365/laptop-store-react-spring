@@ -10,4 +10,5 @@ public interface UsersService {
     void createAdminIfNotExist();
     Optional<String> findRole(String email);
     Long findUserID(String email);
+    String findUserName(Long userId);
 }

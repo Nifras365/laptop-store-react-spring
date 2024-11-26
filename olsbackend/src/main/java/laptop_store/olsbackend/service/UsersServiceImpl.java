@@ -79,5 +79,10 @@ public class UsersServiceImpl implements UsersService{
                 .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this email !!!"));
         return entity.getUserId();
     }
-
+    @Override
+    public String findUserName(Long userId){
+        UsersEntity entity1 = usersRepository.findByUserId(userId)
+                .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
+        return entity1.getName();
+    }
 }

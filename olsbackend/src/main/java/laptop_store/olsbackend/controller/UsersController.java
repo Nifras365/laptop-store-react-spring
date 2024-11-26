@@ -72,4 +72,14 @@ public class UsersController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/id/{userId}")
+    private ResponseEntity<ResponseDTO<String>> getUserNameByID(@PathVariable Long userId){
+        String userName = usersService.findUserName(userId);
+
+        ResponseDTO<String> responseDTO = new ResponseDTO<>(HttpStatus.OK.value(),
+                "Username : ", userName);
+
+        return ResponseEntity.ok(responseDTO);
+    }
 }
