@@ -4,9 +4,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { IoPersonOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import './NavbarLogged.css';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 
 const NavbarLogged = () => {
+
+  useEffect(() => {
+    const userID = localStorage.getItem('userID');
+
+    async function getName() {
+      try {
+        const response = await axios.get(`http://localhost:8080/users/id/${userID}`);
+        console.log("Heres The name: ",response.data.data);
+      } catch (error) {
+        console.error("Error fetching name: ", error);      }
+    }
+    getName();
+  }, []);
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
