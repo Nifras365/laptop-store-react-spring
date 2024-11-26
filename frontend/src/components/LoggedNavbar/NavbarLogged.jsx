@@ -5,13 +5,10 @@ import { IoPersonOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import './NavbarLogged.css';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
 const NavbarLogged = () => {
-
-  const navigate = useNavigate();
 
   const [userName, setUserName] = useState();
 
@@ -31,7 +28,7 @@ const NavbarLogged = () => {
 
   const LogOutUser = () => {
     ['token', 'userID', 'userRole'].forEach(Item => localStorage.removeItem(Item));
-    navigate('/');
+    window.location.reload();
   };
 
   return (
