@@ -4,11 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { IoPersonOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import './NavbarLogged.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
 const NavbarLogged = () => {
+
+  const [userName, setUserName] = useState();
 
   useEffect(() => {
     const userID = localStorage.getItem('userID');
@@ -16,6 +18,7 @@ const NavbarLogged = () => {
     async function getName() {
       try {
         const response = await axios.get(`http://localhost:8080/users/id/${userID}`);
+        setUserName(response.data.data);
         console.log("Heres The name: ",response.data.data);
       } catch (error) {
         console.error("Error fetching name: ", error);      }
@@ -26,7 +29,7 @@ const NavbarLogged = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <NavbarBrand href="#home">MyLapStore</NavbarBrand>
+        <NavbarBrand href="#home">MyLapStore </NavbarBrand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -42,6 +45,9 @@ const NavbarLogged = () => {
             />
             <IoSearch size={40}/>
           </Form>
+          <div className="welcome-message">
+            {userName ? `Welcome, ${userName}!` : 'Loading...'}
+          </div>
           <Nav className="ms-auto">
             <NavDropdown className='dropdown-title' title={<IoPersonOutline size={25}/>} id="basic-nav-dropdown">
               <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
