@@ -11,6 +11,8 @@ import laptop_store.olsbackend.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -84,5 +86,13 @@ public class UsersServiceImpl implements UsersService{
         UsersEntity entity1 = usersRepository.findByUserId(userId)
                 .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
         return entity1.getName();
+    }
+
+    @Override
+    public List<UsersEntity> getUserDetailsById(Long userId){
+        UsersEntity usersEntity = usersRepository.findByUserId(userId)
+                .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
+
+        return Collections.singletonList(usersEntity);
     }
 }
