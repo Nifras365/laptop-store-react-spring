@@ -27,7 +27,18 @@ const Profile = () => {
 
     return(
         <div>
-            Hi User
+            <h1>Hi, User</h1>
+            {userDetails ? (
+                <div>
+                    <p><strong>Name:</strong> {userDetails.name}</p>
+                    <p><strong>Email:</strong> {userDetails.email}</p>
+                    <p><strong>Country:</strong> {userDetails.country}</p>
+                    <p><strong>Address:</strong> {userDetails.address}</p>
+                    <p><strong>Phone:</strong> {userDetails.phone}</p>
+                </div>
+            ) : (
+                <p>Loading user details...</p>
+            )}
         </div>
     );
 }
