@@ -14,8 +14,6 @@ const Profile = () => {
             try {
                 const response = await axios.get(`http://localhost:8080/users/userdetails/${userID}`);
 
-                console.log("Here is the data: ",response.data.data[0]);
-
                 const userData = response.data.data[0];
                 setUserDetails(userData);
 
