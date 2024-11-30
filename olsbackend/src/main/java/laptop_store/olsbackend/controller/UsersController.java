@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -71,5 +72,28 @@ public class UsersController {
                 "UserID Fetched !!!", userID);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/id/{userId}")
+    private ResponseEntity<ResponseDTO<String>> getUserNameByID(@PathVariable Long userId){
+        String userName = usersService.findUserName(userId);
+
+        ResponseDTO<String> responseDTO = new ResponseDTO<>(HttpStatus.OK.value(),
+                "Username : ", userName);
+
+        return ResponseEntity.ok(responseDTO);
+    }
+
+    @GetMapping("/userdetails/{userId}")
+    private ResponseEntity<ResponseDTO<List<UsersEntity>>> getUserDetails(@PathVariable Long userId){
+        List<UsersEntity> usersEntityList = usersService.getUserDetailsById(userId);
+
+        ResponseDTO<List<UsersEntity>> responseDTO1 = new ResponseDTO<>(
+                HttpStatus.OK.value(),
+                "User details fetched !!!",
+                usersEntityList
+        );
+
+        return ResponseEntity.ok(responseDTO1);
     }
 }

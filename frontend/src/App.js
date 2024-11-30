@@ -9,6 +9,7 @@ import Orders from './pages/Orders';
 import AddToCart from './pages/addToCart';
 import ProtectedAdminRoute from './routes/ProtectedAdminRoute';
 import ProtectedUserRoute from './routes/ProtectedUserRoute';
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path='/admin/dashboard' element={<ProtectedAdminRoute> <Dashboard/> </ProtectedAdminRoute>}/>
           <Route path='/orders' element={<ProtectedUserRoute><Orders/></ProtectedUserRoute>}/>
           <Route path='/addToCart'element={<ProtectedUserRoute><AddToCart/></ProtectedUserRoute>}/>
+          <Route path='/profile' element={<ProtectedUserRoute><Profile/></ProtectedUserRoute>}/>
         </Routes>
       </BrowserRouter>
     </div>

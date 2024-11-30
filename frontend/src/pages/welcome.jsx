@@ -1,5 +1,6 @@
 import React from "react";
 import NavbarBL from "../components/NavbarBL";
+import NavbarLogged from "../components/LoggedNavbar/NavbarLogged";
 import { useState,useEffect } from "react";
 import { Container,Col, Row } from "react-bootstrap";
 import LaptopCard from "../components/LaptopCard";
@@ -9,6 +10,7 @@ import axios from "axios";
 const Welcome = () => {
 
     const[laptops, setLaptop] = useState([]);
+    const token = localStorage.getItem('token');
    
     useEffect(()=>{
         async function fetchLaptops() {
@@ -27,7 +29,7 @@ const Welcome = () => {
 
     return(
     <div>
-        <NavbarBL/>
+        {token ? <NavbarLogged/> : <NavbarBL/>}
         <div className="label-container">
         <label className="label-01">Latest Featured Products</label>
         </div>
