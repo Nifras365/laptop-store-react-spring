@@ -27,14 +27,29 @@ const Profile = () => {
 
     return(
         <div>
-            <h1>Hi, User</h1>
             {userDetails ? (
                 <div>
-                    <p><strong>Name:</strong> {userDetails.name}</p>
-                    <p><strong>Email:</strong> {userDetails.email}</p>
-                    <p><strong>Country:</strong> {userDetails.country}</p>
-                    <p><strong>Address:</strong> {userDetails.address}</p>
-                    <p><strong>Phone:</strong> {userDetails.phone}</p>
+                  <h1>Hi, {userDetails.name}</h1>
+                    <div>
+                        <label>Name:</label>
+                        <input value={userDetails.name}></input>
+                    </div>
+                    <div>
+                        <label>Email:</label>
+                        <input value={userDetails.email}></input>
+                    </div>
+                    <div>
+                        <label>Country:</label>
+                        <input value={userDetails.country}></input>
+                    </div>
+                    <div>
+                        <label>Address:</label>
+                        <input value={userDetails.address}></input>
+                    </div>
+                    <div>
+                        <label>Phone:</label>
+                        <input value={userDetails.phone}></input>
+                    </div>
                 </div>
             ) : (
                 <p>Loading user details...</p>
