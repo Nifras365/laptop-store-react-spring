@@ -53,10 +53,6 @@ const CartCard = ({ laptop }) => {
             quantity: typeof cartData.quantity,
             totalPrice: typeof cartData.totalPrice
         });
-        
-        console.log('Posting cart data with userID:', userID);
-
-        console.log("Here is the data: ", cartData);
     
         try {
             const response = await axios.post("http://localhost:8080/cart/create", cartData, {
