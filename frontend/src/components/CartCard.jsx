@@ -30,7 +30,6 @@ const CartCard = ({ laptop }) => {
         e.preventDefault();
 
         const userID = localStorage.getItem('userID');
-        const userRole = localStorage.getItem("userRole");
         const token = localStorage.getItem('token');
 
         console.log('token:', token);
