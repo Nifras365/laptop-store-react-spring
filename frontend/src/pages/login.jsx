@@ -82,7 +82,8 @@ const Login = () => {
                         left: '20px',
                         zIndex: 1000,
                         border: 'none',
-                        background: 'none'
+                        background: 'none',
+                        cursor: 'pointer'
                       }}
             >
                 <IoArrowBack size={25}/>
@@ -96,7 +97,7 @@ const Login = () => {
                         <input type="email" id="email" className="form-control" 
                                 value={email}
                                 onChange={(e)=>setEmail(e.target.value)}
-                                placeholder="Enter your email" required />
+                                placeholder="Enter your email" required/>
                     </div>
                     <div className="form-group">
                         <label>Password</label>
