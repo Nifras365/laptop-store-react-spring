@@ -31,8 +31,6 @@ const Login = () => {
             if(response.ok){
                 const data = await response.json();
 
-                console.log("API Response: ", data.data); 
-
                 const {token, role} = data.data;
 
                 localStorage.setItem('userRole', role === "ADMIN" ? 'ROLE_ADMIN' : 'ROLE_USER');
