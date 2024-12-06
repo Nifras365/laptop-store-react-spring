@@ -16,7 +16,7 @@ const Login = () => {
         event.preventDefault(); 
         try{
             if(!email || !password){
-                console.error("Fill all fields!!");
+                console.error("Fill all fields !!!");
                 return;
             }
             const response = await fetch('http://localhost:8080/users/login', {

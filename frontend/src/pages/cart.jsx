@@ -14,7 +14,7 @@ const Cart = () => {
     };
 
     const ProceedToCheckout = () => {
-        console.log("Order placed!");
+        console.log("Order placed !!!");
         navigate('/orders');
     };
 
