@@ -22,7 +22,7 @@ const Profile = () => {
             }
         }
         getUserDetails();
-    },[])
+    },[]);
 
     return (
         <div className="profile-container">
