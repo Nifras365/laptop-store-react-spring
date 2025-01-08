@@ -31,9 +31,9 @@ const Login = () => {
             if(response.ok){
                 const data = await response.json();
 
-                const {token, role} = data.data;
+                const {token, userRole} = data.data;
 
-                localStorage.setItem('userRole', role === "ADMIN" ? 'ROLE_ADMIN' : 'ROLE_USER');
+                localStorage.setItem('userRole', userRole === 'Optional[ADMIN]' ? 'ROLE_ADMIN' : 'ROLE_USER');
                 
                 localStorage.setItem('token', token);
 
