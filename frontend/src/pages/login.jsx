@@ -69,50 +69,55 @@ const Login = () => {
     }
 
     return (
-        <div>
+        <div className="login-page">
             <button
                 type="button"
-                className="btn btn-light mb-4"
+                className="back-button"
                 onClick={GoBack}
-                style={{
-                        position: 'absolute',
-                        top: '20px',
-                        left: '20px',
-                        zIndex: 1000,
-                        border: 'none',
-                        background: 'none',
-                        cursor: 'pointer'
-                      }}
             >
-                <IoArrowBack size={25}/>
+                <IoArrowBack size={25} />
             </button>
-        <div className="login-wrapper">
-            <Container className="login-container">
-                <h1>Login</h1>
-                <form className="login-form" onSubmit={handleLoginUser}>
-                    <div className="form-group">
-                        <label>Email</label>
-                        <input type="email" id="email" className="form-control" 
+            <div className="login-wrapper">
+                <Container className="login-container">
+                    <h1>Login</h1>
+                    <form className="login-form" onSubmit={handleLoginUser}>
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                className="form-control"
                                 value={email}
-                                onChange={(e)=>setEmail(e.target.value)}
-                                placeholder="Enter your email" required/>
-                    </div>
-                    <div className="form-group">
-                        <label>Password</label>
-                        <input type="password" id="password" className="form-control" 
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter your email"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="password"
+                                id="password"
+                                className="form-control"
                                 value={password}
-                                onChange={(e)=>setPassword(e.target.value)}
-                                placeholder="Enter your password" required />
-                    </div>
-                    <div className="form-button">
-                        <button type="submit" className="btn btn-primary">Login</button>
-                    </div>
-                    <div>
-                        <Link to="/register">{"Don't have an account? Sign Up"}</Link>
-                    </div>
-                </form>
-            </Container>
-        </div>
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Enter your password"
+                                required
+                            />
+                        </div>
+                        <div className="form-button">
+                            <button type="submit" className="btn btn-primary">
+                                Login
+                            </button>
+                        </div>
+                        <div className="signup-link">
+                            <Link to="/register">
+                                {"Don't have an account? Sign Up"}
+                            </Link>
+                        </div>
+                    </form>
+                </Container>
+            </div>
         </div>
     );
 }
