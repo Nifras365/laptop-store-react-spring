@@ -54,82 +54,111 @@ const Register = () => {
         window.history.back();
     }
 
-    return(
-        <div>
+    return (
+        <div className="register-page">
             <button
                 type="button"
-                className="btn btn-light mb-4"
+                className="back-button"
                 onClick={GoBack}
-                style={{
-                        position: 'absolute',
-                        top: '20px',
-                        left: '20px',
-                        zIndex: 1000,
-                        border: 'none',
-                        background: 'none'
-                      }}
             >
                 <IoArrowBack size={25}/>
             </button>
-        <div className="register-wrapper">
-            <Container className="register-container">
-                <h1>Register</h1>
-                <form className="register-form" onSubmit={handleRegisterUser}>
-                    <div className="form-group">
-                        <label>Name</label>
-                        <input type="text" id="name" className="form-control" 
+            <div className="register-wrapper">
+                <Container className="register-container">
+                    <h1>Register</h1>
+                    <form className="register-form" onSubmit={handleRegisterUser}>
+                        <div className="form-group">
+                            <label htmlFor="name">Name</label>
+                            <input
+                                type="text"
+                                id="name"
+                                className="form-control"
                                 value={name}
-                                onChange={(e)=>setName(e.target.value)}
-                                placeholder="Enter your name" required />
-                    </div>
-                    <div className="form-group">
-                        <label>Email</label>
-                        <input type="email" id="email" className="form-control" 
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Enter your name"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                className="form-control"
                                 value={email}
-                                onChange={(e)=>setEmail(e.target.value)}
-                                placeholder="Enter your email" required />
-                    </div>
-                    <div className="form-group">
-                        <label>Phone</label>
-                        <input type="text" id="phone" className="form-control" 
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter your email"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="phone">Phone</label>
+                            <input
+                                type="text"
+                                id="phone"
+                                className="form-control"
                                 value={phone}
-                                onChange={(e)=>setPhone(e.target.value)}
-                                placeholder="Enter your phone number" required />
-                    </div>
-                    <div className="form-group">
-                        <label>Country</label>
-                        <input type="text" id="country" className="form-control" 
+                                onChange={(e) => setPhone(e.target.value)}
+                                placeholder="Enter your phone number"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="country">Country</label>
+                            <input
+                                type="text"
+                                id="country"
+                                className="form-control"
                                 value={country}
-                                onChange={(e)=>setCountry(e.target.value)}
-                                placeholder="Enter your country" required />
-                    </div>
-                    <div className="form-group">
-                        <label>Address</label>
-                        <input type="text" id="address" className="form-control" 
+                                onChange={(e) => setCountry(e.target.value)}
+                                placeholder="Enter your country"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="address">Address</label>
+                            <input
+                                type="text"
+                                id="address"
+                                className="form-control"
                                 value={address}
-                                onChange={(e)=>setAddress(e.target.value)}
-                                placeholder="Enter your current address" required />
-                    </div>
-                    <div className="form-group">
-                        <label>Password</label>
-                        <input type="password" id="password" className="form-control" 
+                                onChange={(e) => setAddress(e.target.value)}
+                                placeholder="Enter your current address"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="password"
+                                id="password"
+                                className="form-control"
                                 value={password}
-                                onChange={(e)=>setPassword(e.target.value)}
-                                placeholder="Enter your password" required />
-                    </div>
-                    <div className="form-group">
-                        <label>Confirm Password</label>
-                        <input type="password" id="confirmPassword" className="form-control" 
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Enter your password"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="confirmPassword">Confirm Password</label>
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                className="form-control"
                                 value={confirmPassword}
-                                onChange={(e)=>setConfirmPassword(e.target.value)}
-                                placeholder="Enter your password" required />
-                    </div>
-                    <div className="form-button">
-                        <button type="submit" className="btn btn-primary">Register</button>
-                    </div>
-                </form>
-            </Container>
-        </div>
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                placeholder="Confirm your password"
+                                required
+                            />
+                        </div>
+                        <div className="form-button">
+                            <button type="submit" className="btn btn-primary">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </Container>
+            </div>
         </div>
     );
 }
