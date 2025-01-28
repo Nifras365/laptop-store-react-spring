@@ -53,7 +53,13 @@ const Login = () => {
                 }
 
                 console.log("Login successful !!!");
-                navigate('/');
+
+                if(userRole === 'Optional[ADMIN]'){
+                    navigate('/admin/dashboard');
+                }
+                else{
+                    navigate('/');
+                }
             }
             else{
                 console.error("Failed to login : ", response.status, response.statusText);
