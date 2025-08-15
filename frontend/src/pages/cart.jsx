@@ -13,9 +13,37 @@ const Cart = () => {
         window.history.back();
     };
 
-    const ProceedToCheckout = () => {
-        console.log("Order placed !!!");
-        navigate('/orders');
+    const ProceedToCheckout = async() => {
+        try {
+         const userID = localStorage.getItem('userID');
+
+         //to calculate the final price
+         const finalPrice = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
+
+         const orderDTO = {
+            userID: parseInt(userID),
+            finalPrice: finalPrice,
+            orderItemDTOS: cartItems.map(item => ({
+                laptopID: item.laptopID,
+                quantity: item.quantity,
+                totalPrice: item.totalPrice
+            }))
+         };
+
+         console.log("OrderDTO to be sent: ", orderDTO);
+
+         const response = await axios.post(`http://localhost:8080/orders/create`, orderDTO);
+
+         console.log("Order Placed !!!", response.data);
+
+         setCartItems([]);
+
+         navigate('/orders');
+            
+        } catch (error) {
+            console.error("Error in placing order: ",error);
+        }
+
     };
 
     const deleteCartItem = async (cartID) => {
