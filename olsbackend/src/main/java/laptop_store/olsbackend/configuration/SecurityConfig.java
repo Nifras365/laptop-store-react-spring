@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +30,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
                         .requestMatchers("/laptops/create", "/laptops/update-laptop/", "/laptops/delete-laptop/**").hasRole("ADMIN")
                         .requestMatchers("/orders/get-all").hasRole("ADMIN")
+                        .requestMatchers("/orders/user/**").hasRole("USER")
                         .requestMatchers("/cart/create", "/cart/delete").permitAll()
                         .requestMatchers("/laptops/get-all").permitAll()
                         .requestMatchers("/users/{email}").permitAll()
@@ -40,9 +42,11 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder(){
-        SecretKey secretKey = new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA256");
-        return NimbusJwtDecoder.withSecretKey(secretKey).build();
-    }
+        byte[] secretKeyBytes = Base64.getUrlDecoder().decode(jwtSecret);
+
+        SecretKey secretKey = new SecretKeySpec(secretKeyBytes, 0, secretKeyBytes.length, "HmacSHA256");
+
+        return NimbusJwtDecoder.withSecretKey(secretKey).build();    }
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter(){
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
