@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class OrderItemDTO {
     private String title;
     private Long quantity;
+    private Long totalPrice;
 }

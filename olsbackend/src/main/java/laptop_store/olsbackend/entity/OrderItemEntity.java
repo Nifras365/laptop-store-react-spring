@@ -17,6 +17,7 @@ public class OrderItemEntity {
     private Long orderItemId;
     private String title;
     private Long quantity;
+    private Long totalPrice;
     @ManyToOne
     private OrdersEntity order;
 }
