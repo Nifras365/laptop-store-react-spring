@@ -31,10 +31,10 @@ const Login = () => {
             if(response.ok){
                 const data = await response.json();
 
-                const {token, userRole} = data.data;
 
-                localStorage.setItem('userRole', userRole === 'Optional[ADMIN]' ? 'ROLE_ADMIN' : 'ROLE_USER');
-                
+                const { token, userRole } = data.data; 
+
+                localStorage.setItem('userRole', userRole); 
                 localStorage.setItem('token', token);
 
                 const userIdResponse = await fetch(`http://localhost:8080/users/${email}`, {
