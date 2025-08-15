@@ -32,4 +32,12 @@ public class OrdersController {
         return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(),
                 "Orders Fetched Successfully !!!", orders));
     }
+
+    @GetMapping("/user/{userID}")
+    public  ResponseEntity<ResponseDTO<List<OrderDTO>>> getOrderById(@PathVariable Long userID){
+        List<OrderDTO> orders = ordersService.getOrderByUserID(userID);
+
+        return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(),
+                "User Orders Fetched Successfully !!!", orders));
+    }
 }

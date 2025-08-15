@@ -21,7 +21,8 @@ const NavbarLogged = () => {
         setUserName(response.data.data);
         console.log("Heres The name: ",response.data.data);
       } catch (error) {
-        console.error("Error fetching name: ", error);      }
+        console.error("Error fetching name: ", error);      
+      }
     }
     getName();
   }, []);

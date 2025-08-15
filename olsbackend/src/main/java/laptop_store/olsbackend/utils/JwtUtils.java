@@ -14,7 +14,7 @@ public class JwtUtils {
     private String jwtSecret;
 
     public String generateToken(String email, Map<String, Object> claims, String role){
-        claims.put("userRole", role.equals("ADMIN") ? "ROLE_ADMIN" : "ROLE_USER");
+        claims.put("userRole", role.equals("ADMIN") ? "ADMIN" : "USER");
         return Jwts.builder()
                 .claims(claims)
                 .subject(email)

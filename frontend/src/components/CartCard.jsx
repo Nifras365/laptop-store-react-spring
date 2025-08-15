@@ -30,7 +30,6 @@ const CartCard = ({ laptop }) => {
         e.preventDefault();
 
         const userID = localStorage.getItem('userID');
-        const userRole = localStorage.getItem("userRole");
         const token = localStorage.getItem('token');
 
         console.log('token:', token);
@@ -46,17 +45,6 @@ const CartCard = ({ laptop }) => {
             quantity: parseInt(quantity, 10),
             totalPrice: Number(totalPrice),
         }
-
-        console.log("cartData types:", {
-            userID: typeof cartData.userID,
-            laptopID: typeof cartData.laptopID,
-            quantity: typeof cartData.quantity,
-            totalPrice: typeof cartData.totalPrice
-        });
-        
-        console.log('Posting cart data with userID:', userID);
-
-        console.log("Here is the data: ", cartData);
     
         try {
             const response = await axios.post("http://localhost:8080/cart/create", cartData, {

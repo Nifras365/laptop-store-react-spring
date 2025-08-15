@@ -5,7 +5,7 @@ const ProtectedUserRoute = ({children}) => {
     const role = localStorage.getItem('userRole');
     const token = localStorage.getItem('token');
 
-    if(role === 'ROLE_USER' && token){
+    if(role === 'USER' && token){
         return children;
     }
     else{

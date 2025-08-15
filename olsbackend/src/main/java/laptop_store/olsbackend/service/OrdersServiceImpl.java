@@ -45,4 +45,11 @@ public class OrdersServiceImpl implements OrdersService{
                 .map(ordersMapper::mapToDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<OrderDTO> getOrderByUserID(Long userID){
+        return ordersRepository.findByUserID(userID).stream()
+                .map(ordersMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
 }

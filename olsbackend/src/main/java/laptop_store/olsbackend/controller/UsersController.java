@@ -37,33 +37,39 @@ public class UsersController {
         try {
             Optional<UsersDTO> existingUserCheck = usersService.findByEmail(email);
             if (existingUserCheck.isPresent()) {
-                if (existingUserCheck.get().getPassword().equals(password)) {
+                UsersDTO user = existingUserCheck.get();
+
+                if (user.getPassword().equals(password)) {
+                    String role = usersService.findRole(email)
+                            .orElseThrow(() -> new RuntimeException("Role not found"));
 
                     Map<String, Object> claims = new HashMap<>();
-                    String role = String.valueOf(usersService.findRole(email));
+
                     String token = jwtUtils.generateToken(email, claims, role);
 
                     Map<String, String> data = new HashMap<>();
                     data.put("token", token);
                     data.put("userRole", role);
 
-                    ResponseDTO<Map<String, String>> response = new ResponseDTO<>(HttpStatus.OK.value(), "Login Successful !!", data);
-                    return ResponseEntity.status(HttpStatus.OK).body(response);
+                    ResponseDTO<Map<String, String>> response =
+                            new ResponseDTO<>(HttpStatus.OK.value(), "Login Successful !!", data);
 
+                    return ResponseEntity.ok(response);
                 } else {
-                    ResponseDTO<Map<String, String>> response = new ResponseDTO<>(HttpStatus.UNAUTHORIZED.value(), "Wrong Password !");
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                            .body(new ResponseDTO<>(HttpStatus.UNAUTHORIZED.value(), "Wrong Password !"));
                 }
             } else {
-                ResponseDTO<Map<String, String>> response = new ResponseDTO<>(HttpStatus.NOT_FOUND.value(), "User Not found !");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO<>(HttpStatus.NOT_FOUND.value(), "User Not Found !"));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            ResponseDTO<Map<String, String>> response = new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Server Error !");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Server Error !"));
         }
     }
+
     @GetMapping("/{email}")
     public ResponseEntity<ResponseDTO<Long>> getUserIdByEmail(@PathVariable String email){
         Long userID = usersService.findUserID(email);

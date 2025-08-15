@@ -12,7 +12,6 @@ const AddToCart = () => {
         const orderDetails = { id, image, price, model };
         navigate("/orders", { state: { orderDetails } });
         console.log(orderDetails);
-        console.log("orderDetails");
     };
 
     const goBack = () => {

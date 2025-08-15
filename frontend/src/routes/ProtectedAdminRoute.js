@@ -6,6 +6,7 @@ const ProtectedAdminRoute = ({children}) => {
     const token = localStorage.getItem('token');
 
     if(role === 'ADMIN' && token){
+              
         return children;
     }
     else{
