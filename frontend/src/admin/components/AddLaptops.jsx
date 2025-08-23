@@ -27,20 +27,33 @@ const AddLaptops = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const data = new FormData(); 
-        data.append('file', imageFile);
-        data.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+    const data = new FormData(); 
+    data.append('file', imageFile);
+    data.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
         try {
-            const response = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, data);
-            formData.image = response.data.secure_url;
-
-            await axios.post('http://localhost:8080/laptops/create', formData);
+            const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, data);
             
-            alert("Adeed Successfully !!!");
+            const imageUrl = cloudinaryResponse.data.secure_url;
+            
+            const laptopData = {
+                ...formData,
+                image: imageUrl
+            };
+            
+            const token = localStorage.getItem('token');
+            
+            await axios.post('http://localhost:8080/laptops/create', laptopData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            alert("Added Successfully !!!"); 
 
         } catch (error) {
-            console.error('Image upload failed:', error);
+            console.error('Failed to add laptop:', error);
         }
     };
 
