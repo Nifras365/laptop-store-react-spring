@@ -47,6 +47,11 @@ const Profile = () => {
         getUserDetails();
     }, []);
 
+    const LogOutUser = () => {
+        ['token', 'userID', 'userRole'].forEach(Item => localStorage.removeItem(Item));
+        window.location.href = '/'; 
+    };
+
     return (
         <div className="profile-page-wrapper">
             <NavbarLogged />
@@ -58,7 +63,7 @@ const Profile = () => {
                                 <Nav.Link active href="/profile">My Profile</Nav.Link>
                                 <Nav.Link href="/orders">My Orders</Nav.Link>
                                 <Nav.Link href="/cart">Cart</Nav.Link>
-                                <Nav.Link href="/" className="text-danger">Logout</Nav.Link>
+                                <Nav.Link onClick={LogOutUser} className="text-danger">Logout</Nav.Link>
                             </Nav>
                         </Card>
                     </Col>
