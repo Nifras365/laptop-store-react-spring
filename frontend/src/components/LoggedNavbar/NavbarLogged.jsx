@@ -1,73 +1,96 @@
-import React from 'react';
-import { Navbar, Nav, NavDropdown, Container, NavbarBrand,Form, FormControl } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Navbar, Nav, NavDropdown, Container, Form, FormControl, InputGroup, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { IoPersonOutline } from "react-icons/io5";
-import { IoSearch } from "react-icons/io5";
+import { IoPersonCircleOutline, IoSearch } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
+import { TbLogout2 } from "react-icons/tb";
+import { BsBoxSeam } from "react-icons/bs";
 import './NavbarLogged.css';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
 const NavbarLogged = () => {
+    const [userName, setUserName] = useState('');
 
-  const [userName, setUserName] = useState();
+    useEffect(() => {
+        const userID = localStorage.getItem('userID');
+        if (!userID) return;
 
-  useEffect(() => {
-    const userID = localStorage.getItem('userID');
+        async function getName() {
+            try {
+                const response = await axios.get(`http://localhost:8080/users/id/${userID}`);
+                setUserName(response.data.data);
+            } catch (error) {
+                console.error("Error fetching name: ", error);
+            }
+        }
+        getName();
+    }, []);
 
-    async function getName() {
-      try {
-        const response = await axios.get(`http://localhost:8080/users/id/${userID}`);
-        setUserName(response.data.data);
-        console.log("Heres The name: ",response.data.data);
-      } catch (error) {
-        console.error("Error fetching name: ", error);      
-      }
-    }
-    getName();
-  }, []);
+    const LogOutUser = () => {
+        ['token', 'userID', 'userRole'].forEach(Item => localStorage.removeItem(Item));
+        window.location.href = '/'; 
+    };
 
-  const LogOutUser = () => {
-    ['token', 'userID', 'userRole'].forEach(Item => localStorage.removeItem(Item));
-    window.location.reload();
-  };
+    const UserMenu = (
+        <div className="d-flex align-items-center">
+            <IoPersonCircleOutline size={28} className="me-2" />
+            <span>{userName || 'Account'}</span>
+        </div>
+    );
 
-  return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <NavbarBrand href="#home">MyLapStore </NavbarBrand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-          </Nav>
-          <Form className="d-flex mx-auto">
-            <FormControl
-              type="search"
-              placeholder="Search"
-              className="form-navbar"
-              aria-label="Search"
-            />
-            <IoSearch size={40}/>
-          </Form>
-          <div className="welcome-message">
-            {userName ? `Welcome, ${userName}!` : 'Loading...'}
-          </div>
-          <Nav className="ms-auto">
-            <NavDropdown className='dropdown-title' title={<IoPersonOutline size={25}/>} id="basic-nav-dropdown">
-              <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
-              <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>
-              <NavDropdown.Item href="/cart">Cart</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item >Contact Us</NavDropdown.Item>
-              <NavDropdown.Item onClick={LogOutUser}>Logout</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+    return (
+        <Navbar variant="light" expand="lg" className="custom-navbar shadow-sm" sticky="top">
+            <Container>
+                <Navbar.Brand href="/" className="navbar-brand-custom">MyLapStore</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mx-auto">
+                        <Nav.Link href="/" className="nav-link-custom">Home</Nav.Link>
+                        <Nav.Link href="/" className="nav-link-custom">Laptops</Nav.Link>
+                        <Nav.Link href="/" className="nav-link-custom">Accessories</Nav.Link>
+                    </Nav>
+
+                    <div className="d-flex align-items-center">
+                        <Form className="d-flex search-form">
+                            <InputGroup>
+                                <FormControl
+                                    type="search"
+                                    placeholder="Search products..."
+                                    className="search-input"
+                                    aria-label="Search"
+                                />
+                                <Button variant="outline-secondary" type="submit" className="search-button">
+                                    <IoSearch />
+                                </Button>
+                            </InputGroup>
+                        </Form>
+
+                        <Nav>
+                            <NavDropdown
+                                className='profile-dropdown'
+                                title={UserMenu}
+                                id="basic-nav-dropdown"
+                                align="end"
+                            >
+                                <NavDropdown.Header>
+                                    Signed in as<br />
+                                    <strong>{userName || '...'}</strong>
+                                </NavDropdown.Header>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item href="/profile"><CgProfile className="me-2" />My Profile</NavDropdown.Item>
+                                <NavDropdown.Item href="/orders"><BsBoxSeam className="me-2" />Orders</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={LogOutUser} className="text-danger">
+                                    <TbLogout2 className="me-2" />Logout
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+                    </div>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+    );
 }
 
 export default NavbarLogged;
