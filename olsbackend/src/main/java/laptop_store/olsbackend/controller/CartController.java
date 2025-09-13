@@ -43,6 +43,12 @@ public class CartController {
         cartService.deleteCartDetails(cartID);
         return ResponseEntity.noContent().build();
     }
+    @DeleteMapping("/user/{userID}")
+    public ResponseEntity<Void> deleteUserCart(@PathVariable Long userID){
+        cartService.deleteUserCarts(userID);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/user/{userID}")
     public ResponseEntity<ResponseDTO<List<CartEntity>>> getAllCartsByUserID(@PathVariable Long userID){
         List<CartEntity> cartEntities = cartService.getCartItemsByUserID(userID);
