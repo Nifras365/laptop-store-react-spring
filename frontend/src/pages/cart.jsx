@@ -36,6 +36,17 @@ const Cart = () => {
 
          console.log("Order Placed !!!", response.data);
 
+        if (response.status >= 200 && response.status < 300) {
+
+                await axios.delete(`http://localhost:8080/cart/user/${userID}`);
+
+                setCartItems([]);
+                
+                navigate('/orders');
+            } else {
+                 throw new Error("Failed to create the order.");
+            }
+
          setCartItems([]);
 
          navigate('/orders');
