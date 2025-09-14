@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../pagescss/Orders.css";
+import { IoArrowBack } from "react-icons/io5";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -31,12 +32,31 @@ useEffect(() => {
   fetchOrders();
 }, []);
 
+  const GoBack = () =>{
+    window.history.back();
+  }
+
   if (loading) {
     return <p>Loading your orders...</p>;
   }
 
   return (
     <div>
+        <div>
+          <IoArrowBack
+              size={25}
+              onClick={GoBack}
+              style={{
+                      position: 'absolute',
+                      top: '20px',
+                      left: '20px',
+                      zIndex: 1000,
+                      border: 'none',
+                      background: 'none',
+                      cursor: 'pointer',
+                      }}
+                  />
+          </div>    
       <h1>Your Orders</h1>
       {orders && orders.length > 0 ? (
         orders.map((order) => (
