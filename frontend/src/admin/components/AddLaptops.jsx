@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import '../css/AddLaptops.css';
 import axios from 'axios';
+import apiClient from '../../api/client';
 
 const AddLaptops = () => {
 
@@ -32,6 +33,7 @@ const AddLaptops = () => {
     data.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
         try {
+            // Cloudinary upload uses regular axios (external API)
             const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, data);
             
             const imageUrl = cloudinaryResponse.data.secure_url;
@@ -41,14 +43,8 @@ const AddLaptops = () => {
                 image: imageUrl
             };
             
-            const token = localStorage.getItem('token');
-            
-            await axios.post('http://localhost:8080/laptops/create', laptopData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
+            // Use centralized apiClient for backend API
+            await apiClient.post('/laptops/create', laptopData);
             
             alert("Added Successfully !!!"); 
 

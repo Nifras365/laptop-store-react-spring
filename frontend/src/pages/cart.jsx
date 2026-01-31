@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {  useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
-import axios from "axios";
+import apiClient from "../api/client";
 import FetchedCartCard from "../components/FetchedCartCard";
+import { useAuth } from "../auth/AuthContext";
 
 const Cart = () => {
     const navigate = useNavigate();
     const [cartItems, setCartItems] = useState([]);
     const [laptopDetails, setLaptopDetails] = useState({});
+    const { userID } = useAuth();
+    // Cache for laptop details to avoid refetching
+    const laptopCache = useRef({});
 
     const goBack = () => {
         window.history.back();
@@ -15,8 +19,6 @@ const Cart = () => {
 
     const ProceedToCheckout = async() => {
         try {
-         const userID = localStorage.getItem('userID');
-
          //to calculate the final price
          const finalPrice = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
 
@@ -32,13 +34,13 @@ const Cart = () => {
 
          console.log("OrderDTO to be sent: ", orderDTO);
 
-         const response = await axios.post(`http://localhost:8080/orders/create`, orderDTO);
+         const response = await apiClient.post('/orders/create', orderDTO);
 
          console.log("Order Placed !!!", response.data);
 
         if (response.status >= 200 && response.status < 300) {
 
-                await axios.delete(`http://localhost:8080/cart/user/${userID}`);
+                await apiClient.delete(`/cart/user/${userID}`);
 
                 setCartItems([]);
                 
@@ -59,7 +61,7 @@ const Cart = () => {
 
     const deleteCartItem = async (cartID) => {
         try {
-            const response = await axios.delete(`http://localhost:8080/cart/delete/${cartID}`);
+            const response = await apiClient.delete(`/cart/delete/${cartID}`);
             console.log(`Item with cartID ${cartID} deleted successfully:`, response.data);
             setCartItems(cartItems.filter(item => item.cartID !== cartID)); 
         } catch (error) {
@@ -68,12 +70,9 @@ const Cart = () => {
     };
 
     useEffect(() => {
-        
-        const userID = localStorage.getItem('userID');
-
         async function fetchCarts() {
             try {
-                const response = await axios.get(`http://localhost:8080/cart/user/${userID}`);
+                const response = await apiClient.get(`/cart/user/${userID}`);
                 setCartItems(response.data.data);
                 console.log("Fetched carts:", response.data.data);
             } catch (error) {
@@ -81,20 +80,46 @@ const Cart = () => {
             }
         }
 
-        fetchCarts();
-    }, []);
+        if (userID) {
+            fetchCarts();
+        }
+    }, [userID]);
 
     useEffect(() => {
         async function fetchLaptopDetails(cartItems) {
-            const laptops = {};
-            for (const item of cartItems) {
-                try {
-                    const response = await axios.get(`http://localhost:8080/laptops/${item.laptopID}`);
-                    laptops[item.laptopID] = response.data;
-                } catch (error) {
-                    console.error("Error fetching laptop data: ", error);
-                }
+            // Get unique laptop IDs that aren't already cached
+            const uniqueIds = [...new Set(cartItems.map(item => item.laptopID))];
+            const idsToFetch = uniqueIds.filter(id => !laptopCache.current[id]);
+
+            // Fetch all needed laptops in parallel
+            if (idsToFetch.length > 0) {
+                const fetchPromises = idsToFetch.map(id => 
+                    apiClient.get(`/laptops/${id}`)
+                        .then(response => ({ id, data: response.data }))
+                        .catch(error => {
+                            console.error(`Error fetching laptop ${id}:`, error);
+                            return { id, data: null };
+                        })
+                );
+
+                const results = await Promise.all(fetchPromises);
+                
+                // Update cache with fetched data
+                results.forEach(({ id, data }) => {
+                    if (data) {
+                        laptopCache.current[id] = data;
+                    }
+                });
             }
+
+            // Build laptopDetails from cache
+            const laptops = {};
+            uniqueIds.forEach(id => {
+                if (laptopCache.current[id]) {
+                    laptops[id] = laptopCache.current[id];
+                }
+            });
+            
             setLaptopDetails(laptops);
         }
     

@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient from "../api/client";
 import "../pagescss/Orders.css";
 import { IoArrowBack } from "react-icons/io5";
+import { useAuth } from "../auth/AuthContext";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { userID } = useAuth();
 
 useEffect(() => {
   async function fetchOrders() {
     try {
-      const token = localStorage.getItem("token");
-      const userID = localStorage.getItem("userID");
-
-      console.log("Sending Token:", token);
-
-      const response = await axios.get(`http://localhost:8080/orders/user/${userID}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      const response = await apiClient.get(`/orders/user/${userID}`);
       setOrders(response.data.data); 
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -29,8 +21,10 @@ useEffect(() => {
     }
   }
 
-  fetchOrders();
-}, []);
+  if (userID) {
+    fetchOrders();
+  }
+}, [userID]);
 
   const GoBack = () =>{
     window.history.back();

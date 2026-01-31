@@ -4,6 +4,8 @@ import '../pagescss/login.css';
 import { IoArrowBack } from "react-icons/io5";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import apiClient from "../api/client";
+import { useAuth } from "../auth/AuthContext";
 
 const Login = () => {
 
@@ -11,6 +13,7 @@ const Login = () => {
     const[password, setPassword] = useState('');
 
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleLoginUser = async(event) => {
         event.preventDefault(); 
@@ -19,42 +22,23 @@ const Login = () => {
                 console.error("Fill all fields !!!");
                 return;
             }
-            const response = await fetch('http://localhost:8080/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email, password
-                }),
+            const response = await apiClient.post('/users/login', {
+                email, password
             });
-            if(response.ok){
-                const data = await response.json();
 
+            if(response.status === 200){
+                const { token, userRole } = response.data.data; 
 
-                const { token, userRole } = data.data; 
+                // Fetch userID
+                const userIdResponse = await apiClient.get(`/users/${email}`);
+                const userID = userIdResponse.data.data;
 
-                localStorage.setItem('userRole', userRole); 
-                localStorage.setItem('token', token);
-
-                const userIdResponse = await fetch(`http://localhost:8080/users/${email}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                });
-
-                if(userIdResponse.ok){
-                    const userIdData = await userIdResponse.json();
-                    const userID = userIdData.data;
-                    localStorage.setItem('userID', userID);
-                } else{
-                    console.error("Failed to fetch userID: ", userIdResponse.status, userIdResponse.statusText);
-                }
+                // Use AuthContext login
+                login({ token, userRole, userID });
 
                 console.log("Login successful !!!");
 
-                if(userRole === 'Optional[ADMIN]'){
+                if(userRole === 'ADMIN'){
                     navigate('/admin/dashboard');
                 }
                 else{
@@ -66,7 +50,7 @@ const Login = () => {
             }
         }
         catch(error){
-            console.error("Error Ocuured : ", error.message);
+            console.error("Error Occurred : ", error.message);
         }
     }
 
