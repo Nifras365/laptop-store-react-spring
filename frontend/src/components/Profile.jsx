@@ -1,34 +1,20 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Nav } from "react-bootstrap";
-import { FaUserCircle } from "react-icons/fa"; 
-import NavbarLogged from "../components/LoggedNavbar/NavbarLogged"; 
+import { FaUserCircle } from "react-icons/fa";
+import { IoPersonOutline, IoLocationOutline, IoCallOutline, IoMailOutline } from "react-icons/io5";
+import NavbarLogged from "../components/LoggedNavbar/NavbarLogged";
+import apiClient from "../api/client";
+import { useAuth } from "../auth/AuthContext";
+import { PageHeader, LoadingState, ErrorBanner } from "../components/ui";
 import './css/Profile.css';
-
-const ProfileSkeleton = () => (
-    <div className="profile-content-card skeleton">
-        <div className="profile-header">
-            <div className="profile-avatar skeleton-avatar"></div>
-            <div>
-                <div className="skeleton-line title"></div>
-                <div className="skeleton-line subtitle"></div>
-            </div>
-        </div>
-        <hr />
-        <div className="user-details-list">
-            <div className="skeleton-line detail"></div>
-            <div className="skeleton-line detail"></div>
-            <div className="skeleton-line detail"></div>
-        </div>
-    </div>
-);
 
 const Profile = () => {
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const { userID, logout } = useAuth();
 
-    useEffect(()=>{
-        const userID = localStorage.getItem('userID');
+    useEffect(() => {
         if (!userID) {
             setLoading(false);
             return;
@@ -36,76 +22,143 @@ const Profile = () => {
 
         async function getUserDetails() {
             try {
-                const response = await axios.get(`http://localhost:8080/users/userdetails/${userID}`);
+                const response = await apiClient.get(`/users/userdetails/${userID}`);
                 setUserDetails(response.data.data[0]);
             } catch (error) {
-                console.error("Error fetching details", error);
+                setError("Failed to load profile. Please try again.");
             } finally {
                 setLoading(false);
             }
         }
         getUserDetails();
-    }, []);
+    }, [userID]);
 
-    const LogOutUser = () => {
-        ['token', 'userID', 'userRole'].forEach(Item => localStorage.removeItem(Item));
-        window.location.href = '/'; 
+    const handleLogout = () => {
+        logout();
+        window.location.href = '/';
     };
 
     return (
-        <div className="profile-page-wrapper">
+        <div className="profile-page">
             <NavbarLogged />
-            <Container className="py-5">
-                <Row>
+            <Container className="profile-container">
+                <Row className="profile-layout g-4 align-items-start">
+                    {/* Sidebar */}
                     <Col md={4} lg={3}>
                         <Card className="profile-sidebar">
-                            <Nav className="flex-column">
-                                <Nav.Link active href="/profile">My Profile</Nav.Link>
-                                <Nav.Link href="/orders">My Orders</Nav.Link>
-                                <Nav.Link href="/cart">Cart</Nav.Link>
-                                <Nav.Link onClick={LogOutUser} className="text-danger">Logout</Nav.Link>
+                            <div className="sidebar-header">
+                                <FaUserCircle className="sidebar-avatar" />
+                                <div className="sidebar-user-info">
+                                    <span className="sidebar-user-name">{userDetails?.name || 'Loading...'}</span>
+                                    <span className="sidebar-user-email">{userDetails?.email || ''}</span>
+                                </div>
+                            </div>
+                            <Nav className="flex-column sidebar-nav">
+                                <Nav.Link href="/profile" className="sidebar-link active">
+                                    <IoPersonOutline />
+                                    <span>My Profile</span>
+                                </Nav.Link>
+                                <Nav.Link href="/orders" className="sidebar-link">
+                                    <IoLocationOutline />
+                                    <span>My Orders</span>
+                                </Nav.Link>
+                                <Nav.Link href="/cart" className="sidebar-link">
+                                    <IoCallOutline />
+                                    <span>My Cart</span>
+                                </Nav.Link>
+                                <Nav.Link onClick={handleLogout} className="sidebar-link logout">
+                                    Logout
+                                </Nav.Link>
                             </Nav>
                         </Card>
                     </Col>
 
                     <Col md={8} lg={9}>
+                        <PageHeader
+                            title="My Profile"
+                            subtitle="Manage your personal information"
+                        />
+
+                        {error && (
+                            <ErrorBanner
+                                message={error}
+                                onDismiss={() => setError('')}
+                            />
+                        )}
+
                         {loading ? (
-                            <ProfileSkeleton />
+                            <LoadingState message="Loading profile..." />
                         ) : userDetails ? (
-                            <Card className="profile-content-card">
-                                <div className="profile-header">
-                                    <FaUserCircle className="profile-avatar" />
-                                    <div>
-                                        <h2 className="profile-name">{userDetails.name}</h2>
-                                        <p className="profile-email">{userDetails.email}</p>
+                            <div className="profile-content">
+                                <Card className="profile-card">
+                                    <div className="profile-card-header">
+                                        <h3 className="profile-card-title">Personal Information</h3>
+                                        <Button variant="outline-primary" size="sm" className="edit-btn">
+                                            Edit Profile
+                                        </Button>
                                     </div>
-                                </div>
-                                <hr />
-                                <div className="d-flex justify-content-between align-items-center mb-3">
-                                    <h4 className="details-title">Personal Information</h4>
-                                    <Button variant="outline-primary">Edit Profile</Button>
-                                </div>
-                                <div className="user-details-list">
-                                    <div className="detail-item">
-                                        <span className="detail-label">Full Name</span>
-                                        <span className="detail-value">{userDetails.name}</span>
+                                    
+                                    <div className="profile-details-grid">
+                                        <div className="profile-detail-item">
+                                            <div className="detail-icon">
+                                                <IoPersonOutline />
+                                            </div>
+                                            <div className="detail-content">
+                                                <span className="detail-label">Full Name</span>
+                                                <span className="detail-value">{userDetails.name}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="profile-detail-item">
+                                            <div className="detail-icon">
+                                                <IoMailOutline />
+                                            </div>
+                                            <div className="detail-content">
+                                                <span className="detail-label">Email Address</span>
+                                                <span className="detail-value">{userDetails.email}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="profile-detail-item">
+                                            <div className="detail-icon">
+                                                <IoCallOutline />
+                                            </div>
+                                            <div className="detail-content">
+                                                <span className="detail-label">Phone Number</span>
+                                                <span className="detail-value">{userDetails.phone}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="profile-detail-item">
+                                            <div className="detail-icon">
+                                                <IoLocationOutline />
+                                            </div>
+                                            <div className="detail-content">
+                                                <span className="detail-label">Country</span>
+                                                <span className="detail-value">{userDetails.country}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="detail-item">
-                                        <span className="detail-label">Country</span>
-                                        <span className="detail-value">{userDetails.country}</span>
+                                </Card>
+
+                                <Card className="profile-card">
+                                    <div className="profile-card-header">
+                                        <h3 className="profile-card-title">Shipping Address</h3>
+                                        <Button variant="outline-primary" size="sm" className="edit-btn">
+                                            Edit Address
+                                        </Button>
                                     </div>
-                                    <div className="detail-item">
-                                        <span className="detail-label">Address</span>
-                                        <span className="detail-value">{userDetails.address}</span>
+                                    
+                                    <div className="address-content">
+                                        <p className="address-text">{userDetails.address}</p>
+                                        <p className="address-country">{userDetails.country}</p>
                                     </div>
-                                    <div className="detail-item">
-                                        <span className="detail-label">Phone</span>
-                                        <span className="detail-value">{userDetails.phone}</span>
-                                    </div>
-                                </div>
-                            </Card>
+                                </Card>
+                            </div>
                         ) : (
-                            <p>Could not load user details.</p>
+                            <Card className="profile-card error-card">
+                                <p>Could not load user details. Please try again later.</p>
+                            </Card>
                         )}
                     </Col>
                 </Row>

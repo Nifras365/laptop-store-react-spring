@@ -1,57 +1,65 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown, Container, Form, FormControl, InputGroup, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { IoPersonOutline, IoSearch } from "react-icons/io5";
+import { IoPersonOutline } from "react-icons/io5";
+import { Link, useLocation } from 'react-router-dom';
 import './css/NavbarBL.css';
 
 const NavbarBL = () => {
-  return (
-    <Navbar variant="light" expand="lg" className="custom-navbar shadow-sm" sticky="top">
-      <Container>
-        <Navbar.Brand href="/" className="navbar-brand-custom">MyLapStore</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mx-auto">
-            <Nav.Link href="/" className="nav-link-custom">Home</Nav.Link>
-            <Nav.Link href="/" className="nav-link-custom">Laptops</Nav.Link>
-            <Nav.Link href="/" className="nav-link-custom">Accessories</Nav.Link>
-          </Nav>
+    const location = useLocation();
+    const isActive = (path) => location.pathname === path;
 
-          <div className="d-flex align-items-center">
-            <Form className="d-flex search-form">
-              <InputGroup>
-                <FormControl
-                  type="search"
-                  placeholder="Search products..."
-                  className="search-input"
-                  aria-label="Search"
-                />
-                <Button variant="outline-secondary" type="submit" className="search-button">
-                  <IoSearch />
-                </Button>
-              </InputGroup>
-            </Form>
+    return (
+        <Navbar variant="light" expand="lg" className="site-navbar" sticky="top">
+            <Container>
+                <Navbar.Brand as={Link} to="/" className="navbar-brand-custom">
+                    <span className="brand-icon">💻</span>
+                    <span className="brand-text">LaptopStore</span>
+                </Navbar.Brand>
+                
+                <Navbar.Toggle aria-controls="main-navbar" />
+                
+                <Navbar.Collapse id="main-navbar">
+                    <Nav className="mx-auto main-nav">
+                        <Nav.Link 
+                            as={Link} 
+                            to="/" 
+                            className={`nav-link-custom ${isActive('/') ? 'active' : ''}`}
+                        >
+                            Home
+                        </Nav.Link>
+                        <Nav.Link 
+                            as={Link} 
+                            to="/" 
+                            className="nav-link-custom"
+                        >
+                            Laptops
+                        </Nav.Link>
+                    </Nav>
 
-            <Nav>
-              <NavDropdown 
-                className='profile-dropdown' 
-                title={<IoPersonOutline size={25} />} 
-                id="basic-nav-dropdown"
-                align="end" 
-              >
-                <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-                <NavDropdown.Item href="/register">Register</NavDropdown.Item>
-                <NavDropdown.Item href="/cart">My Cart</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Contact Us</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-          </div>
-
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+                    <div className="d-flex align-items-center navbar-actions gap-2">
+                        <Button 
+                            as={Link} 
+                            to="/login" 
+                            variant="outline-primary" 
+                            className="auth-btn login-btn"
+                        >
+                            <IoPersonOutline size={18} />
+                            <span>Login</span>
+                        </Button>
+                        <Button 
+                            as={Link} 
+                            to="/register" 
+                            variant="primary" 
+                            className="auth-btn register-btn"
+                        >
+                            Sign Up
+                        </Button>
+                    </div>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+    );
 }
 
 export default NavbarBL;
