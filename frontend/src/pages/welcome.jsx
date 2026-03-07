@@ -197,11 +197,11 @@ const Welcome = () => {
                                         onChange={(e) => setPriceRange(e.target.value)}
                                     >
                                         <option value="all">All Prices</option>
-                                        <option value="0-500">Under $500</option>
-                                        <option value="500-1000">$500 - $1,000</option>
-                                        <option value="1000-1500">$1,000 - $1,500</option>
-                                        <option value="1500-2000">$1,500 - $2,000</option>
-                                        <option value="2000-99999">$2,000+</option>
+                                        <option value="0-50000">Under LKR50000</option>
+                                        <option value="50000-100000">LKR50000 - LKR100,000</option>
+                                        <option value="100000-200000">LKR100,000 - LKR200,000</option>
+                                        <option value="200000-300000">LKR200,000 - LKR300,000</option>
+                                        <option value="300000-9999999">LKR300,000+</option>
                                     </Form.Select>
                                 </Form.Group>
                             </Col>
