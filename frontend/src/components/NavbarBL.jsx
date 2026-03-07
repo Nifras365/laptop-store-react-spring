@@ -1,43 +1,65 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown, Container, NavbarBrand,Form, FormControl } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { IoPersonOutline } from "react-icons/io5";
-import { IoSearch } from "react-icons/io5";
+import { Link, useLocation } from 'react-router-dom';
 import './css/NavbarBL.css';
 
 const NavbarBL = () => {
-  return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <NavbarBrand href="#home">MyLapStore</NavbarBrand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-          </Nav>
-          <Form className="d-flex mx-auto">
-            <FormControl
-              type="search"
-              placeholder="Search"
-              className="form-navbar"
-              aria-label="Search"
-            />
-            <IoSearch size={40}/>
-          </Form>
-          <Nav className="ms-auto">
-            <NavDropdown className='dropdown-title' title={<IoPersonOutline size={25}/>} id="basic-nav-dropdown">
-              <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-              <NavDropdown.Item href="/register">Register</NavDropdown.Item>
-              <NavDropdown.Item href="/cart">Cart</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Contact Us</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+    const location = useLocation();
+    const isActive = (path) => location.pathname === path;
+
+    return (
+        <Navbar variant="light" expand="lg" className="site-navbar" sticky="top">
+            <Container>
+                <Navbar.Brand as={Link} to="/" className="navbar-brand-custom">
+                    <span className="brand-icon">💻</span>
+                    <span className="brand-text">LaptopStore</span>
+                </Navbar.Brand>
+                
+                <Navbar.Toggle aria-controls="main-navbar" />
+                
+                <Navbar.Collapse id="main-navbar">
+                    <Nav className="mx-auto main-nav">
+                        <Nav.Link 
+                            as={Link} 
+                            to="/" 
+                            className={`nav-link-custom ${isActive('/') ? 'active' : ''}`}
+                        >
+                            Home
+                        </Nav.Link>
+                        <Nav.Link 
+                            as={Link} 
+                            to="/" 
+                            className="nav-link-custom"
+                        >
+                            Laptops
+                        </Nav.Link>
+                    </Nav>
+
+                    <div className="d-flex align-items-center navbar-actions gap-2">
+                        <Button 
+                            as={Link} 
+                            to="/login" 
+                            variant="outline-primary" 
+                            className="auth-btn login-btn"
+                        >
+                            <IoPersonOutline size={18} />
+                            <span>Login</span>
+                        </Button>
+                        <Button 
+                            as={Link} 
+                            to="/register" 
+                            variant="primary" 
+                            className="auth-btn register-btn"
+                        >
+                            Sign Up
+                        </Button>
+                    </div>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+    );
 }
 
 export default NavbarBL;

@@ -1,12 +1,11 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
 const ProtectedAdminRoute = ({children}) => {
-    const role = localStorage.getItem('userRole');
-    const token = localStorage.getItem('token');
+    const { isAuthenticated, hasRole } = useAuth();
 
-    if(role === 'ADMIN' && token){
-              
+    if(isAuthenticated && hasRole('ADMIN')){
         return children;
     }
     else{

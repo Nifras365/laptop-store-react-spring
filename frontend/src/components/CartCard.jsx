@@ -1,108 +1,163 @@
-import React from "react";
+import React, { useState } from "react";
 import './css/CartCard.css';
-import { Card, Col, Row, FormControl, Alert, Button } from "react-bootstrap";
-import { useState } from "react";
+import { Card, Col, Row, Button } from "react-bootstrap";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
-import axios from "axios";
-
+import { IoCartOutline, IoCheckmarkCircle } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import apiClient from "../api/client";
+import { useAuth } from "../auth/AuthContext";
+import { ErrorBanner } from "../components/ui";
 
 const CartCard = ({ laptop }) => {
     const [quantity, setQuantity] = useState(1);
-    const [showAlert, setShowAlert] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false);
+    const { userID, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
 
-    const AddQuantity = () => {
-        setQuantity(quantity + 1);
-        setShowAlert(false);
-    }
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('en-US', {
+            style: 'decimal',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(price);
+    };
 
-    const DecreaseQuantity = () => {
-        if(quantity > 1){
-            setQuantity(quantity - 1);
+    const handleQuantityChange = (delta) => {
+        const newQuantity = quantity + delta;
+        if (newQuantity >= 1) {
+            setQuantity(newQuantity);
         }
-        else{
-            setShowAlert(true);
-        }
-    }
-    
-    const totalPrice = (laptop.price * quantity).toFixed();
+    };
 
-    const handleAddToCart = async (e) => {
-        e.preventDefault();
+    const totalPrice = laptop.price * quantity;
 
-        const userID = localStorage.getItem('userID');
-        const token = localStorage.getItem('token');
-
-        console.log('token:', token);
-
-        if(!userID){
-            alert("User not logged in !!!");
+    const handleAddToCart = async () => {
+        if (!isAuthenticated) {
+            navigate('/login');
             return;
         }
-    
+
+        setIsLoading(true);
+        setError('');
+
         const cartData = {
             userID: Number(userID),
             laptopID: Number(laptop.id),
-            quantity: parseInt(quantity, 10),
-            totalPrice: Number(totalPrice),
-        }
-    
+            quantity: quantity,
+            totalPrice: totalPrice,
+        };
+
         try {
-            const response = await axios.post("http://localhost:8080/cart/create", cartData, {
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            });
-            console.log("Cart data posted successfully:", response);
-            alert("Item added to cart successfully!");
+            await apiClient.post("/cart/create", cartData);
+            setSuccess(true);
+            setTimeout(() => {
+                navigate('/cart');
+            }, 1500);
         } catch (error) {
-            console.error("Error posting cart data:", error);
-            alert("Failed to add item to cart.");
+            setError("Failed to add item to cart. Please try again.");
+        } finally {
+            setIsLoading(false);
         }
     };
-    
 
-    return(
-    <div>
-        <Card className="cart-card">
-            <Row>
-                <Col md={4}>
-                    <Card.Img src={laptop.image} className="cart-card-img"/>
+    if (success) {
+        return (
+            <Card className="add-to-cart-card success-state">
+                <div className="success-content">
+                    <IoCheckmarkCircle size={64} className="success-icon" />
+                    <h3>Added to Cart!</h3>
+                    <p>Redirecting to your cart...</p>
+                </div>
+            </Card>
+        );
+    }
+
+    return (
+        <Card className="add-to-cart-card">
+            {error && (
+                <ErrorBanner 
+                    message={error} 
+                    onDismiss={() => setError('')} 
+                />
+            )}
+
+            <Row className="g-0">
+                <Col md={5}>
+                    <div className="product-image-container">
+                        <img 
+                            src={laptop.image} 
+                            alt={laptop.model}
+                            className="product-image"
+                        />
+                    </div>
                 </Col>
-                <Col md={6}>
-                <Card.Body>
-                    <Card.Title>Price: {laptop.price} LKR</Card.Title>
-                    <Card.Text>{laptop.model}</Card.Text>
-                    <Card.Text>Total Price: {totalPrice} LKR</Card.Text>
-                </Card.Body>
-                </Col>
-                <Col>
-                    <div className="quantity-controls">
-                        <FaCircleMinus className="minus-icon" onClick={DecreaseQuantity}/>
-                            <FormControl
-                            type="text"
-                            className="form-control-cart"
-                            value={quantity}
-                            readOnly
-                            />
-                        <FaCirclePlus className="plus-icon" onClick={AddQuantity}/>
+                <Col md={7}>
+                    <div className="product-details">
+                        <h2 className="product-name">{laptop.model}</h2>
+                        
+                        <div className="product-price-unit">
+                            <span className="price-label">Price per unit</span>
+                            <span className="price-value">{formatPrice(laptop.price)} LKR</span>
+                        </div>
+
+                        <div className="quantity-section">
+                            <span className="quantity-label">Quantity</span>
+                            <div className="quantity-controls-large">
+                                <button 
+                                    className="qty-btn-large"
+                                    onClick={() => handleQuantityChange(-1)}
+                                    disabled={quantity <= 1}
+                                >
+                                    <FaCircleMinus />
+                                </button>
+                                <span className="qty-display">{quantity}</span>
+                                <button 
+                                    className="qty-btn-large"
+                                    onClick={() => handleQuantityChange(1)}
+                                >
+                                    <FaCirclePlus />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="total-section">
+                            <span className="total-label">Total</span>
+                            <span className="total-value">{formatPrice(totalPrice)} LKR</span>
+                        </div>
+
+                        <div className="actions-section">
+                            <Button 
+                                variant="primary" 
+                                size="lg"
+                                className="add-to-cart-btn"
+                                onClick={handleAddToCart}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <span className="loading-spinner loading-spinner-sm"></span>
+                                        <span>Adding...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <IoCartOutline size={20} />
+                                        <span>Add to Cart</span>
+                                    </>
+                                )}
+                            </Button>
+                            <Button 
+                                variant="outline-secondary"
+                                onClick={() => navigate(-1)}
+                            >
+                                Continue Shopping
+                            </Button>
+                        </div>
                     </div>
                 </Col>
             </Row>
-            {showAlert && (
-                    <Alert className="alert-box" variant="warning" onClose={() => setShowAlert(false)} dismissible>
-                        Quantity at minimum !!!
-                    </Alert>
-            )}
-                        <div className="text-center mt-3">
-                <Button 
-                    variant="success" 
-                    onClick={handleAddToCart} 
-                    style={{ width: "150px" }}>
-                    Add to Cart
-                </Button>
-            </div>
         </Card>
-    </div>
     );
 }
 

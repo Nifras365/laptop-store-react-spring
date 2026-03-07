@@ -1,73 +1,129 @@
-import React from 'react';
-import { Navbar, Nav, NavDropdown, Container, NavbarBrand,Form, FormControl } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { IoPersonOutline } from "react-icons/io5";
-import { IoSearch } from "react-icons/io5";
+import { IoPersonCircleOutline, IoCartOutline } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
+import { TbLogout2 } from "react-icons/tb";
+import { BsBoxSeam } from "react-icons/bs";
+import { Link, useLocation } from 'react-router-dom';
 import './NavbarLogged.css';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-
+import apiClient from '../../api/client';
+import { useAuth } from '../../auth/AuthContext';
 
 const NavbarLogged = () => {
+    const [userName, setUserName] = useState('');
+    const [cartCount, setCartCount] = useState(0);
+    const { userID, logout } = useAuth();
+    const location = useLocation();
 
-  const [userName, setUserName] = useState();
+    useEffect(() => {
+        if (!userID) return;
 
-  useEffect(() => {
-    const userID = localStorage.getItem('userID');
+        async function fetchUserData() {
+            try {
+                const [userResponse, cartResponse] = await Promise.all([
+                    apiClient.get(`/users/id/${userID}`),
+                    apiClient.get(`/cart/user/${userID}`).catch(() => ({ data: { data: [] } }))
+                ]);
+                
+                setUserName(userResponse.data.data);
+                setCartCount(cartResponse.data.data?.length || 0);
+            } catch (error) {
+                console.error("Error fetching user data: ", error);
+            }
+        }
+        fetchUserData();
+    }, [userID, location.pathname]);
 
-    async function getName() {
-      try {
-        const response = await axios.get(`http://localhost:8080/users/id/${userID}`);
-        setUserName(response.data.data);
-        console.log("Heres The name: ",response.data.data);
-      } catch (error) {
-        console.error("Error fetching name: ", error);      
-      }
-    }
-    getName();
-  }, []);
+    const handleLogout = () => {
+        logout();
+        window.location.href = '/';
+    };
 
-  const LogOutUser = () => {
-    ['token', 'userID', 'userRole'].forEach(Item => localStorage.removeItem(Item));
-    window.location.reload();
-  };
+    const isActive = (path) => location.pathname === path;
 
-  return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <NavbarBrand href="#home">MyLapStore </NavbarBrand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-          </Nav>
-          <Form className="d-flex mx-auto">
-            <FormControl
-              type="search"
-              placeholder="Search"
-              className="form-navbar"
-              aria-label="Search"
-            />
-            <IoSearch size={40}/>
-          </Form>
-          <div className="welcome-message">
-            {userName ? `Welcome, ${userName}!` : 'Loading...'}
-          </div>
-          <Nav className="ms-auto">
-            <NavDropdown className='dropdown-title' title={<IoPersonOutline size={25}/>} id="basic-nav-dropdown">
-              <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
-              <NavDropdown.Item href="/orders">Orders</NavDropdown.Item>
-              <NavDropdown.Item href="/cart">Cart</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item >Contact Us</NavDropdown.Item>
-              <NavDropdown.Item onClick={LogOutUser}>Logout</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+    const UserMenu = (
+        <div className="d-flex align-items-center user-menu-trigger">
+            <IoPersonCircleOutline size={24} />
+            <span className="user-name">{userName || 'Account'}</span>
+        </div>
+    );
+
+    return (
+        <Navbar variant="light" expand="lg" className="site-navbar" sticky="top">
+            <Container>
+                <Navbar.Brand as={Link} to="/" className="navbar-brand-custom">
+                    <span className="brand-icon">💻</span>
+                    <span className="brand-text">LaptopStore</span>
+                </Navbar.Brand>
+                
+                <Navbar.Toggle aria-controls="main-navbar" />
+                
+                <Navbar.Collapse id="main-navbar">
+                    <Nav className="mx-auto main-nav">
+                        <Nav.Link 
+                            as={Link} 
+                            to="/" 
+                            className={`nav-link-custom ${isActive('/') ? 'active' : ''}`}
+                        >
+                            Home
+                        </Nav.Link>
+                        <Nav.Link 
+                            as={Link} 
+                            to="/" 
+                            className="nav-link-custom"
+                        >
+                            Laptops
+                        </Nav.Link>
+                    </Nav>
+
+                    <div className="d-flex align-items-center navbar-actions">
+                        {/*cart button*/}
+                        <Link to="/cart" className="cart-button">
+                            <IoCartOutline size={24} />
+                            {cartCount > 0 && (
+                                <span className="cart-badge">{cartCount > 9 ? '9+' : cartCount}</span>
+                            )}
+                        </Link>
+
+                        {/*User Dropdown*/}
+                        <Nav>
+                            <NavDropdown
+                                className='user-dropdown'
+                                title={UserMenu}
+                                id="user-nav-dropdown"
+                                align="end"
+                            >
+                                <NavDropdown.Header className="dropdown-header">
+                                    <span className="signed-in-text">Signed in as</span>
+                                    <strong className="user-email">{userName || '...'}</strong>
+                                </NavDropdown.Header>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item as={Link} to="/profile" className="dropdown-item-custom">
+                                    <CgProfile className="dropdown-icon" />
+                                    <span>My Profile</span>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/orders" className="dropdown-item-custom">
+                                    <BsBoxSeam className="dropdown-icon" />
+                                    <span>My Orders</span>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/cart" className="dropdown-item-custom">
+                                    <IoCartOutline className="dropdown-icon" />
+                                    <span>My Cart</span>
+                                    {cartCount > 0 && <span className="item-badge">{cartCount}</span>}
+                                </NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={handleLogout} className="dropdown-item-custom logout-item">
+                                    <TbLogout2 className="dropdown-icon" />
+                                    <span>Logout</span>
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+                    </div>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+    );
 }
 
 export default NavbarLogged;

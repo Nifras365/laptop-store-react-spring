@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import '../css/LaptopCardAdmin.css';
-import { Card, Row, Col } from "react-bootstrap";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrash, FaBox } from "react-icons/fa";
 
-const LaptopCardAdmin = ({ laptop, onEdit, onDelete }) => {
+const LaptopCardAdmin = ({ laptop, onEdit, onDelete, formatPrice }) => {
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     const handleEditClick = () => {
         onEdit(laptop.id);
@@ -13,24 +13,56 @@ const LaptopCardAdmin = ({ laptop, onEdit, onDelete }) => {
         onDelete(laptop.id);
     };
 
+    const isLowStock = laptop.stockQuantity <= 5;
+    const isOutOfStock = laptop.stockQuantity === 0;
+
     return (
-        <Card className="laptop-card">
-            <Card.Img variant="top" src={laptop.image} className="laptop-card-img" />
-            <Card.Body>
-                <Card.Title>Price: {laptop.price} LKR</Card.Title>
-                <Card.Text>{laptop.model}</Card.Text>
-                <Row>
-                    <Col>
-                        <FaEdit className="iocart" onClick={handleEditClick} />
-                    </Col>
-                    <Col>
-                        <button className="buy-now-btn" onClick={handleDeleteClick}>
-                            Delete
-                        </button>
-                    </Col>
-                </Row>
-            </Card.Body>
-        </Card>
+        <div className="admin-laptop-card">
+            <div className="card-image-wrapper">
+                {!imageLoaded && <div className="image-placeholder" />}
+                <img 
+                    src={laptop.image} 
+                    alt={laptop.model}
+                    className={`card-image ${imageLoaded ? 'loaded' : ''}`}
+                    onLoad={() => setImageLoaded(true)}
+                    loading="lazy"
+                />
+                <div className={`stock-badge ${isOutOfStock ? 'out' : isLowStock ? 'low' : 'in'}`}>
+                    <FaBox />
+                    <span>{laptop.stockQuantity} in stock</span>
+                </div>
+            </div>
+
+            <div className="card-content">
+                <div className="card-header">
+                    <span className="brand-tag">{laptop.brand}</span>
+                    <h3 className="card-title">{laptop.model}</h3>
+                </div>
+
+                <p className="card-price">
+                    {formatPrice ? formatPrice(laptop.price) : `${laptop.price} LKR`}
+                </p>
+
+                <div className="card-actions">
+                    <button 
+                        className="btn-edit"
+                        onClick={handleEditClick}
+                        title="Edit laptop"
+                    >
+                        <FaEdit />
+                        <span>Edit</span>
+                    </button>
+                    <button 
+                        className="btn-delete"
+                        onClick={handleDeleteClick}
+                        title="Delete laptop"
+                    >
+                        <FaTrash />
+                        <span>Delete</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     );
 };
 
