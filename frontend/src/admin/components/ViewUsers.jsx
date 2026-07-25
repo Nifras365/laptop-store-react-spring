@@ -16,7 +16,7 @@ const ViewUsers = () => {
     const fetchUsers = async () => {
         try {
             const response = await apiClient.get('/users/get-all');
-            setUsers(response.data || []);
+            setUsers(response.data.data || []);
         } catch (err) {
             console.error('Failed to fetch users:', err);
             setError('Failed to load users. Please try again.');
@@ -57,12 +57,12 @@ const ViewUsers = () => {
             ) : (
                 <div className="users-grid">
                     {users.map((user) => (
-                        <div key={user.id} className="user-card">
+                        <div key={user.userId} className="user-card">
                             <div className="user-avatar">
                                 <FaUser />
                             </div>
                             <div className="user-info">
-                                <h3>{user.firstName} {user.lastName}</h3>
+                                <h3>{user.name}</h3>
                                 <span className={`role-badge ${user.role?.toLowerCase()}`}>
                                     <FaUserShield />
                                     {user.role || 'USER'}
@@ -73,10 +73,10 @@ const ViewUsers = () => {
                                     <FaEnvelope />
                                     <span>{user.email}</span>
                                 </div>
-                                {user.contact && (
+                                {user.phone && (
                                     <div className="detail-item">
                                         <FaPhone />
-                                        <span>{user.contact}</span>
+                                        <span>{user.phone}</span>
                                     </div>
                                 )}
                                 {user.address && (

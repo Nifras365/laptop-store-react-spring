@@ -15,6 +15,8 @@ const CartCard = ({ laptop }) => {
     const [success, setSuccess] = useState(false);
     const { userID, isAuthenticated } = useAuth();
     const navigate = useNavigate();
+    const stockLimit = Number(laptop.stockQuantity);
+    const hasStockLimit = Number.isFinite(stockLimit);
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat('en-US', {
@@ -27,6 +29,11 @@ const CartCard = ({ laptop }) => {
     const handleQuantityChange = (delta) => {
         const newQuantity = quantity + delta;
         if (newQuantity >= 1) {
+            if (hasStockLimit && newQuantity > stockLimit) {
+                setError(`Only ${stockLimit} units available in stock.`);
+                return;
+            }
+            setError('');
             setQuantity(newQuantity);
         }
     };
@@ -36,6 +43,11 @@ const CartCard = ({ laptop }) => {
     const handleAddToCart = async () => {
         if (!isAuthenticated) {
             navigate('/login');
+            return;
+        }
+
+        if (hasStockLimit && quantity > stockLimit) {
+            setError(`Only ${stockLimit} units available in stock.`);
             return;
         }
 
@@ -104,6 +116,11 @@ const CartCard = ({ laptop }) => {
 
                         <div className="quantity-section">
                             <span className="quantity-label">Quantity</span>
+                            {hasStockLimit ? (
+                                <span className="stock-availability">
+                                    {stockLimit} available in stock
+                                </span>
+                            ) : null}
                             <div className="quantity-controls-large">
                                 <button 
                                     className="qty-btn-large"
@@ -116,6 +133,7 @@ const CartCard = ({ laptop }) => {
                                 <button 
                                     className="qty-btn-large"
                                     onClick={() => handleQuantityChange(1)}
+                                    disabled={hasStockLimit ? quantity >= stockLimit : false}
                                 >
                                     <FaCirclePlus />
                                 </button>

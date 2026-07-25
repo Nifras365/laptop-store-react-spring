@@ -5,7 +5,7 @@ import { PageShell, PageHeader, EmptyState } from "../components/ui";
 
 const AddToCart = () => {
     const location = useLocation();
-    const { id, image, price, model } = location.state || {};
+    const { id, image, price, model, stockQuantity } = location.state || {};
     const navigate = useNavigate();
 
     return (
@@ -17,7 +17,7 @@ const AddToCart = () => {
             />
             
             {id ? (
-                <CartCard laptop={{ id, image, price, model }} />
+                <CartCard laptop={{ id, image, price, model, stockQuantity }} />
             ) : (
                 <EmptyState
                     icon="cart"
