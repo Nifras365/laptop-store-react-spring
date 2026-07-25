@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class OrderItemDTO {
+    private Long laptopID;
     private String title;
     private Long quantity;
     private Long totalPrice;

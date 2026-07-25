@@ -10,6 +10,7 @@ public interface CartService {
     Long addToCart(CartDTO cartDTO);
     List<CartEntity> getAllCartDetails();
     Optional<CartEntity> getCartDetailsById(Long cartID);
+    void updateCart(Long cartID, CartDTO cartDTO);
     void deleteCartDetails(Long cartID);
     List<CartEntity> getCartItemsByUserID(Long userID);
     public void deleteUserCarts(Long userID);

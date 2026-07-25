@@ -15,6 +15,7 @@ public class OrderItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderItemId;
+    private Long laptopID;
     private String title;
     private Long quantity;
     private Long totalPrice;

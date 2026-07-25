@@ -38,6 +38,13 @@ public class CartController {
 
         return cart.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
+    @PutMapping("/update/{cartID}")
+    public ResponseEntity<ResponseDTO<String>> updateCartItem(@PathVariable Long cartID, @RequestBody CartDTO cartDTO){
+        cartService.updateCart(cartID, cartDTO);
+        return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(),
+                "Cart Updated Successfully !!!", "Updated"));
+    }
+
     @DeleteMapping("/delete/{cartID}")
     public ResponseEntity<Void> deleteCartDetail(@PathVariable Long cartID){
         cartService.deleteCartDetails(cartID);

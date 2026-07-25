@@ -8,6 +8,7 @@ import laptop_store.olsbackend.exceptions.OutOfRangeException;
 import laptop_store.olsbackend.mapper.CartMapper;
 import laptop_store.olsbackend.repository.CartRepository;
 import laptop_store.olsbackend.repository.LaptopRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class CartServiceImpl implements CartService{
     @Autowired
     private CartRepository cartRepository;
@@ -32,6 +34,8 @@ public class CartServiceImpl implements CartService{
             LaptopEntity laptop = laptopAvailability.get();
 
             if (laptop.getStockQuantity() < cartDTO.getQuantity()){
+                log.info("Requested quantity exceeds available stock. Laptop ID: {}, Requested Quantity: {}, Available Stock: {}",
+                        cartDTO.getLaptopID(), cartDTO.getQuantity(), laptop.getStockQuantity());
                 throw new OutOfRangeException("Requested quantity exceeds available stock !!!");
             }
 
@@ -54,6 +58,20 @@ public class CartServiceImpl implements CartService{
     public Optional<CartEntity> getCartDetailsById(Long cartID){
         return cartRepository.findById(cartID);
     }
+    @Override
+    public void updateCart(Long cartID, CartDTO cartDTO){
+        CartEntity cartEntity = cartRepository.findById(cartID)
+                .orElseThrow(() -> new ItemNotFoundException("Cart item not found with ID: " + cartID));
+
+        if (cartDTO.getQuantity() != null) {
+            cartEntity.setQuantity(cartDTO.getQuantity());
+        }
+        if (cartDTO.getTotalPrice() != null) {
+            cartEntity.setTotalPrice(cartDTO.getTotalPrice());
+        }
+        cartRepository.save(cartEntity);
+    }
+
     @Override
     public void deleteCartDetails(Long cartID){
         cartRepository.deleteById(cartID);

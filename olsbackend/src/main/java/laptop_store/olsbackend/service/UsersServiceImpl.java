@@ -29,7 +29,7 @@ public class UsersServiceImpl implements UsersService{
         if (adminCheck.isEmpty()){
             UsersEntity admin = UsersEntity.builder()
                     .email("admin@gmail.com")
-                    .password("")
+                    .password("123456")
                     .name("Admin")
                     .role("ADMIN")
                     .build();
@@ -94,5 +94,42 @@ public class UsersServiceImpl implements UsersService{
                 .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
 
         return Collections.singletonList(usersEntity);
+    }
+
+    @Override
+    public List<UsersDTO> getUserDetailsDTOById(Long userId){
+        UsersEntity usersEntity = usersRepository.findByUserId(userId)
+                .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
+
+        return Collections.singletonList(usersMapper.mapToDto(usersEntity));
+    }
+
+    @Override
+    public List<UsersDTO> getAllUsers(){
+        return usersRepository.findAll().stream()
+                .map(usersMapper::mapToDto)
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    @Override
+    public void updateUser(Long userId, UsersDTO usersDTO){
+        UsersEntity usersEntity = usersRepository.findByUserId(userId)
+                .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
+
+        if (usersDTO.getName() != null) usersEntity.setName(usersDTO.getName());
+        if (usersDTO.getEmail() != null) usersEntity.setEmail(usersDTO.getEmail());
+        if (usersDTO.getPhone() != null) usersEntity.setPhone(usersDTO.getPhone());
+        if (usersDTO.getAddress() != null) usersEntity.setAddress(usersDTO.getAddress());
+        if (usersDTO.getCountry() != null) usersEntity.setCountry(usersDTO.getCountry());
+        if (usersDTO.getRole() != null) usersEntity.setRole(usersDTO.getRole());
+
+        usersRepository.save(usersEntity);
+    }
+
+    @Override
+    public void deleteUser(Long userId){
+        UsersEntity usersEntity = usersRepository.findByUserId(userId)
+                .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
+        usersRepository.delete(usersEntity);
     }
 }

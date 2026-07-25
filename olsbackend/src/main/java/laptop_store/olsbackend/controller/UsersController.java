@@ -81,7 +81,7 @@ public class UsersController {
     }
 
     @GetMapping("/id/{userId}")
-    private ResponseEntity<ResponseDTO<String>> getUserNameByID(@PathVariable Long userId){
+    public ResponseEntity<ResponseDTO<String>> getUserNameByID(@PathVariable Long userId){
         String userName = usersService.findUserName(userId);
 
         ResponseDTO<String> responseDTO = new ResponseDTO<>(HttpStatus.OK.value(),
@@ -91,15 +91,37 @@ public class UsersController {
     }
 
     @GetMapping("/userdetails/{userId}")
-    private ResponseEntity<ResponseDTO<List<UsersEntity>>> getUserDetails(@PathVariable Long userId){
-        List<UsersEntity> usersEntityList = usersService.getUserDetailsById(userId);
+    public ResponseEntity<ResponseDTO<List<UsersDTO>>> getUserDetails(@PathVariable Long userId){
+        List<UsersDTO> usersDTOList = usersService.getUserDetailsDTOById(userId);
 
-        ResponseDTO<List<UsersEntity>> responseDTO1 = new ResponseDTO<>(
+        ResponseDTO<List<UsersDTO>> responseDTO1 = new ResponseDTO<>(
                 HttpStatus.OK.value(),
                 "User details fetched !!!",
-                usersEntityList
+                usersDTOList
         );
 
         return ResponseEntity.ok(responseDTO1);
+    }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<ResponseDTO<List<UsersDTO>>> getAllUsers(){
+        List<UsersDTO> users = usersService.getAllUsers();
+
+        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(),
+                "All users fetched successfully !!!", users));
+    }
+
+    @PutMapping("/update-user/{userId}")
+    public ResponseEntity<ResponseDTO<String>> updateUser(@PathVariable Long userId, @RequestBody UsersDTO usersDTO){
+        usersService.updateUser(userId, usersDTO);
+
+        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(),
+                "User updated successfully !!!", "Updated"));
+    }
+
+    @DeleteMapping("/delete-user/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId){
+        usersService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
     }
 }
