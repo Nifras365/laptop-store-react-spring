@@ -39,6 +39,9 @@ public class CartServiceImpl implements CartService{
                 throw new OutOfRangeException("Requested quantity exceeds available stock !!!");
             }
 
+            //update stock
+            laptop.setStockQuantity(laptop.getStockQuantity() - cartDTO.getQuantity());
+
             return cartRepository.save(CartEntity.builder()
                     .userID(cartDTO.getUserID())
                     .laptopID(cartDTO.getLaptopID())
