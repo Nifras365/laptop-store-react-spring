@@ -9,6 +9,7 @@ import laptop_store.olsbackend.exceptions.UnauthorizedException;
 import laptop_store.olsbackend.mapper.UsersMapper;
 import laptop_store.olsbackend.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -22,14 +23,21 @@ public class UsersServiceImpl implements UsersService{
     @Autowired
     private UsersMapper usersMapper;
 
+    @Value("${admin.email}")
+    private String adminEmail;
+
+    @Value("${admin.password}")
+    private String adminPassword;
+
     @PostConstruct
+
     public void createAdminIfNotExist(){
         Optional<UsersEntity> adminCheck = usersRepository.findByRole("ADMIN");
 
         if (adminCheck.isEmpty()){
             UsersEntity admin = UsersEntity.builder()
-                    .email("admin@gmail.com")
-                    .password("123456")
+                    .email(adminEmail)
+                    .password(adminPassword)
                     .name("Admin")
                     .role("ADMIN")
                     .build();

@@ -64,10 +64,21 @@ public class CartServiceImpl implements CartService{
                 .orElseThrow(() -> new ItemNotFoundException("Cart item not found with ID: " + cartID));
 
         if (cartDTO.getQuantity() != null) {
+            if (cartDTO.getQuantity() <= 0) {
+                throw new OutOfRangeException("Quantity must be greater than zero.");
+            }
+            LaptopEntity laptop = laptopRepository.findById(cartEntity.getLaptopID())
+                    .orElseThrow(() -> new ItemNotFoundException("Laptop not found with ID: " + cartEntity.getLaptopID()));
+
+            if (laptop.getStockQuantity() < cartDTO.getQuantity()) {
+
+                log.info("Requested quantity exceeds available stock. Laptop ID: {}, Requested Quantity: {}, Available Stock: {}",
+                        cartEntity.getLaptopID(), cartDTO.getQuantity(), laptop.getStockQuantity());
+                throw new OutOfRangeException("Requested quantity exceeds available stock.");
+            }
+
             cartEntity.setQuantity(cartDTO.getQuantity());
-        }
-        if (cartDTO.getTotalPrice() != null) {
-            cartEntity.setTotalPrice(cartDTO.getTotalPrice());
+            cartEntity.setTotalPrice((long) laptop.getPrice() * cartDTO.getQuantity());
         }
         cartRepository.save(cartEntity);
     }
