@@ -9,6 +9,7 @@ import laptop_store.olsbackend.exceptions.UnauthorizedException;
 import laptop_store.olsbackend.mapper.UsersMapper;
 import laptop_store.olsbackend.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -22,14 +23,21 @@ public class UsersServiceImpl implements UsersService{
     @Autowired
     private UsersMapper usersMapper;
 
+    @Value("${admin.email}")
+    private String adminEmail;
+
+    @Value("${admin.password}")
+    private String adminPassword;
+
     @PostConstruct
+
     public void createAdminIfNotExist(){
         Optional<UsersEntity> adminCheck = usersRepository.findByRole("ADMIN");
 
         if (adminCheck.isEmpty()){
             UsersEntity admin = UsersEntity.builder()
-                    .email("admin@gmail.com")
-                    .password("")
+                    .email(adminEmail)
+                    .password(adminPassword)
                     .name("Admin")
                     .role("ADMIN")
                     .build();
@@ -94,5 +102,42 @@ public class UsersServiceImpl implements UsersService{
                 .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
 
         return Collections.singletonList(usersEntity);
+    }
+
+    @Override
+    public List<UsersDTO> getUserDetailsDTOById(Long userId){
+        UsersEntity usersEntity = usersRepository.findByUserId(userId)
+                .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
+
+        return Collections.singletonList(usersMapper.mapToDto(usersEntity));
+    }
+
+    @Override
+    public List<UsersDTO> getAllUsers(){
+        return usersRepository.findAll().stream()
+                .map(usersMapper::mapToDto)
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    @Override
+    public void updateUser(Long userId, UsersDTO usersDTO){
+        UsersEntity usersEntity = usersRepository.findByUserId(userId)
+                .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
+
+        if (usersDTO.getName() != null) usersEntity.setName(usersDTO.getName());
+        if (usersDTO.getEmail() != null) usersEntity.setEmail(usersDTO.getEmail());
+        if (usersDTO.getPhone() != null) usersEntity.setPhone(usersDTO.getPhone());
+        if (usersDTO.getAddress() != null) usersEntity.setAddress(usersDTO.getAddress());
+        if (usersDTO.getCountry() != null) usersEntity.setCountry(usersDTO.getCountry());
+        if (usersDTO.getRole() != null) usersEntity.setRole(usersDTO.getRole());
+
+        usersRepository.save(usersEntity);
+    }
+
+    @Override
+    public void deleteUser(Long userId){
+        UsersEntity usersEntity = usersRepository.findByUserId(userId)
+                .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
+        usersRepository.delete(usersEntity);
     }
 }

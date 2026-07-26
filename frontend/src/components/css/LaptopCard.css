@@ -116,6 +116,16 @@
     border-radius: var(--radius-sm);
 }
 
+.spec-tag.stock-tag.in-stock {
+    background-color: var(--success-light);
+    color: var(--success);
+}
+
+.spec-tag.stock-tag.out-of-stock {
+    background-color: var(--danger-light);
+    color: var(--danger);
+}
+
 /* Card Footer Section */
 .card-footer-section {
     display: flex;

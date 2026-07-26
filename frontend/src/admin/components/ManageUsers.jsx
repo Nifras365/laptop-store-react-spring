@@ -24,11 +24,11 @@ const ManageUsers = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         id: null,
-        firstName: '',
-        lastName: '',
+        name: '',
         email: '',
-        contact: '',
+        phone: '',
         address: '',
+        country: '',
         role: ''
     });
 
@@ -39,7 +39,7 @@ const ManageUsers = () => {
     const fetchUsers = async () => {
         try {
             const response = await apiClient.get('/users/get-all');
-            setUsers(response.data || []);
+            setUsers(response.data.data || []);
         } catch (err) {
             console.error('Failed to fetch users:', err);
             setError('Failed to load users. Please try again.');
@@ -50,12 +50,12 @@ const ManageUsers = () => {
 
     const handleEditClick = (user) => {
         setFormData({
-            id: user.id,
-            firstName: user.firstName || '',
-            lastName: user.lastName || '',
+            id: user.userId,
+            name: user.name || '',
             email: user.email || '',
-            contact: user.contact || '',
+            phone: user.phone || '',
             address: user.address || '',
+            country: user.country || '',
             role: user.role || 'USER'
         });
         setEditModal(true);
@@ -86,7 +86,14 @@ const ManageUsers = () => {
         setIsSubmitting(true);
 
         try {
-            await apiClient.put(`/users/update-user/${formData.id}`, formData);
+            await apiClient.put(`/users/update-user/${formData.id}`, {
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                address: formData.address,
+                country: formData.country,
+                role: formData.role
+            });
             setEditModal(false);
             fetchUsers();
         } catch (err) {
@@ -139,22 +146,22 @@ const ManageUsers = () => {
                         </thead>
                         <tbody>
                             {users.map((user) => (
-                                <tr key={user.id}>
+                                <tr key={user.userId}>
                                     <td>
                                         <div className="user-cell">
                                             <div className="user-avatar-sm">
                                                 <FaUser />
                                             </div>
                                             <div>
-                                                <div className="user-name">{user.firstName} {user.lastName}</div>
+                                                <div className="user-name">{user.name}</div>
                                                 <div className="user-email">{user.email}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <div className="contact-cell">
-                                            {user.contact && (
-                                                <span><FaPhone /> {user.contact}</span>
+                                            {user.phone && (
+                                                <span><FaPhone /> {user.phone}</span>
                                             )}
                                             {user.address && (
                                                 <span><FaMapMarkerAlt /> {user.address}</span>
@@ -178,7 +185,7 @@ const ManageUsers = () => {
                                             </button>
                                             <button
                                                 className="btn-icon delete"
-                                                onClick={() => handleDeleteClick(user.id, `${user.firstName} ${user.lastName}`)}
+                                                onClick={() => handleDeleteClick(user.userId, user.name)}
                                                 title="Delete user"
                                             >
                                                 <FaTrash />
@@ -199,26 +206,15 @@ const ManageUsers = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-                        <div className="form-grid">
-                            <Form.Group className="mb-3">
-                                <Form.Label>First Name</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="firstName"
-                                    value={formData.firstName}
-                                    onChange={handleInputChange}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Last Name</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="lastName"
-                                    value={formData.lastName}
-                                    onChange={handleInputChange}
-                                />
-                            </Form.Group>
-                        </div>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
@@ -229,11 +225,11 @@ const ManageUsers = () => {
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
-                            <Form.Label>Contact</Form.Label>
+                            <Form.Label>Phone</Form.Label>
                             <Form.Control
                                 type="text"
-                                name="contact"
-                                value={formData.contact}
+                                name="phone"
+                                value={formData.phone}
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
@@ -243,6 +239,15 @@ const ManageUsers = () => {
                                 type="text"
                                 name="address"
                                 value={formData.address}
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Country</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="country"
+                                value={formData.country}
                                 onChange={handleInputChange}
                             />
                         </Form.Group>

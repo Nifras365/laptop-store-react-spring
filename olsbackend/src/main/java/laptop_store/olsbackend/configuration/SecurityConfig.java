@@ -28,12 +28,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
-                        .requestMatchers("/laptops/create", "/laptops/update-laptop/", "/laptops/delete-laptop/**").hasRole("ADMIN")
+                        .requestMatchers("/users/create", "/users/login", "/users/{email}").permitAll()
+                        .requestMatchers("/users/get-all", "/users/update-user/**", "/users/delete-user/**").hasRole("ADMIN")
+                        .requestMatchers("/laptops/create", "/laptops/update-laptop/**", "/laptops/delete-laptop/**").hasRole("ADMIN")
                         .requestMatchers("/orders/get-all").hasRole("ADMIN")
-                        .requestMatchers("/orders/user/**").hasRole("USER")
-                        .requestMatchers("/cart/create", "/cart/delete", "/cart/user/**").permitAll()
-                        .requestMatchers("/laptops/get-all").permitAll()
-                        .requestMatchers("/users/{email}").permitAll()
+                        .requestMatchers("/laptops/get-all", "/laptops/{id}").permitAll()
+                        .requestMatchers("/cart/**").permitAll()
+                        .requestMatchers("/orders/**").permitAll()
                         .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))

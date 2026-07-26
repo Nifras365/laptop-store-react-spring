@@ -114,6 +114,11 @@
     color: var(--gray-700);
 }
 
+.stock-availability {
+    font-size: var(--text-sm);
+    color: var(--gray-500);
+}
+
 .quantity-controls-large {
     display: flex;
     align-items: center;

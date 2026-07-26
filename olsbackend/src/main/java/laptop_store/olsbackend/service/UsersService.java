@@ -14,4 +14,8 @@ public interface UsersService {
     Long findUserID(String email);
     String findUserName(Long userId);
     List<UsersEntity> getUserDetailsById(Long userId);
+    List<UsersDTO> getUserDetailsDTOById(Long userId);
+    List<UsersDTO> getAllUsers();
+    void updateUser(Long userId, UsersDTO usersDTO);
+    void deleteUser(Long userId);
 }

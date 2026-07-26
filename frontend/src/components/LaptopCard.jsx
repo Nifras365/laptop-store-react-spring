@@ -26,7 +26,8 @@ const LaptopCard = ({ laptop }) => {
                 id: laptop.id, 
                 image: laptop.image, 
                 price: laptop.price, 
-                model: laptop.model 
+                model: laptop.model,
+                stockQuantity: laptop.stockQuantity 
             } 
         });
     };
@@ -72,6 +73,9 @@ const LaptopCard = ({ laptop }) => {
                         {laptop.processor && (
                             <span className="spec-tag">{laptop.processor}</span>
                         )}
+                        <span className={`spec-tag stock-tag ${isInStock ? 'in-stock' : 'out-of-stock'}`}>
+                            {isInStock ? `${laptop.stockQuantity} in stock` : 'Out of stock'}
+                        </span>
                     </div>
 
                     <div className="card-footer-section mt-auto">
