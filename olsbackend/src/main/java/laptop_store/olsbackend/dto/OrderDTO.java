@@ -13,6 +13,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Builder
 public class OrderDTO {
+    private Long orderId;
     private Long userID;
     private List<OrderItemDTO> orderItemDTOS;
     private Long finalPrice;

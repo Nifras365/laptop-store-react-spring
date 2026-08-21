@@ -162,13 +162,13 @@ const Orders = () => {
                                 onClick={() => toggleOrder(order.orderId)}
                             >
                                 <div className="order-header-left">
-                                    <span className="order-number">Order #{order.orderItemDTOS[0]?.quantity}</span>
+                                    <span className="order-number">Order #{order.orderId}</span>
                                     <span className="order-title">{order.orderItemDTOS[0]?.title}</span>
                                 </div>
                                 <div className="order-header-right">
                                     <span className="order-total">{formatPrice(order.finalPrice)} LKR</span>
                                     <span className="order-items-count">
-                                        {order.orderItemDTOS[0]?.quantity} item{order.orderItemDTOS[0]?.quantity !== 1 ? 's' : ''}
+                                        {order.orderItemDTOS?.reduce((sum, item) => sum + item.quantity, 0)} item{order.orderItemDTOS?.reduce((sum, item) => sum + item.quantity, 0) !== 1 ? 's' : ''}
                                     </span>
                                     <span className="order-toggle">
                                         {expandedOrders[order.orderId] ? <IoChevronUp /> : <IoChevronDown />}

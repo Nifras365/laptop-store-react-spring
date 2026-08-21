@@ -10,18 +10,23 @@ import laptop_store.olsbackend.mapper.UsersMapper;
 import laptop_store.olsbackend.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UsersServiceImpl implements UsersService{
     @Autowired
     private UsersRepository usersRepository;
     @Autowired
     private UsersMapper usersMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Value("${admin.email}")
     private String adminEmail;
@@ -37,11 +42,14 @@ public class UsersServiceImpl implements UsersService{
         if (adminCheck.isEmpty()){
             UsersEntity admin = UsersEntity.builder()
                     .email(adminEmail)
-                    .password(adminPassword)
+                    .password(passwordEncoder.encode(adminPassword))
                     .name("Admin")
                     .role("ADMIN")
                     .build();
             usersRepository.save(admin);
+            log.info("Default Admin user created successfully with email: {}", adminEmail);
+        } else {
+            log.info("Admin user already exists, skipping creation.");
         }
     }
 
@@ -56,17 +64,19 @@ public class UsersServiceImpl implements UsersService{
         if (!usersDTO.getPassword().equals(usersDTO.getConfirmPassword())){
             throw new UnauthorizedException("Password didn't match !!!: " + usersDTO.getPassword());
         }
-        return usersRepository.save(UsersEntity.builder()
+        Long savedUserId = usersRepository.save(UsersEntity.builder()
                 .email(usersDTO.getEmail())
                 .name(usersDTO.getName())
-                .password(usersDTO.getPassword())
-                .confirmPassword(usersDTO.getConfirmPassword())
+                .password(passwordEncoder.encode(usersDTO.getPassword()))
                 .phone(usersDTO.getPhone())
                 .address(usersDTO.getAddress())
                 .country(usersDTO.getCountry())
                 .role("USER")
                 .build()).getUserId();
 
+        log.info("New user registered successfully with ID: {} and email: {}", savedUserId, usersDTO.getEmail());
+        
+        return savedUserId;
     }
 
     @Override

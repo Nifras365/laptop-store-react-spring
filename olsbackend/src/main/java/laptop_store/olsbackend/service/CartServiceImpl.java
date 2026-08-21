@@ -73,12 +73,16 @@ public class CartServiceImpl implements CartService{
             LaptopEntity laptop = laptopRepository.findById(cartEntity.getLaptopID())
                     .orElseThrow(() -> new ItemNotFoundException("Laptop not found with ID: " + cartEntity.getLaptopID()));
 
-            if (laptop.getStockQuantity() < cartDTO.getQuantity()) {
+            int quantityDifference = cartDTO.getQuantity() - cartEntity.getQuantity();
 
+            if (quantityDifference > 0 && laptop.getStockQuantity() < quantityDifference) {
                 log.info("Requested quantity exceeds available stock. Laptop ID: {}, Requested Quantity: {}, Available Stock: {}",
                         cartEntity.getLaptopID(), cartDTO.getQuantity(), laptop.getStockQuantity());
                 throw new OutOfRangeException("Requested quantity exceeds available stock.");
             }
+
+            laptop.setStockQuantity(laptop.getStockQuantity() - quantityDifference);
+            laptopRepository.save(laptop);
 
             cartEntity.setQuantity(cartDTO.getQuantity());
             cartEntity.setTotalPrice((long) laptop.getPrice() * cartDTO.getQuantity());
@@ -88,7 +92,15 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public void deleteCartDetails(Long cartID){
-        cartRepository.deleteById(cartID);
+        Optional<CartEntity> cartOpt = cartRepository.findById(cartID);
+        if (cartOpt.isPresent()) {
+            CartEntity cartEntity = cartOpt.get();
+            laptopRepository.findById(cartEntity.getLaptopID()).ifPresent(laptop -> {
+                laptop.setStockQuantity(laptop.getStockQuantity() + cartEntity.getQuantity());
+                laptopRepository.save(laptop);
+            });
+            cartRepository.deleteById(cartID);
+        }
     }
 
     @Override
