@@ -41,6 +41,7 @@ public class CartServiceImpl implements CartService{
 
             //update stock
             laptop.setStockQuantity(laptop.getStockQuantity() - cartDTO.getQuantity());
+            laptopRepository.save(laptop);
 
             return cartRepository.save(CartEntity.builder()
                     .userID(cartDTO.getUserID())

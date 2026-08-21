@@ -45,8 +45,8 @@ public class OrdersServiceImpl implements OrdersService{
 
         ordersEntity.setOrderItemEntities(orderItemEntities);
 
-        log.info("Creating order for user ID: {}, with final price: {}, and items: {}",
-                 ordersEntity.getUserID(), ordersEntity.getFinalPrice(), orderItemEntities);
+        log.info("Creating order for user ID: {}, with final price: {}, itemCount: {}",
+                 ordersEntity.getUserID(), ordersEntity.getFinalPrice(), orderItemEntities.size());
 
         return ordersRepository.save(ordersEntity).getOrderId();
     }
