@@ -9,6 +9,7 @@ import laptop_store.olsbackend.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,6 +25,8 @@ public class UsersController {
     private UsersService usersService;
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO<Long>> createUsers(@RequestBody UsersDTO usersDTO){
@@ -39,7 +42,14 @@ public class UsersController {
             if (existingUserCheck.isPresent()) {
                 UsersDTO user = existingUserCheck.get();
 
-                if (user.getPassword().equals(password)) {
+                boolean passwordMatches = false;
+                try {
+                    passwordMatches = passwordEncoder.matches(password, user.getPassword());
+                } catch (IllegalArgumentException e) {
+                    passwordMatches = false;
+                }
+
+                if (passwordMatches) {
                     String role = usersService.findRole(email)
                             .orElseThrow(() -> new RuntimeException("Role not found"));
 
