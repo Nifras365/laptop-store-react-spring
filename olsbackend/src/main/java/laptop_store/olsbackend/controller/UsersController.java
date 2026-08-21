@@ -42,7 +42,14 @@ public class UsersController {
             if (existingUserCheck.isPresent()) {
                 UsersDTO user = existingUserCheck.get();
 
-                if (passwordEncoder.matches(password, user.getPassword())) {
+                boolean passwordMatches = false;
+                try {
+                    passwordMatches = passwordEncoder.matches(password, user.getPassword());
+                } catch (IllegalArgumentException e) {
+                    passwordMatches = false;
+                }
+
+                if (passwordMatches) {
                     String role = usersService.findRole(email)
                             .orElseThrow(() -> new RuntimeException("Role not found"));
 

@@ -40,8 +40,8 @@ public class SecurityConfig {
                         .requestMatchers("/laptops/create", "/laptops/update-laptop/**", "/laptops/delete-laptop/**").hasRole("ADMIN")
                         .requestMatchers("/orders/get-all").hasRole("ADMIN")
                         .requestMatchers("/laptops/get-all", "/laptops/{id}").permitAll()
-                        .requestMatchers("/cart/**").permitAll()
-                        .requestMatchers("/orders/**").permitAll()
+                        .requestMatchers("/cart/**").authenticated()
+                        .requestMatchers("/orders/**").authenticated()
                         .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))

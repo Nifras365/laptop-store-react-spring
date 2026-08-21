@@ -11,12 +11,14 @@ import laptop_store.olsbackend.repository.LaptopRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
+@Transactional
 public class CartServiceImpl implements CartService{
     @Autowired
     private CartRepository cartRepository;
@@ -47,7 +49,7 @@ public class CartServiceImpl implements CartService{
                     .userID(cartDTO.getUserID())
                     .laptopID(cartDTO.getLaptopID())
                     .quantity(cartDTO.getQuantity())
-                    .totalPrice(cartDTO.getTotalPrice())
+                    .totalPrice((long) laptop.getPrice() * cartDTO.getQuantity())
                     .build()).getCartID();
         }
         else {
