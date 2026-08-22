@@ -17,5 +17,6 @@ public interface UsersService {
     List<UsersDTO> getUserDetailsDTOById(Long userId);
     List<UsersDTO> getAllUsers();
     void updateUser(Long userId, UsersDTO usersDTO);
+    void changePassword(Long userId, String oldPassword, String newPassword);
     void deleteUser(Long userId);
 }
