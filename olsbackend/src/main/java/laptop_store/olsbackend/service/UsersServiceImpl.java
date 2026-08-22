@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
@@ -134,14 +136,41 @@ public class UsersServiceImpl implements UsersService{
         UsersEntity usersEntity = usersRepository.findByUserId(userId)
                 .orElseThrow(()-> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isAdmin && authentication.getName() != null && !authentication.getName().equals(usersEntity.getEmail())) {
+            throw new UnauthorizedException("You are not authorized to update this profile.");
+        }
+
         if (usersDTO.getName() != null) usersEntity.setName(usersDTO.getName());
         if (usersDTO.getEmail() != null) usersEntity.setEmail(usersDTO.getEmail());
         if (usersDTO.getPhone() != null) usersEntity.setPhone(usersDTO.getPhone());
         if (usersDTO.getAddress() != null) usersEntity.setAddress(usersDTO.getAddress());
         if (usersDTO.getCountry() != null) usersEntity.setCountry(usersDTO.getCountry());
-        if (usersDTO.getRole() != null) usersEntity.setRole(usersDTO.getRole());
+        
+        if (usersDTO.getRole() != null && isAdmin) {
+            usersEntity.setRole(usersDTO.getRole());
+        }
+
+        log.info("Updating user ID: {} with new details: {}", userId, usersDTO);
 
         usersRepository.save(usersEntity);
+    }
+
+    @Override
+    public void changePassword(Long userId, String oldPassword, String newPassword) {
+        UsersEntity user = usersRepository.findByUserId(userId)
+                .orElseThrow(() -> new ItemNotFoundException("User doesn't exist with this UserId !!!"));
+
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new UnauthorizedException("Old password does not match!");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        usersRepository.save(user);
+        log.info("Password changed successfully for user ID: {}", userId);
     }
 
     @Override

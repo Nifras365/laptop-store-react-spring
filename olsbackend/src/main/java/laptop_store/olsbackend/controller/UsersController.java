@@ -3,6 +3,7 @@ package laptop_store.olsbackend.controller;
 import laptop_store.olsbackend.dto.LoginDTO;
 import laptop_store.olsbackend.dto.ResponseDTO;
 import laptop_store.olsbackend.dto.UsersDTO;
+import laptop_store.olsbackend.dto.ChangePasswordDTO;
 import laptop_store.olsbackend.entity.UsersEntity;
 import laptop_store.olsbackend.service.UsersService;
 import laptop_store.olsbackend.utils.JwtUtils;
@@ -127,6 +128,16 @@ public class UsersController {
 
         return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(),
                 "User updated successfully !!!", "Updated"));
+    }
+
+    @PutMapping("/{userId}/change-password")
+    public ResponseEntity<ResponseDTO<String>> changePassword(@PathVariable Long userId, @RequestBody ChangePasswordDTO changePasswordDTO) {
+        try {
+            usersService.changePassword(userId, changePasswordDTO.getOldPassword(), changePasswordDTO.getNewPassword());
+            return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "Password changed successfully!", "Changed"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null));
+        }
     }
 
     @DeleteMapping("/delete-user/{userId}")

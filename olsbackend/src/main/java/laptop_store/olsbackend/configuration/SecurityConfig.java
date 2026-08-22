@@ -36,12 +36,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
                         .requestMatchers("/users/create", "/users/login", "/users/{email}").permitAll()
-                        .requestMatchers("/users/get-all", "/users/update-user/**", "/users/delete-user/**").hasRole("ADMIN")
+                        .requestMatchers("/users/get-all", "/users/delete-user/**").hasRole("ADMIN")
                         .requestMatchers("/laptops/create", "/laptops/update-laptop/**", "/laptops/delete-laptop/**").hasRole("ADMIN")
                         .requestMatchers("/orders/get-all").hasRole("ADMIN")
                         .requestMatchers("/laptops/get-all", "/laptops/{id}").permitAll()
-                        .requestMatchers("/cart/**").authenticated()
-                        .requestMatchers("/orders/**").authenticated()
+                        .requestMatchers("/cart/**", "/orders/**", "/users/update-user/**", "/users/*/change-password").authenticated()
                         .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
