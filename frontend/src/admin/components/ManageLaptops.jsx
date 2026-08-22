@@ -5,13 +5,14 @@ import apiClient from '../../api/client';
 import axios from 'axios';
 import { Modal, Button, Form, Spinner } from "react-bootstrap";
 import { ConfirmModal } from "../../components/ui";
-import { FaTimes, FaBoxOpen } from "react-icons/fa";
+import { FaTimes, FaBoxOpen, FaSearch } from "react-icons/fa";
 
 const ManageLaptops = () => {
     const [laptops, setLaptops] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [show, setShow] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [deleteConfirm, setDeleteConfirm] = useState({ show: false, id: null, name: '' });
     const [formData, setFormData] = useState({
@@ -141,6 +142,11 @@ const ManageLaptops = () => {
         }).format(price);
     };
 
+    const filteredLaptops = laptops.filter(laptop => 
+        (laptop.model && laptop.model.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (laptop.brand && laptop.brand.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+
     if (loading) {
         return (
             <div className="manage-laptops-loading">
@@ -167,12 +173,23 @@ const ManageLaptops = () => {
             {laptops.length === 0 ? (
                 <div className="empty-state">
                     <FaBoxOpen className="empty-icon" />
-                    <h3>No laptops in inventory</h3>
-                    <p>Add your first laptop to get started</p>
+                    <h3>No laptops found</h3>
+                    <p>There are no laptops matching your criteria</p>
                 </div>
             ) : (
-                <div className="laptops-grid">
-                    {laptops.map((laptop) => (
+                <>
+                    <div className="search-bar-container" style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', background: 'var(--card-bg)', padding: '10px 15px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                        <FaSearch style={{ color: 'var(--text-secondary)', marginRight: '10px' }} />
+                        <input 
+                            type="text" 
+                            placeholder="Search laptops by brand or model..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{ border: 'none', background: 'transparent', outline: 'none', width: '100%', color: 'var(--text-primary)' }}
+                        />
+                    </div>
+                    <div className="laptops-grid">
+                        {filteredLaptops.map((laptop) => (
                         <LaptopCardAdmin
                             key={laptop.id}
                             laptop={laptop}
@@ -181,7 +198,8 @@ const ManageLaptops = () => {
                             formatPrice={formatPrice}
                         />
                     ))}
-                </div>
+                    </div>
+                </>
             )}
 
             {/* Edit Modal */}

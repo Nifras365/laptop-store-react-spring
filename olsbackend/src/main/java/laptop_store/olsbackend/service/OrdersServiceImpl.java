@@ -140,6 +140,15 @@ public class OrdersServiceImpl implements OrdersService{
     }
 
     @Override
+    public void updateOrderStatus(Long orderId, String status) {
+        OrdersEntity order = ordersRepository.findById(orderId)
+                .orElseThrow(() -> new ItemNotFoundException("Order not found with ID: " + orderId));
+        order.setStatus(status);
+        ordersRepository.save(order);
+        log.info("Order ID {} status updated to {}", orderId, status);
+    }
+
+    @Override
     public void deleteOrder(Long orderId) {
         OrdersEntity order = ordersRepository.findById(orderId)
                 .orElseThrow(() -> new ItemNotFoundException("Order not found with ID: " + orderId));

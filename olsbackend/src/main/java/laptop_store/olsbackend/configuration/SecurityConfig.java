@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/create", "/users/login", "/users/{email}").permitAll()
                         .requestMatchers("/users/get-all", "/users/delete-user/**").hasRole("ADMIN")
                         .requestMatchers("/laptops/create", "/laptops/update-laptop/**", "/laptops/delete-laptop/**").hasRole("ADMIN")
-                        .requestMatchers("/orders/get-all").hasRole("ADMIN")
+                        .requestMatchers("/orders/get-all", "/orders/*/status").hasRole("ADMIN")
                         .requestMatchers("/laptops/get-all", "/laptops/{id}").permitAll()
                         .requestMatchers("/cart/**", "/orders/**", "/users/update-user/**", "/users/*/change-password").authenticated()
                         .anyRequest().permitAll())

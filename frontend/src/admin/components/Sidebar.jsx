@@ -10,7 +10,8 @@ import {
     FaEye, 
     FaSignOutAlt,
     FaHome,
-    FaChevronDown
+    FaChevronDown,
+    FaBoxOpen
 } from "react-icons/fa";
 
 const SideBar = ({ selectedComponent, setSelectedComponent }) => {
@@ -18,6 +19,7 @@ const SideBar = ({ selectedComponent, setSelectedComponent }) => {
     const { logout } = useAuth();
     const [laptopsOpen, setLaptopsOpen] = React.useState(true);
     const [usersOpen, setUsersOpen] = React.useState(true);
+    const [ordersOpen, setOrdersOpen] = React.useState(true);
 
     const handleLogout = () => {
         logout();
@@ -101,6 +103,30 @@ const SideBar = ({ selectedComponent, setSelectedComponent }) => {
                             >
                                 <FaCog className="nav-icon" />
                                 <span>Manage Users</span>
+                            </button>
+                        </div>
+                    )}
+                </div>
+
+                <div className="nav-section">
+                    <button 
+                        className="nav-section-header"
+                        onClick={() => setOrdersOpen(!ordersOpen)}
+                    >
+                        <div className="section-title">
+                            <FaBoxOpen className="nav-icon" />
+                            <span>Orders</span>
+                        </div>
+                        <FaChevronDown className={`chevron ${ordersOpen ? 'open' : ''}`} />
+                    </button>
+                    {ordersOpen && (
+                        <div className="nav-section-items">
+                            <button
+                                className={`nav-item sub-item ${isActive('manage-orders') ? 'active' : ''}`}
+                                onClick={() => setSelectedComponent('manage-orders')}
+                            >
+                                <FaCog className="nav-icon" />
+                                <span>Manage Orders</span>
                             </button>
                         </div>
                     )}

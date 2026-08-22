@@ -9,5 +9,6 @@ public interface OrdersService {
     List<OrderDTO> getAllOrders();
     List<OrderDTO> getOrderByUserID(Long userID);
     void cancelOrder(Long orderId);
+    void updateOrderStatus(Long orderId, String status);
     void deleteOrder(Long orderId);
 }
