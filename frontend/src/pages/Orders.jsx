@@ -42,6 +42,26 @@ const Orders = () => {
         }));
     };
 
+    const handleCancelOrder = async (orderId) => {
+        if (!window.confirm("Are you sure you want to cancel this order?")) return;
+        try {
+            await apiClient.put(`/orders/${orderId}/cancel`);
+            setOrders(orders.map(o => o.orderId === orderId ? { ...o, status: 'CANCELLED' } : o));
+        } catch (error) {
+            setError(error.response?.data?.message || "Failed to cancel order");
+        }
+    };
+
+    const handleDeleteOrder = async (orderId) => {
+        if (!window.confirm("Are you sure you want to delete this order from your history?")) return;
+        try {
+            await apiClient.delete(`/orders/${orderId}`);
+            setOrders(orders.filter(o => o.orderId !== orderId));
+        } catch (error) {
+            setError(error.response?.data?.message || "Failed to delete order");
+        }
+    };
+
     useEffect(() => {
         // Show success message if redirected from checkout
         if (location.state?.orderSuccess) {
@@ -163,6 +183,12 @@ const Orders = () => {
                             >
                                 <div className="order-header-left">
                                     <span className="order-number">Order #{order.orderId}</span>
+                                    {order.createdAt && (
+                                        <span className="order-date">{formatDate(order.createdAt)}</span>
+                                    )}
+                                    <span className={`order-status status-${(order.status || 'PLACED').toLowerCase()}`}>
+                                        {order.status || 'PLACED'}
+                                    </span>
                                     <span className="order-title">{order.orderItemDTOS?.[0]?.title}</span>
                                 </div>
                                 <div className="order-header-right">
@@ -216,6 +242,25 @@ const Orders = () => {
                                     <div className="order-summary-row">
                                         <span className="order-summary-label">Order Total</span>
                                         <span className="order-summary-value">{formatPrice(order.finalPrice)} LKR</span>
+                                    </div>
+
+                                    <div className="order-actions">
+                                        {(!order.status || order.status === 'PLACED' || order.status === 'PROCESSING') && (
+                                            <button 
+                                                className="btn btn-outline-danger btn-sm"
+                                                onClick={() => handleCancelOrder(order.orderId)}
+                                            >
+                                                Cancel Order
+                                            </button>
+                                        )}
+                                        {(order.status === 'CANCELLED' || order.status === 'DELIVERED') && (
+                                            <button 
+                                                className="btn btn-outline-secondary btn-sm"
+                                                onClick={() => handleDeleteOrder(order.orderId)}
+                                            >
+                                                Delete History
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             </Collapse>

@@ -7,9 +7,12 @@ import laptop_store.olsbackend.entity.OrdersEntity;
 import laptop_store.olsbackend.mapper.OrdersMapper;
 import laptop_store.olsbackend.repository.LaptopRepository;
 import laptop_store.olsbackend.repository.OrdersRepository;
+import laptop_store.olsbackend.exceptions.ItemNotFoundException;
+import laptop_store.olsbackend.entity.LaptopEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Transactional
 public class OrdersServiceImpl implements OrdersService{
     @Autowired
     private OrdersRepository ordersRepository;
@@ -35,6 +39,7 @@ public class OrdersServiceImpl implements OrdersService{
         OrdersEntity ordersEntity = OrdersEntity.builder()
                 .userID(orderDTO.getUserID())
                 .finalPrice(orderDTO.getFinalPrice())
+                .status("PLACED")
                 .build();
 
         List<OrderItemEntity> orderItemEntities = ordersMapper.mapOrderItemToEntity(orderDTO.getOrderItemDTOS());
@@ -109,5 +114,41 @@ public class OrdersServiceImpl implements OrdersService{
         }
 
         return orderDTO;
+    }
+
+    @Override
+    public void cancelOrder(Long orderId) {
+        OrdersEntity order = ordersRepository.findById(orderId)
+                .orElseThrow(() -> new ItemNotFoundException("Order not found with ID: " + orderId));
+
+        if (!"PLACED".equals(order.getStatus()) && !"PROCESSING".equals(order.getStatus())) {
+            throw new IllegalStateException("Order cannot be cancelled in its current status: " + order.getStatus());
+        }
+
+        order.setStatus("CANCELLED");
+
+        // Restore stock
+        for (OrderItemEntity item : order.getOrderItemEntities()) {
+            LaptopEntity laptop = laptopRepository.findById(item.getLaptopID())
+                    .orElseThrow(() -> new ItemNotFoundException("Laptop not found with ID: " + item.getLaptopID()));
+            laptop.setStockQuantity(Math.toIntExact(laptop.getStockQuantity() + item.getQuantity()));
+            laptopRepository.save(laptop);
+        }
+
+        ordersRepository.save(order);
+        log.info("Order ID {} cancelled successfully", orderId);
+    }
+
+    @Override
+    public void deleteOrder(Long orderId) {
+        OrdersEntity order = ordersRepository.findById(orderId)
+                .orElseThrow(() -> new ItemNotFoundException("Order not found with ID: " + orderId));
+
+        if (!"CANCELLED".equals(order.getStatus()) && !"DELIVERED".equals(order.getStatus())) {
+            throw new IllegalStateException("Order cannot be deleted unless it is CANCELLED or DELIVERED. Current status: " + order.getStatus());
+        }
+
+        ordersRepository.delete(order);
+        log.info("Order ID {} deleted successfully", orderId);
     }
 }
