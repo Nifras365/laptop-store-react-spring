@@ -67,6 +67,14 @@ public class OrdersController {
         }
     }
 
+    @PutMapping("/{orderId}/status")
+    public ResponseEntity<ResponseDTO<String>> updateOrderStatus(@PathVariable Long orderId, @RequestParam String status) {
+        log.info("Received request to update status for order ID: {} to {}", orderId, status);
+        ordersService.updateOrderStatus(orderId, status);
+        return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(),
+                "Order status updated successfully", status));
+    }
+
     @DeleteMapping("/{orderId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
         log.info("Received request to delete order ID: {}", orderId);

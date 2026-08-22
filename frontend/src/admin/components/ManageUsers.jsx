@@ -12,7 +12,8 @@ import {
     FaTrash, 
     FaTimes,
     FaUsers,
-    FaUserShield
+    FaUserShield,
+    FaSearch
 } from "react-icons/fa";
 
 const ManageUsers = () => {
@@ -20,6 +21,7 @@ const ManageUsers = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [editModal, setEditModal] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     const [deleteConfirm, setDeleteConfirm] = useState({ show: false, id: null, name: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
@@ -104,6 +106,12 @@ const ManageUsers = () => {
         }
     };
 
+    const filteredUsers = users.filter(user => 
+        (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (user.email && user.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (user.role && user.role.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+
     if (loading) {
         return (
             <div className="manage-users-loading">
@@ -135,6 +143,16 @@ const ManageUsers = () => {
                 </div>
             ) : (
                 <div className="users-table-container">
+                    <div className="search-bar-container" style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', background: 'var(--card-bg)', padding: '10px 15px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                        <FaSearch style={{ color: 'var(--text-secondary)', marginRight: '10px' }} />
+                        <input 
+                            type="text" 
+                            placeholder="Search users by name, email, or role..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{ border: 'none', background: 'transparent', outline: 'none', width: '100%', color: 'var(--text-primary)' }}
+                        />
+                    </div>
                     <table className="users-table">
                         <thead>
                             <tr>
@@ -145,7 +163,7 @@ const ManageUsers = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map((user) => (
+                            {filteredUsers.map((user) => (
                                 <tr key={user.userId}>
                                     <td>
                                         <div className="user-cell">
