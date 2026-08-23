@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import NavbarBL from "../components/NavbarBL";
 import NavbarLogged from "../components/LoggedNavbar/NavbarLogged";
-import { Container, Col, Row, Form, InputGroup } from "react-bootstrap";
+import { Container, Col, Row, Form, InputGroup, Button } from "react-bootstrap";
 import { IoSearch, IoFilter, IoClose } from "react-icons/io5";
 import LaptopCard from "../components/LaptopCard";
 import '../pagescss/welcome.css';
@@ -24,84 +24,109 @@ const Welcome = () => {
     const [laptops, setLaptops] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, userID } = useAuth();
     
     // Search and Filter State
     const [searchQuery, setSearchQuery] = useState('');
     const [priceRange, setPriceRange] = useState('all');
     const [sortBy, setSortBy] = useState('newest');
     const [showFilters, setShowFilters] = useState(false);
+    const [selectedBrand, setSelectedBrand] = useState('all');
     
+    // Pagination State
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalElements, setTotalElements] = useState(0);
+    const [brands, setBrands] = useState([]);
+    const [wishlistIds, setWishlistIds] = useState(new Set());
+    
+    
+    
+    // Fetch unique brands once
     useEffect(() => {
-        async function fetchLaptops() {
+        async function fetchBrands() {
             try {
                 const response = await apiClient.get('/laptops/get-all');
-                setLaptops(response.data.data || []);
+                const allLaptops = response.data.data || [];
+                const brandSet = new Set(allLaptops.map(l => l.brand).filter(Boolean));
+                setBrands(Array.from(brandSet).sort());
+            } catch (error) {
+                console.error("Failed to load brands", error);
+            }
+        }
+        fetchBrands();
+    }, []);
+
+    // Fetch wishlist once
+    useEffect(() => {
+        async function fetchWishlist() {
+            if (isAuthenticated && userID) {
+                try {
+                    const res = await apiClient.get(`/wishlist/user/${userID}`);
+                    const ids = res.data.data.map(item => item.laptopId);
+                    setWishlistIds(new Set(ids));
+                } catch (error) {
+                    console.error("Failed to load wishlist", error);
+                }
+            } else {
+                setWishlistIds(new Set());
+            }
+        }
+        fetchWishlist();
+    }, [isAuthenticated, userID]);
+
+    useEffect(() => {
+        async function fetchLaptops() {
+            setLoading(true);
+            try {
+                let minPrice = '';
+                let maxPrice = '';
+                if (priceRange !== 'all') {
+                    const [min, max] = priceRange.split('-');
+                    minPrice = min;
+                    maxPrice = max === '9999999' ? '' : max;
+                }
+
+                let sortParam = 'id,desc';
+                if (sortBy === 'price-low') sortParam = 'price,asc';
+                else if (sortBy === 'price-high') sortParam = 'price,desc';
+                else if (sortBy === 'name') sortParam = 'model,asc';
+                
+                const params = new URLSearchParams({
+                    page: page,
+                    size: 12,
+                    sort: sortParam
+                });
+                
+                if (searchQuery.trim()) params.append('search', searchQuery.trim());
+                if (selectedBrand !== 'all') params.append('brand', selectedBrand);
+                if (minPrice) params.append('minPrice', minPrice);
+                if (maxPrice) params.append('maxPrice', maxPrice);
+
+                const response = await apiClient.get(`/laptops/search?${params.toString()}`);
+                const pageData = response.data.data;
+                setLaptops(pageData.content || []);
+                setTotalPages(pageData.totalPages || 0);
+                setTotalElements(pageData.totalElements || 0);
             } catch (error) {
                 setError("Failed to load laptops. Please try again later.");
             } finally {
                 setLoading(false);
             }
         }
-        fetchLaptops();
-    }, []);
+        // Debounce search slightly to avoid too many requests
+        const timeoutId = setTimeout(() => {
+            fetchLaptops();
+        }, 300);
+        return () => clearTimeout(timeoutId);
+    }, [searchQuery, selectedBrand, priceRange, sortBy, page]);
 
-    // Get unique brands for filter
-    const brands = useMemo(() => {
-        const brandSet = new Set(laptops.map(l => l.brand).filter(Boolean));
-        return Array.from(brandSet).sort();
-    }, [laptops]);
+    // Reset page to 0 when filters change
+    useEffect(() => {
+        setPage(0);
+    }, [searchQuery, selectedBrand, priceRange, sortBy]);
 
-    const [selectedBrand, setSelectedBrand] = useState('all');
-
-    // Filtered and sorted laptops
-    const filteredLaptops = useMemo(() => {
-        let result = [...laptops];
-
-        // Search filter
-        if (searchQuery.trim()) {
-            const query = searchQuery.toLowerCase();
-            result = result.filter(laptop => 
-                laptop.name?.toLowerCase().includes(query) ||
-                laptop.brand?.toLowerCase().includes(query) ||
-                laptop.processor?.toLowerCase().includes(query)
-            );
-        }
-
-        // Brand filter
-        if (selectedBrand !== 'all') {
-            result = result.filter(laptop => laptop.brand === selectedBrand);
-        }
-
-        // Price range filter
-        if (priceRange !== 'all') {
-            const [min, max] = priceRange.split('-').map(Number);
-            result = result.filter(laptop => {
-                const price = laptop.price || 0;
-                if (max) {
-                    return price >= min && price <= max;
-                }
-                return price >= min;
-            });
-        }
-
-        // Sorting
-        switch (sortBy) {
-            case 'price-low':
-                result.sort((a, b) => (a.price || 0) - (b.price || 0));
-                break;
-            case 'price-high':
-                result.sort((a, b) => (b.price || 0) - (a.price || 0));
-                break;
-            case 'name':
-                result.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-                break;
-            default: // newest - keep original order
-                break;
-        }
-
-        return result;
-    }, [laptops, searchQuery, selectedBrand, priceRange, sortBy]);
+    const filteredLaptops = laptops; // Laptops are already filtered by server
 
     const clearFilters = () => {
         setSearchQuery('');
@@ -236,7 +261,7 @@ const Welcome = () => {
                 {!loading && (
                     <div className="results-info">
                         <span className="results-count">
-                            {filteredLaptops.length} {filteredLaptops.length === 1 ? 'laptop' : 'laptops'} found
+                            {totalElements} {totalElements === 1 ? 'laptop' : 'laptops'} found
                         </span>
                         {hasActiveFilters && (
                             <button className="clear-filters-link" onClick={clearFilters}>
@@ -273,11 +298,33 @@ const Welcome = () => {
                     ) : (
                         filteredLaptops.map((laptop) => (
                             <Col key={laptop.id} xs={12} sm={6} lg={4} xl={3} className="mb-4">
-                                <LaptopCard laptop={laptop} />
+                                <LaptopCard laptop={laptop} isInWishlist={wishlistIds.has(laptop.id)} />
                             </Col>
                         ))
                     )}
                 </Row>
+                
+                {totalPages > 1 && !loading && (
+                    <div className="pagination-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '30px', gap: '10px' }}>
+                        <Button 
+                            variant="outline-primary" 
+                            disabled={page === 0} 
+                            onClick={() => setPage(p => p - 1)}
+                        >
+                            Previous
+                        </Button>
+                        <div style={{ display: 'flex', alignItems: 'center', padding: '0 15px', color: 'var(--text-secondary)' }}>
+                            Page {page + 1} of {totalPages}
+                        </div>
+                        <Button 
+                            variant="outline-primary" 
+                            disabled={page === totalPages - 1} 
+                            onClick={() => setPage(p => p + 1)}
+                        >
+                            Next
+                        </Button>
+                    </div>
+                )}
             </Container>
 
             <footer className="site-footer">

@@ -75,6 +75,35 @@
     opacity: 1;
 }
 
+/* Wishlist Button */
+.wishlist-btn {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-400);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.wishlist-btn:hover {
+    color: var(--danger);
+    transform: scale(1.1);
+}
+
+.wishlist-btn.active {
+    color: var(--danger);
+}
+
 /* Card Body */
 .laptop-card .card-body {
     padding: var(--space-4);

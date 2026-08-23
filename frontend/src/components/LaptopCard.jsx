@@ -1,18 +1,25 @@
 import React, { useState } from "react";
 import './css/LaptopCard.css';
 import { Card, Modal, Button, Row, Col } from "react-bootstrap";
-import { BsInfoCircle, BsCartPlus, BsCheckCircle, BsXCircle } from "react-icons/bs";
+import { BsInfoCircle, BsCartPlus, BsCheckCircle, BsXCircle, BsHeart, BsHeartFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import { useToast } from "../contexts/ToastContext";
+import apiClient from "../api/client";
 
-const LaptopCard = ({ laptop }) => {
-    const [showModal, setShowModal] = useState(false);
+const LaptopCard = ({ laptop, isInWishlist: initialWishlistState = false }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [inWishlist, setInWishlist] = useState(initialWishlistState);
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, userID } = useAuth();
+    const { addToast } = useToast();
 
-    const handleShowModal = () => setShowModal(true);
-    const handleCloseModal = () => setShowModal(false);
+    // Sync state if prop changes
+    React.useEffect(() => {
+        setInWishlist(initialWishlistState);
+    }, [initialWishlistState]);
+
+    const handleShowModal = () => navigate(`/laptop/${laptop.id}`);
 
     const isInStock = laptop.stockQuantity > 0;
 
@@ -30,6 +37,32 @@ const LaptopCard = ({ laptop }) => {
                 stockQuantity: laptop.stockQuantity 
             } 
         });
+    };
+
+    const handleToggleWishlist = async (e) => {
+        e.stopPropagation(); // prevent card click
+        if (!isAuthenticated) {
+            navigate('/login');
+            return;
+        }
+
+        try {
+            if (inWishlist) {
+                await apiClient.delete(`/wishlist/remove/${userID}/${laptop.id}`);
+                setInWishlist(false);
+                addToast(`${laptop.model} removed from wishlist`, 'info');
+            } else {
+                await apiClient.post('/wishlist/add', {
+                    userId: userID,
+                    laptopId: laptop.id
+                });
+                setInWishlist(true);
+                addToast(`${laptop.model} added to wishlist`, 'success');
+            }
+        } catch (error) {
+            addToast('Failed to update wishlist', 'error');
+            console.error("Failed to toggle wishlist", error);
+        }
     };
 
     const formatPrice = (price) => {
@@ -63,6 +96,13 @@ const LaptopCard = ({ laptop }) => {
                         loading="lazy"
                         onLoad={() => setImageLoaded(true)}
                     />
+                    <button 
+                        className={`wishlist-btn ${inWishlist ? 'active' : ''}`}
+                        onClick={handleToggleWishlist}
+                        title={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                    >
+                        {inWishlist ? <BsHeartFill /> : <BsHeart />}
+                    </button>
                 </div>
 
                 <Card.Body className="d-flex flex-column">
@@ -105,86 +145,6 @@ const LaptopCard = ({ laptop }) => {
                     </div>
                 </Card.Body>
             </Card>
-
-            <Modal show={showModal} onHide={handleCloseModal} centered size="lg" className="product-modal">
-                <Modal.Header closeButton>
-                    <Modal.Title className="modal-title-custom">
-                        <span className="modal-brand">{laptop.brand}</span>
-                        {laptop.model}
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Row>
-                        <Col md={6}>
-                            <div className="modal-image-container">
-                                <img 
-                                    src={laptop.image} 
-                                    alt={laptop.model} 
-                                    className="img-fluid modal-image" 
-                                />
-                            </div>
-                        </Col>
-                        <Col md={6}>
-                            <div className="modal-price-section">
-                                <span className="modal-price">{formatPrice(laptop.price)}</span>
-                                <span className="modal-currency">LKR</span>
-                            </div>
-                            
-                            <div className={`stock-badge ${isInStock ? 'in-stock' : 'out-of-stock'}`}>
-                                {isInStock ? (
-                                    <>
-                                        <BsCheckCircle />
-                                        <span>In Stock ({laptop.stockQuantity} units)</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <BsXCircle />
-                                        <span>Out of Stock</span>
-                                    </>
-                                )}
-                            </div>
-
-                            <hr className="modal-divider" />
-
-                            <div className="details-list">
-                                <div className="detail-item">
-                                    <span className="detail-label">Brand</span>
-                                    <span className="detail-value">{laptop.brand}</span>
-                                </div>
-                                <div className="detail-item">
-                                    <span className="detail-label">Model</span>
-                                    <span className="detail-value">{laptop.model}</span>
-                                </div>
-                                {laptop.processor && (
-                                    <div className="detail-item">
-                                        <span className="detail-label">Processor</span>
-                                        <span className="detail-value">{laptop.processor}</span>
-                                    </div>
-                                )}
-                                {laptop.specifications && (
-                                    <div className="detail-item">
-                                        <span className="detail-label">Specifications</span>
-                                        <span className="detail-value">{laptop.specifications}</span>
-                                    </div>
-                                )}
-                            </div>
-                        </Col>
-                    </Row>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="outline-secondary" onClick={handleCloseModal}>
-                        Close
-                    </Button>
-                    <Button 
-                        variant="primary" 
-                        onClick={handleAddToCart}
-                        disabled={!isInStock}
-                    >
-                        <BsCartPlus className="me-2" />
-                        {isInStock ? 'Add to Cart' : 'Out of Stock'}
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </>
     );
 }

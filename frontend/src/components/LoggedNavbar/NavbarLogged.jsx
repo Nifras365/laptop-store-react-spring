@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { IoPersonCircleOutline, IoCartOutline } from "react-icons/io5";
+import { IoPersonCircleOutline, IoCartOutline, IoHeartOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { TbLogout2 } from "react-icons/tb";
 import { BsBoxSeam } from "react-icons/bs";
@@ -13,6 +13,7 @@ import { useAuth } from '../../auth/AuthContext';
 const NavbarLogged = () => {
     const [userName, setUserName] = useState('');
     const [cartCount, setCartCount] = useState(0);
+    const [wishlistCount, setWishlistCount] = useState(0);
     const { userID, logout } = useAuth();
     const location = useLocation();
 
@@ -21,13 +22,15 @@ const NavbarLogged = () => {
 
         async function fetchUserData() {
             try {
-                const [userResponse, cartResponse] = await Promise.all([
+                const [userResponse, cartResponse, wishlistResponse] = await Promise.all([
                     apiClient.get(`/users/id/${userID}`),
-                    apiClient.get(`/cart/user/${userID}`).catch(() => ({ data: { data: [] } }))
+                    apiClient.get(`/cart/user/${userID}`).catch(() => ({ data: { data: [] } })),
+                    apiClient.get(`/wishlist/user/${userID}`).catch(() => ({ data: { data: [] } }))
                 ]);
                 
                 setUserName(userResponse.data.data);
                 setCartCount(cartResponse.data.data?.length || 0);
+                setWishlistCount(wishlistResponse.data.data?.length || 0);
             } catch (error) {
                 console.error("Error fetching user data: ", error);
             }
@@ -78,8 +81,16 @@ const NavbarLogged = () => {
                     </Nav>
 
                     <div className="d-flex align-items-center navbar-actions">
+                        {/*wishlist button*/}
+                        <Link to="/wishlist" className="cart-button">
+                            <IoHeartOutline size={24} />
+                            {wishlistCount > 0 && (
+                                <span className="cart-badge">{wishlistCount > 9 ? '9+' : wishlistCount}</span>
+                            )}
+                        </Link>
+
                         {/*cart button*/}
-                        <Link to="/cart" className="cart-button">
+                        <Link to="/cart" className="cart-button" style={{ marginLeft: '10px' }}>
                             <IoCartOutline size={24} />
                             {cartCount > 0 && (
                                 <span className="cart-badge">{cartCount > 9 ? '9+' : cartCount}</span>
@@ -111,6 +122,11 @@ const NavbarLogged = () => {
                                     <IoCartOutline className="dropdown-icon" />
                                     <span>My Cart</span>
                                     {cartCount > 0 && <span className="item-badge">{cartCount}</span>}
+                                </NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/wishlist" className="dropdown-item-custom">
+                                    <IoHeartOutline className="dropdown-icon" />
+                                    <span>My Wishlist</span>
+                                    {wishlistCount > 0 && <span className="item-badge">{wishlistCount}</span>}
                                 </NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={handleLogout} className="dropdown-item-custom logout-item">
