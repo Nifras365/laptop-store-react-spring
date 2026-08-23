@@ -16,6 +16,7 @@ const AddLaptops = () => {
         brand: '',
         image: '',
         model: '',
+        processor: '',
         specifications: '',
         stockQuantity: '',
     });
@@ -49,6 +50,7 @@ const AddLaptops = () => {
             brand: '',
             image: '',
             model: '',
+            processor: '',
             specifications: '',
             stockQuantity: '',
         });
@@ -176,6 +178,18 @@ const AddLaptops = () => {
                             placeholder="e.g., 10"
                             min="0"
                             required 
+                        />
+                    </div>
+
+                    <div className="form-group full-width">
+                        <label htmlFor="processor">Processor</label>
+                        <input 
+                            type="text"
+                            id="processor" 
+                            name="processor"  
+                            value={formData.processor} 
+                            onChange={handleInputChange} 
+                            placeholder="e.g., Apple M2 Pro, Intel Core i7"
                         />
                     </div>
                 </div>

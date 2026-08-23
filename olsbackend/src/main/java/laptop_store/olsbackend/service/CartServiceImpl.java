@@ -28,6 +28,7 @@ public class CartServiceImpl implements CartService{
     private CartMapper cartMapper;
     @Override
     public Long addToCart(CartDTO cartDTO){
+        log.info("Attempting to add laptop ID {} to cart for user ID {}", cartDTO.getLaptopID(), cartDTO.getUserID());
 
         Optional<LaptopEntity> laptopAvailability = laptopRepository.findById(cartDTO.getLaptopID());
 
@@ -45,14 +46,26 @@ public class CartServiceImpl implements CartService{
             laptop.setStockQuantity(laptop.getStockQuantity() - cartDTO.getQuantity());
             laptopRepository.save(laptop);
 
-            return cartRepository.save(CartEntity.builder()
-                    .userID(cartDTO.getUserID())
-                    .laptopID(cartDTO.getLaptopID())
-                    .quantity(cartDTO.getQuantity())
-                    .totalPrice((long) laptop.getPrice() * cartDTO.getQuantity())
-                    .build()).getCartID();
+            Optional<CartEntity> existingCartOpt = cartRepository.findByUserIDAndLaptopID(cartDTO.getUserID(), cartDTO.getLaptopID());
+            if(existingCartOpt.isPresent()) {
+                CartEntity existingCart = existingCartOpt.get();
+                existingCart.setQuantity(existingCart.getQuantity() + cartDTO.getQuantity());
+                existingCart.setTotalPrice((long) laptop.getPrice() * existingCart.getQuantity());
+                log.info("Laptop ID {} already in cart for user ID {}. Updated quantity to {}", 
+                         cartDTO.getLaptopID(), cartDTO.getUserID(), existingCart.getQuantity());
+                return cartRepository.save(existingCart).getCartID();
+            } else {
+                log.info("Adding new cart item for laptop ID {} to user ID {}", cartDTO.getLaptopID(), cartDTO.getUserID());
+                return cartRepository.save(CartEntity.builder()
+                        .userID(cartDTO.getUserID())
+                        .laptopID(cartDTO.getLaptopID())
+                        .quantity(cartDTO.getQuantity())
+                        .totalPrice((long) laptop.getPrice() * cartDTO.getQuantity())
+                        .build()).getCartID();
+            }
         }
         else {
+            log.error("Laptop not found with ID: {}", cartDTO.getLaptopID());
             throw new ItemNotFoundException("Laptop Doesn't exist with given laptop id ");
         }
     }

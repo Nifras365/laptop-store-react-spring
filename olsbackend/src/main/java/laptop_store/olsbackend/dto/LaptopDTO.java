@@ -14,6 +14,7 @@ public class LaptopDTO {
     private Integer price;
     private String brand;
     private String model;
+    private String processor;
     private String specifications;
     private Integer stockQuantity;
 }

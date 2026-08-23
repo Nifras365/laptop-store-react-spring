@@ -16,7 +16,7 @@ const ManageLaptops = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [deleteConfirm, setDeleteConfirm] = useState({ show: false, id: null, name: '' });
     const [formData, setFormData] = useState({
-        id: null, image: '', price: '', model: '', brand: '', specifications: '', stockQuantity: ''
+        id: null, image: '', price: '', model: '', brand: '', processor: '', specifications: '', stockQuantity: ''
     });
     const [imageFile, setImageFile] = useState(null);
 
@@ -54,6 +54,7 @@ const ManageLaptops = () => {
                 price: laptop.price,
                 model: laptop.model,
                 brand: laptop.brand,
+                processor: laptop.processor || '',
                 specifications: laptop.specifications,
                 stockQuantity: laptop.stockQuantity
             });
@@ -248,6 +249,15 @@ const ManageLaptops = () => {
                                     />
                                 </Form.Group>
                             </div>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Processor</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="processor"
+                                    value={formData.processor}
+                                    onChange={handleInputChange}
+                                />
+                            </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Label>Specifications</Form.Label>
                                 <Form.Control
