@@ -2,6 +2,7 @@ package laptop_store.olsbackend.service;
 
 import laptop_store.olsbackend.dto.LaptopDTO;
 import laptop_store.olsbackend.entity.LaptopEntity;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,5 +13,6 @@ public interface LaptopService {
     LaptopDTO updateLaptop(Long id, LaptopDTO laptopDTO);
     Optional<LaptopEntity> getLaptopById(Long id);
     void deleteLaptop(Long id);
+    Page<LaptopEntity> searchLaptops(String search, String brand, Integer minPrice, Integer maxPrice, int page, int size, String sort);
 
 }
