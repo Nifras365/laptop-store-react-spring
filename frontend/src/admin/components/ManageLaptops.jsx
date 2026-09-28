@@ -47,7 +47,7 @@ const ManageLaptops = () => {
     const fetchLaptopDetails = async (id) => {
         try {
             const response = await apiClient.get(`/laptops/${id}`);
-            const laptop = response.data;
+            const laptop = response.data.data;
             setFormData({
                 id: laptop.id,
                 image: laptop.image,
