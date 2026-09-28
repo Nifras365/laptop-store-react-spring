@@ -9,8 +9,8 @@ import laptop_store.olsbackend.repository.LaptopRepository;
 import laptop_store.olsbackend.repository.OrdersRepository;
 import laptop_store.olsbackend.exceptions.ItemNotFoundException;
 import laptop_store.olsbackend.entity.LaptopEntity;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +22,11 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @Transactional
+@RequiredArgsConstructor
 public class OrdersServiceImpl implements OrdersService{
-    @Autowired
-    private OrdersRepository ordersRepository;
-    @Autowired
-    private OrdersMapper ordersMapper;
-    @Autowired
-    private LaptopRepository laptopRepository;
+    private final OrdersRepository ordersRepository;
+    private final OrdersMapper ordersMapper;
+    private final LaptopRepository laptopRepository;
 
     @Override
     public Long createOrder(OrderDTO orderDTO) {

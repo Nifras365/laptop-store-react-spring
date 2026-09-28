@@ -1,11 +1,12 @@
 package laptop_store.olsbackend.controller;
 
+import jakarta.validation.Valid;
 import laptop_store.olsbackend.dto.LaptopDTO;
 import laptop_store.olsbackend.dto.ResponseDTO;
 import laptop_store.olsbackend.entity.LaptopEntity;
 import laptop_store.olsbackend.service.LaptopService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
@@ -16,13 +17,13 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/laptops")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 @Slf4j
 public class LaptopController {
-    @Autowired
-    private LaptopService laptopService;
+    private final LaptopService laptopService;
+
     @PostMapping("/create")
-    public ResponseEntity<ResponseDTO<Long>> createLaptops(@RequestBody LaptopDTO laptopDTO){
+    public ResponseEntity<ResponseDTO<Long>> createLaptops(@Valid @RequestBody LaptopDTO laptopDTO){
         return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(),
                 "Laptop added successfully !!!", laptopService.createLaptop(laptopDTO)));
     }
@@ -36,14 +37,16 @@ public class LaptopController {
         return ResponseEntity.ok(listResponseDTO);
     }
     @PutMapping("/update-laptop/{id}")
-    public ResponseEntity<ResponseDTO<LaptopDTO>> updateLaptops(@PathVariable Long id, @RequestBody LaptopDTO laptopDTO){
+    public ResponseEntity<ResponseDTO<LaptopDTO>> updateLaptops(@PathVariable Long id, @Valid @RequestBody LaptopDTO laptopDTO){
         return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(),
                 "Laptop updated Successfully !!!", laptopService.updateLaptop(id, laptopDTO)));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<LaptopEntity> getLaptopsById(@PathVariable Long id){
+    public ResponseEntity<ResponseDTO<LaptopEntity>> getLaptopsById(@PathVariable Long id){
         Optional<LaptopEntity> laptop = laptopService.getLaptopById(id);
-        return laptop.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
+        return laptop.map(l -> ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "Laptop fetched successfully", l)))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO<>(HttpStatus.NOT_FOUND.value(), "Laptop not found", null)));
     }
     @DeleteMapping("/delete-laptop/{id}")
     public ResponseEntity<Void> deleteLaptops(@PathVariable Long id){

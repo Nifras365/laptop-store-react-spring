@@ -34,13 +34,22 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        // Public endpoints
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
                         .requestMatchers("/users/create", "/users/login", "/users/{email}").permitAll()
+                        .requestMatchers("/laptops/get-all", "/laptops/{id}", "/laptops/search").permitAll()
+
+                        // Admin-only endpoints
                         .requestMatchers("/users/get-all", "/users/delete-user/**").hasRole("ADMIN")
                         .requestMatchers("/laptops/create", "/laptops/update-laptop/**", "/laptops/delete-laptop/**").hasRole("ADMIN")
                         .requestMatchers("/orders/get-all", "/orders/*/status").hasRole("ADMIN")
-                        .requestMatchers("/laptops/get-all", "/laptops/{id}").permitAll()
-                        .requestMatchers("/cart/**", "/orders/**", "/users/update-user/**", "/users/*/change-password").authenticated()
+
+                        // Authenticated endpoints (requires login)
+                        .requestMatchers("/cart/**").authenticated()
+                        .requestMatchers("/orders/**").authenticated()
+                        .requestMatchers("/wishlist/**").authenticated()
+                        .requestMatchers("/users/update-user/**", "/users/*/change-password", "/users/id/**", "/users/userdetails/**").authenticated()
+
                         .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
@@ -53,7 +62,9 @@ public class SecurityConfig {
 
         SecretKey secretKey = new SecretKeySpec(secretKeyBytes, 0, secretKeyBytes.length, "HmacSHA256");
 
-        return NimbusJwtDecoder.withSecretKey(secretKey).build();    }
+        return NimbusJwtDecoder.withSecretKey(secretKey).build();
+    }
+
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter(){
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();

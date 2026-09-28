@@ -3,8 +3,8 @@ package laptop_store.olsbackend.service;
 import laptop_store.olsbackend.dto.WishlistDTO;
 import laptop_store.olsbackend.entity.WishlistEntity;
 import laptop_store.olsbackend.repository.WishlistRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,10 +13,10 @@ import java.util.List;
 @Service
 @Transactional
 @Slf4j
+@RequiredArgsConstructor
 public class WishlistServiceImpl implements WishlistService {
 
-    @Autowired
-    private WishlistRepository wishlistRepository;
+    private final WishlistRepository wishlistRepository;
 
     @Override
     public void addToWishlist(WishlistDTO wishlistDTO) {

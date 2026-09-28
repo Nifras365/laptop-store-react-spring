@@ -1,13 +1,13 @@
 package laptop_store.olsbackend.controller;
 
+import jakarta.validation.Valid;
 import laptop_store.olsbackend.dto.LoginDTO;
 import laptop_store.olsbackend.dto.ResponseDTO;
 import laptop_store.olsbackend.dto.UsersDTO;
 import laptop_store.olsbackend.dto.ChangePasswordDTO;
-import laptop_store.olsbackend.entity.UsersEntity;
 import laptop_store.olsbackend.service.UsersService;
 import laptop_store.olsbackend.utils.JwtUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,21 +20,18 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class UsersController {
-    @Autowired
-    private UsersService usersService;
-    @Autowired
-    private JwtUtils jwtUtils;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UsersService usersService;
+    private final JwtUtils jwtUtils;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDTO<Long>> createUsers(@RequestBody UsersDTO usersDTO){
+    public ResponseEntity<ResponseDTO<Long>> createUsers(@Valid @RequestBody UsersDTO usersDTO){
         return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(), "User Created Successfully !!", usersService.createUser(usersDTO)));
     }
     @PostMapping("/login")
-    public ResponseEntity<ResponseDTO<Map<String, String>>> userLogin(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<ResponseDTO<Map<String, String>>> userLogin(@Valid @RequestBody LoginDTO loginDTO) {
         String email = loginDTO.getEmail();
         String password = loginDTO.getPassword();
 
@@ -123,7 +120,7 @@ public class UsersController {
     }
 
     @PutMapping("/update-user/{userId}")
-    public ResponseEntity<ResponseDTO<String>> updateUser(@PathVariable Long userId, @RequestBody UsersDTO usersDTO){
+    public ResponseEntity<ResponseDTO<String>> updateUser(@PathVariable Long userId, @Valid @RequestBody UsersDTO usersDTO){
         usersService.updateUser(userId, usersDTO);
 
         return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(),
@@ -131,7 +128,7 @@ public class UsersController {
     }
 
     @PutMapping("/{userId}/change-password")
-    public ResponseEntity<ResponseDTO<String>> changePassword(@PathVariable Long userId, @RequestBody ChangePasswordDTO changePasswordDTO) {
+    public ResponseEntity<ResponseDTO<String>> changePassword(@PathVariable Long userId, @Valid @RequestBody ChangePasswordDTO changePasswordDTO) {
         try {
             usersService.changePassword(userId, changePasswordDTO.getOldPassword(), changePasswordDTO.getNewPassword());
             return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "Password changed successfully!", "Changed"));

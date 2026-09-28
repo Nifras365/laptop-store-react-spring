@@ -8,12 +8,12 @@ import laptop_store.olsbackend.exceptions.ItemNotFoundException;
 import laptop_store.olsbackend.exceptions.UnauthorizedException;
 import laptop_store.olsbackend.mapper.UsersMapper;
 import laptop_store.olsbackend.repository.UsersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
@@ -22,13 +22,11 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService{
-    @Autowired
-    private UsersRepository usersRepository;
-    @Autowired
-    private UsersMapper usersMapper;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UsersRepository usersRepository;
+    private final UsersMapper usersMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${admin.email}")
     private String adminEmail;

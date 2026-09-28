@@ -1,10 +1,11 @@
 package laptop_store.olsbackend.controller;
 
+import jakarta.validation.Valid;
 import laptop_store.olsbackend.dto.CartDTO;
 import laptop_store.olsbackend.dto.ResponseDTO;
 import laptop_store.olsbackend.entity.CartEntity;
 import laptop_store.olsbackend.service.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/cart")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class CartController {
-    @Autowired
-    private CartService cartService;
+    private final CartService cartService;
+
     @PostMapping("/create")
-    public ResponseEntity<ResponseDTO<Long>> addToTheCart(@RequestBody CartDTO cartDTO){
+    public ResponseEntity<ResponseDTO<Long>> addToTheCart(@Valid @RequestBody CartDTO cartDTO){
         return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(),
                 "Laptop Added To Cart Successfully !!!", cartService.addToCart(cartDTO)));
     }
@@ -33,13 +34,14 @@ public class CartController {
         return ResponseEntity.ok(listResponseDTO);
     }
     @GetMapping("/{cartID}")
-    public ResponseEntity<CartEntity> getCartDetailsByTheId(@PathVariable Long cartID){
+    public ResponseEntity<ResponseDTO<CartEntity>> getCartDetailsByTheId(@PathVariable Long cartID){
         Optional<CartEntity> cart = cartService.getCartDetailsById(cartID);
-
-        return cart.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
+        return cart.map(c -> ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "Cart item fetched successfully", c)))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO<>(HttpStatus.NOT_FOUND.value(), "Cart item not found", null)));
     }
     @PutMapping("/update/{cartID}")
-    public ResponseEntity<ResponseDTO<String>> updateCartItem(@PathVariable Long cartID, @RequestBody CartDTO cartDTO){
+    public ResponseEntity<ResponseDTO<String>> updateCartItem(@PathVariable Long cartID, @Valid @RequestBody CartDTO cartDTO){
         cartService.updateCart(cartID, cartDTO);
         return ResponseEntity.ok().body(new ResponseDTO<>(HttpStatus.OK.value(),
                 "Cart Updated Successfully !!!", "Updated"));
