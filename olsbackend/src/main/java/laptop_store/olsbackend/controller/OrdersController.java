@@ -1,10 +1,11 @@
 package laptop_store.olsbackend.controller;
 
+import jakarta.validation.Valid;
 import laptop_store.olsbackend.dto.OrderDTO;
 import laptop_store.olsbackend.dto.ResponseDTO;
 import laptop_store.olsbackend.service.OrdersService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 @Slf4j
 public class OrdersController {
-    @Autowired
-    private OrdersService ordersService;
+    private final OrdersService ordersService;
+
     @PostMapping("/create")
-    public ResponseEntity<ResponseDTO<Long>> createOrder(@RequestBody OrderDTO orderDTO){
+    public ResponseEntity<ResponseDTO<Long>> createOrder(@Valid @RequestBody OrderDTO orderDTO){
 
         Long order = ordersService.createOrder(orderDTO);
 

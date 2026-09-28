@@ -25,7 +25,7 @@ const LaptopDetail = () => {
         const fetchLaptop = async () => {
             try {
                 const response = await apiClient.get(`/laptops/${id}`);
-                setLaptop(response.data);
+                setLaptop(response.data.data);
 
                 if (isAuthenticated && userID) {
                     const wishRes = await apiClient.get(`/wishlist/check/${userID}/${id}`);

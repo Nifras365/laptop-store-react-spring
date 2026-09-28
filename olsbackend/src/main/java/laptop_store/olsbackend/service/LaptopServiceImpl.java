@@ -5,7 +5,7 @@ import laptop_store.olsbackend.entity.LaptopEntity;
 import laptop_store.olsbackend.exceptions.ItemNotFoundException;
 import laptop_store.olsbackend.mapper.LaptopMapper;
 import laptop_store.olsbackend.repository.LaptopRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +20,11 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class LaptopServiceImpl implements LaptopService{
-    @Autowired
-    private LaptopRepository laptopRepository;
-    @Autowired
-    private LaptopMapper laptopMapper;
+    private final LaptopRepository laptopRepository;
+    private final LaptopMapper laptopMapper;
+
     @Override
     public Long createLaptop(LaptopDTO laptopDTO){
         log.info("Creating new laptop with model: {}", laptopDTO.getModel());

@@ -8,8 +8,8 @@ import laptop_store.olsbackend.exceptions.OutOfRangeException;
 import laptop_store.olsbackend.mapper.CartMapper;
 import laptop_store.olsbackend.repository.CartRepository;
 import laptop_store.olsbackend.repository.LaptopRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,13 +19,12 @@ import java.util.Optional;
 @Service
 @Slf4j
 @Transactional
+@RequiredArgsConstructor
 public class CartServiceImpl implements CartService{
-    @Autowired
-    private CartRepository cartRepository;
-    @Autowired
-    private LaptopRepository laptopRepository;
-    @Autowired
-    private CartMapper cartMapper;
+    private final CartRepository cartRepository;
+    private final LaptopRepository laptopRepository;
+    private final CartMapper cartMapper;
+
     @Override
     public Long addToCart(CartDTO cartDTO){
         log.info("Attempting to add laptop ID {} to cart for user ID {}", cartDTO.getLaptopID(), cartDTO.getUserID());

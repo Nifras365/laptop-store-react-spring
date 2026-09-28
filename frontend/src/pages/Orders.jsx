@@ -109,7 +109,7 @@ const Orders = () => {
             if (idsToFetch.length > 0) {
                 const fetchPromises = idsToFetch.map(id =>
                     apiClient.get(`/laptops/${id}`)
-                        .then(response => ({ id, data: response.data }))
+                        .then(response => ({ id, data: response.data.data }))
                         .catch(() => ({ id, data: null }))
                 );
 

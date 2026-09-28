@@ -1,11 +1,12 @@
 package laptop_store.olsbackend.controller;
 
+import jakarta.validation.Valid;
 import laptop_store.olsbackend.dto.ResponseDTO;
 import laptop_store.olsbackend.dto.WishlistDTO;
 import laptop_store.olsbackend.entity.WishlistEntity;
 import laptop_store.olsbackend.service.WishlistService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +15,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/wishlist")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 @Slf4j
 public class WishlistController {
 
-    @Autowired
-    private WishlistService wishlistService;
+    private final WishlistService wishlistService;
 
     @PostMapping("/add")
-    public ResponseEntity<ResponseDTO<Void>> addToWishlist(@RequestBody WishlistDTO wishlistDTO) {
+    public ResponseEntity<ResponseDTO<Void>> addToWishlist(@Valid @RequestBody WishlistDTO wishlistDTO) {
         log.info("Received request to add laptop ID {} to wishlist for user ID {}", wishlistDTO.getLaptopId(), wishlistDTO.getUserId());
         try {
             wishlistService.addToWishlist(wishlistDTO);
