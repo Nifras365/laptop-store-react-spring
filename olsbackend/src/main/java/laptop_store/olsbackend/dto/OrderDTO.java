@@ -28,5 +28,7 @@ public class OrderDTO {
     private Long finalPrice;
 
     private String status;
+    private String stripePaymentIntentId;
+    private String paymentMethod;
     private LocalDateTime createdAt;
 }

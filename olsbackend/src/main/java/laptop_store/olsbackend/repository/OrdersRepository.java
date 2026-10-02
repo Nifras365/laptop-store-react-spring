@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface OrdersRepository extends JpaRepository<OrdersEntity,Long> {
     List<OrdersEntity> findByUserID(Long userID);
+    java.util.Optional<OrdersEntity> findFirstByUserIDAndStatusAndFinalPrice(Long userID, String status, Long finalPrice);
 }
