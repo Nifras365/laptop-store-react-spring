@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Data
@@ -25,6 +24,10 @@ public class OrdersEntity {
     private Long finalPrice;
     
     private String status;
+
+    // Stripe payment fields
+    private String stripePaymentIntentId;
+    private String paymentMethod;
 
     @CreationTimestamp
     @Column(updatable = false)

@@ -12,6 +12,8 @@ import ProtectedUserRoute from './routes/ProtectedUserRoute';
 import Profile from './components/Profile';
 import LaptopDetail from './pages/LaptopDetail';
 
+import Checkout from './pages/Checkout';
+
 function App() {
   return (
     <BrowserRouter>
@@ -20,6 +22,7 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/cart' element={<ProtectedUserRoute><Cart/></ProtectedUserRoute>}/>
+        <Route path='/checkout' element={<ProtectedUserRoute><Checkout/></ProtectedUserRoute>}/>
         <Route path='/wishlist' element={<ProtectedUserRoute><Wishlist/></ProtectedUserRoute>}/>
         <Route path='/admin/dashboard' element={<ProtectedAdminRoute> <Dashboard/> </ProtectedAdminRoute>}/>
         <Route path='/orders' element={<ProtectedUserRoute><Orders/></ProtectedUserRoute>}/>

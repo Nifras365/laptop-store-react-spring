@@ -47,6 +47,7 @@ public class SecurityConfig {
                         // Authenticated endpoints (requires login)
                         .requestMatchers("/cart/**").authenticated()
                         .requestMatchers("/orders/**").authenticated()
+                        .requestMatchers("/payments/**").authenticated()
                         .requestMatchers("/wishlist/**").authenticated()
                         .requestMatchers("/users/update-user/**", "/users/*/change-password", "/users/id/**", "/users/userdetails/**").authenticated()
 

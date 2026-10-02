@@ -89,6 +89,7 @@ const ManageOrders = () => {
                                 <th>Order ID</th>
                                 <th>Items</th>
                                 <th>Total Price</th>
+                                <th>Payment Info</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -107,12 +108,23 @@ const ManageOrders = () => {
                                     </td>
                                     <td>{new Intl.NumberFormat('en-US').format(order.finalPrice)} LKR</td>
                                     <td>
+                                        {order.paymentMethod === 'STRIPE' ? (
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                                <span style={{ fontSize: '0.75rem', background: '#e8e8fb', color: '#635bff', padding: '2px 6px', borderRadius: '4px', width: 'fit-content', fontWeight: 'bold' }}>💳 Stripe</span>
+                                                <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>{order.stripePaymentIntentId}</span>
+                                            </div>
+                                        ) : (
+                                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Unpaid / N/A</span>
+                                        )}
+                                    </td>
+                                    <td>
                                         <Form.Select 
                                             size="sm" 
                                             value={order.status || 'PLACED'} 
                                             onChange={(e) => handleStatusChange(order.orderId, e.target.value)}
                                             style={{ width: '130px' }}
                                         >
+                                            <option value="PENDING_PAYMENT">PENDING PAYMENT</option>
                                             <option value="PLACED">PLACED</option>
                                             <option value="PROCESSING">PROCESSING</option>
                                             <option value="DELIVERED">DELIVERED</option>
