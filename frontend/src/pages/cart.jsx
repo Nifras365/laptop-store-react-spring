@@ -30,37 +30,21 @@ const Cart = () => {
         }).format(price);
     };
 
-    const handleCheckout = async () => {
+    const handleCheckout = () => {
         if (cartItems.length === 0) return;
         
-        setCheckoutLoading(true);
-        setError('');
-
-        try {
-            const orderDTO = {
-                userID: parseInt(userID),
-                finalPrice: subtotal,
-                orderItemDTOS: cartItems.map(item => ({
-                    laptopID: item.laptopID,
-                    quantity: item.quantity,
-                    totalPrice: item.totalPrice
-                }))
-            };
-
-            const response = await apiClient.post('/orders/create', orderDTO);
-
-            if (response.status >= 200 && response.status < 300) {
-                await apiClient.delete(`/cart/user/${userID}`);
-                setCartItems([]);
-                navigate('/orders', { state: { orderSuccess: true } });
-            } else {
-                throw new Error("Failed to create the order.");
-            }
-        } catch (error) {
-            setError("Failed to place order. Please try again.");
-        } finally {
-            setCheckoutLoading(false);
-        }
+        // Attach laptop details to cart items for the checkout summary
+        const itemsWithDetails = cartItems.map(item => ({
+            ...item,
+            laptop: laptopDetails[item.laptopID]
+        }));
+        
+        navigate('/checkout', { 
+            state: { 
+                cartItems: itemsWithDetails, 
+                subtotal 
+            } 
+        });
     };
 
     const handleDeleteClick = (cartID, itemName) => {

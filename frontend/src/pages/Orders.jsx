@@ -189,6 +189,19 @@ const Orders = () => {
                                     <span className={`order-status status-${(order.status || 'PLACED').toLowerCase()}`}>
                                         {order.status || 'PLACED'}
                                     </span>
+                                    {order.paymentMethod === 'STRIPE' && (
+                                        <span className="order-payment-badge" style={{
+                                            padding: '4px 8px', 
+                                            borderRadius: '4px', 
+                                            fontSize: '0.75rem', 
+                                            fontWeight: '600', 
+                                            background: '#e8e8fb', 
+                                            color: '#635bff', 
+                                            marginLeft: '8px'
+                                        }}>
+                                            💳 Paid via Stripe
+                                        </span>
+                                    )}
                                     <span className="order-title">{order.orderItemDTOS?.[0]?.title}</span>
                                 </div>
                                 <div className="order-header-right">
